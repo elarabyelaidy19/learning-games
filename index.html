@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>العب وذاكر</title>
+<meta name="description" content="ألعاب تعليمية تشرح دروس المنهج المصري خطوة بخطوة، مع تحدٍّ بعد كل قسم.">
+<meta property="og:title" content="العب وذاكر">
+<meta property="og:description" content="ألعاب تعليمية تشرح دروس المنهج المصري خطوة بخطوة، مع تحدٍّ بعد كل قسم.">
+<meta name="theme-color" content="#0c1533">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23e9b949' d='M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;700&family=Aref+Ruqaa:wght@700&display=swap">
+<style>
+:root{
+  --night:#0c1533;
+  --panel:#172858;
+  --line:#2e4892;
+  --gold:#e9b949;
+  --gold-hi:#f6da8c;
+  --gold-lo:#a37617;
+  --text:#eef1fb;
+  --muted:#a9b6dc;
+  --ink:#2a2013;
+  --display:"Aref Ruqaa","Amiri","Noto Naskh Arabic",serif;
+  --body:"Alexandria","Segoe UI",Tahoma,"Noto Sans Arabic",sans-serif;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;
+  background-color:var(--night);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='76' height='76'%3E%3Cg stroke='%23e9b949' stroke-opacity='.13' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M19 19v-6.5M19 19l6.2-2M19 19l3.8 5.3M19 19l-3.8 5.3M19 19l-6.2-2M57 57v-6.5M57 57l6.2-2M57 57l3.8 5.3M57 57l-3.8 5.3M57 57l-6.2-2'/%3E%3C/g%3E%3C/svg%3E");
+  color:var(--text);
+  font:400 16px/1.8 var(--body);
+}
+main{max-width:880px;margin-inline:auto;padding-inline:16px;padding-block:56px 72px;display:grid;gap:40px}
+header{display:grid;gap:10px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(3rem,13vw,5rem);line-height:1.2;margin:0;color:var(--gold);text-shadow:0 3px 0 var(--gold-lo),0 12px 34px rgba(233,185,73,.25)}
+.lead{font-size:1.15rem;margin:0;max-width:34em;text-wrap:pretty}
+section{display:grid;gap:14px}
+h2{font-size:1.1rem;margin:0}
+.games{list-style:none;margin:0;padding:0;display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+.game{display:grid;gap:8px;height:100%;padding:22px;border-radius:20px;background:var(--panel);border:1.5px solid var(--line);color:inherit;text-decoration:none;transition:border-color .15s,transform .15s}
+.game:hover{border-color:var(--gold);transform:translateY(-2px)}
+.game:focus-visible{outline:3px solid var(--gold-hi);outline-offset:3px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--night);border:1px solid var(--line);color:var(--gold-hi)}
+.game h3{font-family:var(--display);font-weight:700;font-size:2rem;line-height:1.35;margin:4px 0 0;color:var(--gold)}
+.game p{margin:0;color:var(--muted);font-size:.95rem}
+.meta{font-size:.82rem;color:var(--muted)}
+.play{justify-self:start;margin-block-start:6px;padding:8px 20px;border-radius:12px;background:var(--gold);color:var(--ink);font-weight:700;box-shadow:0 4px 0 var(--gold-lo)}
+footer{color:var(--muted);font-size:.85rem}
+footer a{color:var(--gold-hi)}
+@media (prefers-reduced-motion:reduce){.game{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>العب وذاكر</h1>
+    <p class="lead">ألعاب تشرح دروس المنهج خطوة بخطوة: اقرأ بطاقات قصيرة، ثم اختبر نفسك في تحدٍّ بعد كل قسم، واجمع النجوم.</p>
+  </header>
+  <section>
+    <h2>الألعاب المتاحة</h2>
+    <ul class="games">
+      <li>
+        <a class="game" href="history-bac2-unit1/">
+          <span class="chips"><span class="chip">التاريخ</span><span class="chip">الصف الثاني بكالوريا</span><span class="chip">الفصل الدراسي الأول</span></span>
+          <h3>مفتاح التواريخ</h3>
+          <p>الوحدة الأولى: مصر بين النشأة والاستمرارية، من بناء الدولة المصرية إلى التحولات الكبرى في العصر الحديث.</p>
+          <span class="meta">٤ دروس · ٢٢ قسمًا · ١٩٥ سؤالًا · تحدٍّ ختامي</span>
+          <span class="play">ابدأ اللعب</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+  <footer>يُحفظ تقدمك في كل لعبة على جهازك. <a href="https://github.com/elarabyelaidy19/learning-games">المصدر على GitHub</a></footer>
+</main>
+</body>
+</html>
