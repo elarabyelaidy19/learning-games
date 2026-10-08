@@ -1,0 +1,1557 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="شرح تفاعلي لدروس الفيزياء 1-1 إلى 1-4: السرعة النسبية، المقذوفات الأفقية، المقذوفات بزاوية، وعزم القوة، مع محاكاة وأمثلة محلولة وتدريبات وألعاب.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 20 Q12 -4 21 20' fill='none' stroke='%230d6f8f' stroke-width='2.4'/%3E%3Ccircle cx='12' cy='8' r='2.6' fill='%23d23f2b'/%3E%3C/svg%3E">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>مختبر الحركة والعزم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@600;700&display=swap">
+<style>
+/* Layout: lab notebook. Sticky lesson tabs, each lesson = idea → diagram → live simulation → equations → solved examples → pitfalls; then practice, then games. Vector colors are fixed meanings across the whole page. */
+:root {
+  --bg: #edf1f4;
+  --surface: #ffffff;
+  --sunk: #f5f8fa;
+  --fg: #13202a;
+  --muted: #566672;
+  --line: #d3dce3;
+  --accent: #0d6f8f;
+  --accent-soft: #dcedf3;
+  --vx: #2463c8;
+  --vy: #13915a;
+  --vr: #d23f2b;
+  --grav: #8a4cc4;
+  --water: #bfdfee;
+  --waterline: #e9f5fa;
+  --ground: #cdb88e;
+  --sky: #e2edf5;
+  --good: #13804f;
+  --good-soft: #dcf2e6;
+  --bad: #c2372a;
+  --bad-soft: #fbe3df;
+  --warn-soft: #fff2d6;
+  --display: "Noto Kufi Arabic", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f171d; --surface: #16212a; --sunk: #1b2833; --fg: #e4ecf1; --muted: #9db0bd; --line: #2a3a46;
+    --accent: #5cc2e0; --accent-soft: #173543; --vx: #6ea2ff; --vy: #4cd295; --vr: #ff7a63; --grav: #c39af0;
+    --water: #1d4459; --waterline: #2c5c75; --ground: #6f5d3c; --sky: #18262f;
+    --good: #4cd295; --good-soft: #163a2a; --bad: #ff8a78; --bad-soft: #432420; --warn-soft: #3b3018;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f171d; --surface: #16212a; --sunk: #1b2833; --fg: #e4ecf1; --muted: #9db0bd; --line: #2a3a46;
+  --accent: #5cc2e0; --accent-soft: #173543; --vx: #6ea2ff; --vy: #4cd295; --vr: #ff7a63; --grav: #c39af0;
+  --water: #1d4459; --waterline: #2c5c75; --ground: #6f5d3c; --sky: #18262f;
+  --good: #4cd295; --good-soft: #163a2a; --bad: #ff8a78; --bad-soft: #432420; --warn-soft: #3b3018;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-padding-top: 64px; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.85; direction: rtl; }
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 16px; padding-block: 0 72px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.35; margin: 0; }
+h1 { font-size: clamp(30px, 6vw, 46px); }
+h2 { font-size: clamp(24px, 4vw, 32px); }
+h3 { font-size: 20px; color: var(--accent); }
+p { margin: 0; }
+.prose { max-width: 70ch; display: grid; gap: 10px; }
+.mono, .eq, .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.ltr { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+b.x { color: var(--vx); } b.y { color: var(--vy); } b.r { color: var(--vr); } b.gr { color: var(--grav); }
+
+header.hero { padding-block: 36px 20px; display: grid; gap: 12px; }
+.eyebrow { font-size: 14px; color: var(--muted); letter-spacing: .02em; }
+.hero p { max-width: 62ch; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 22px; height: 4px; border-radius: 2px; display: inline-block; background: var(--c); }
+
+nav.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
+nav.tabs .in { display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; scrollbar-width: thin; }
+nav.tabs a { flex: none; text-decoration: none; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 12px; font-size: 14px; font-weight: 600; white-space: nowrap; }
+nav.tabs a .n { font-family: var(--mono); color: var(--accent); margin-inline-end: 4px; }
+nav.tabs a:hover { border-color: var(--accent); }
+
+section.lesson { padding-block: 44px 8px; display: grid; gap: 22px; border-bottom: 1px dashed var(--line); }
+.lhead { display: grid; gap: 6px; }
+.lnum { font-family: var(--mono); color: var(--accent); font-weight: 600; font-size: 15px; }
+.question { background: var(--warn-soft); border-radius: 10px; padding: 14px 18px; max-width: 76ch; }
+.question strong { display: block; font-family: var(--display); font-size: 17px; }
+.goals { margin: 0; padding-inline-start: 22px; color: var(--muted); }
+
+.two { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.figure { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 6px; }
+.figure svg { width: 100%; height: auto; display: block; }
+.figure figcaption, .cap { font-size: 13px; color: var(--muted); text-align: center; }
+
+.eqbox { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.eqbox .t { background: var(--accent-soft); color: var(--accent); font-weight: 700; padding: 6px 14px; font-size: 15px; }
+.eqbox table { width: 100%; border-collapse: collapse; }
+.eqbox td { padding: 8px 14px; border-top: 1px solid var(--line); vertical-align: middle; }
+.eqbox td.eq { unicode-bidi: plaintext; text-align: start; white-space: nowrap; font-size: 15px; }
+.eqwrap { overflow-x: auto; }
+.eq { direction: ltr; unicode-bidi: isolate; }
+div.eq { unicode-bidi: plaintext; background: var(--sunk); border-radius: 8px; padding: 6px 12px; text-align: center; font-size: 16px; margin-block: 2px; }
+
+.sim { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 12px; }
+.sim h3::before { content: "محاكاة · "; color: var(--muted); font-family: var(--body); font-size: 14px; font-weight: 500; }
+.sim canvas, .game canvas { width: 100%; display: block; border-radius: 10px; background: var(--sky); touch-action: manipulation; }
+.controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px 18px; }
+.ctl { display: grid; gap: 2px; font-size: 14px; }
+.ctl label { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); }
+.ctl output { font-family: var(--mono); color: var(--fg); font-weight: 600; direction: ltr; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button { font: 600 15px var(--body); border-radius: 8px; padding: 6px 16px; cursor: pointer; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); }
+button.ghost { background: transparent; color: var(--accent); }
+button:disabled { opacity: .45; cursor: default; }
+button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.readout div { background: var(--sunk); border-radius: 8px; padding: 6px 10px; font-size: 13px; color: var(--muted); }
+.readout b { display: block; font-family: var(--mono); font-size: 17px; color: var(--fg); direction: ltr; text-align: right; }
+.note { font-size: 14px; color: var(--muted); }
+.check { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); }
+
+.examples { display: grid; gap: 14px; }
+details.ex { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+details.ex > summary { cursor: pointer; padding: 12px 16px; font-weight: 600; list-style: none; display: grid; gap: 4px; }
+details.ex > summary::-webkit-details-marker { display: none; }
+details.ex > summary .tag { font-size: 13px; color: var(--accent); font-weight: 700; }
+details.ex > summary .open { font-size: 13px; color: var(--accent); }
+details.ex[open] > summary .open { display: none; }
+.steps { padding: 0 16px 16px; display: grid; gap: 8px; }
+.step { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; border-top: 1px solid var(--line); padding-top: 8px; }
+.step > span { font-size: 13px; font-weight: 700; color: var(--muted); }
+.step .eq { display: block; unicode-bidi: plaintext; text-align: start; white-space: pre-wrap; background: var(--sunk); border-radius: 8px; padding: 6px 10px; font-size: 14px; line-height: 1.9; overflow-x: auto; }
+.answer { background: var(--good-soft); border-radius: 8px; padding: 6px 12px; font-weight: 600; }
+
+.pitfalls { background: var(--bad-soft); border-radius: 12px; padding: 14px 18px; }
+.pitfalls h3 { color: var(--bad); font-size: 17px; }
+.pitfalls ul { margin: 6px 0 0; padding-inline-start: 22px; }
+
+.mcq { display: grid; gap: 12px; }
+.q { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 10px; }
+.q .qt { font-weight: 600; }
+.q .qt .src { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-inline-end: 6px; }
+.opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
+.opts button { background: var(--sunk); color: var(--fg); border: 1px solid var(--line); text-align: start; font-weight: 500; }
+.opts button.ok { background: var(--good-soft); border-color: var(--good); color: var(--good); font-weight: 700; }
+.opts button.no { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
+.q .why { font-size: 14px; color: var(--muted); }
+.scorebar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; font-weight: 600; }
+.scorebar .num { font-size: 20px; color: var(--accent); }
+
+.games { display: grid; gap: 22px; }
+.game { background: var(--surface); border: 2px solid var(--accent); border-radius: 16px; padding: 14px; display: grid; gap: 12px; }
+.ghead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline; }
+.ghead h3 { font-size: 22px; }
+.ghead .stats { font-family: var(--mono); font-size: 14px; color: var(--muted); direction: ltr; }
+.msg { min-height: 1.9em; font-weight: 600; }
+.msg.ok { color: var(--good); } .msg.no { color: var(--bad); }
+.quiz { display: grid; gap: 12px; }
+.quiz .qtext { font-size: 18px; font-weight: 600; min-height: 3.4em; }
+.timer { height: 8px; border-radius: 4px; background: var(--sunk); overflow: hidden; }
+.timer i { display: block; height: 100%; background: var(--accent); width: 100%; transition: width .25s linear; }
+footer { padding-block: 28px; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 760px) {
+  .two { grid-template-columns: 1fr; }
+  .step { grid-template-columns: 1fr; gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { .timer i { transition: none; } }
+.mblock { background: var(--sunk); border-radius: 8px; padding: 2px 12px; text-align: center; overflow-x: auto; direction: ltr; }
+.mblock mjx-container[display="true"] { margin: 6px 0 !important; }
+.mlines { background: var(--sunk); border-radius: 8px; padding: 6px 12px; display: grid; gap: 4px; direction: rtl; text-align: right; overflow-x: auto; line-height: 2.1; }
+.mlines > div { white-space: nowrap; }
+td.m { text-align: left; white-space: nowrap; }
+mjx-container { font-size: 108% !important; }
+.why mjx-container, .q mjx-container { font-size: 100% !important; }
+</style>
+</head>
+<body>
+
+
+<div class="wrap" dir="rtl" lang="ar">
+  <p style="margin:0;padding-top:16px"><a href="../" style="color:var(--accent);font-weight:600">→ كل الألعاب</a></p>
+  <header class="hero">
+    <span class="eyebrow">فيزياء الصف الثاني الثانوي · البكالوريا المصرية · الفصل الأول: الميكانيكا</span>
+    <h1>مختبر الحركة والعزم</h1>
+    <p>شرح كامل للدروس الأربعة الأولى: متجهات السرعة والسرعة النسبية، المقذوفات الأفقية، المقذوفات بزاوية، وعزم القوة. كل درس فيه فكرة مبسطة، رسم توضيحي، محاكاة تحركها بنفسك، أمثلة محلولة خطوة بخطوة، وأخطاء شائعة. في النهاية تدريبات وألعاب.</p>
+    <div class="legend" aria-label="معاني الألوان">
+      <span><i style="--c:var(--vx)"></i>المركبة الأفقية / السرعة الأولى</span>
+      <span><i style="--c:var(--vy)"></i>المركبة الرأسية / السرعة الثانية</span>
+      <span><i style="--c:var(--vr)"></i>المحصلة</span>
+      <span><i style="--c:var(--grav)"></i>الجاذبية</span>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="أقسام الصفحة"><div class="in">
+    <a href="#l1"><span class="n">1-1</span>السرعة النسبية</a>
+    <a href="#l2"><span class="n">1-2</span>المقذوف الأفقي</a>
+    <a href="#l3"><span class="n">1-3</span>المقذوف بزاوية</a>
+    <a href="#l4"><span class="n">1-4</span>عزم القوة</a>
+    <a href="#practice">تدريبات</a>
+    <a href="#games">ألعاب</a>
+  </div></nav>
+
+  <!-- ===================== LESSON 1 ===================== -->
+  <section class="lesson" id="l1">
+    <div class="lhead">
+      <span class="lnum">الدرس 1-1</span>
+      <h2>متجهات السرعة والسرعة النسبية</h2>
+    </div>
+    <div class="question"><strong>سؤال الدرس</strong>قارب يوجّه مقدمته مباشرة نحو الضفة المقابلة، لكنه يصل إلى نقطة أبعد في اتجاه التيار. والمطر الذي يسقط رأسيًا يرسم خطوطًا مائلة على زجاج حافلة مسرعة. ما السر المشترك بين الظاهرتين؟</div>
+
+    <div class="two">
+      <div class="prose">
+        <h3>الفكرة ببساطة</h3>
+        <p>السرعة <strong>كمية متجهة</strong>: لها مقدار (كم متر في الثانية) واتجاه. لذلك عندما يتأثر الجسم بحركتين في نفس الوقت، مثل محرك القارب وتيار النهر، فإن سرعته الحقيقية هي <strong>المجموع المتجهي</strong> للسرعتين، وليست مجموع الرقمين.</p>
+        <p><strong>طريقة الرأس إلى الذيل:</strong> ارسم السهم الأول، ثم ابدأ السهم الثاني من رأس الأول. السهم الذي يبدأ من ذيل الأول وينتهي عند رأس الثاني هو <b class="r">المحصلة</b>.</p>
+        <p>إذا كانت السرعتان <strong>متعامدتين</strong> يتكوّن مثلث قائم، فنستخدم فيثاغورث لإيجاد المقدار، وظل الزاوية لإيجاد الاتجاه.</p>
+      </div>
+      <figure class="figure">
+        <svg viewBox="0 0 300 230" direction="ltr" role="img" aria-label="جمع متجهين متعامدين بطريقة الرأس إلى الذيل">
+          <defs>
+            <marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--vx)"/></marker>
+            <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--vy)"/></marker>
+            <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--vr)"/></marker>
+          </defs>
+          <line x1="70" y1="200" x2="70" y2="50" stroke="var(--vx)" stroke-width="4" marker-end="url(#ab)"/>
+          <line x1="70" y1="44" x2="220" y2="44" stroke="var(--vy)" stroke-width="4" marker-end="url(#ag)"/>
+          <line x1="70" y1="200" x2="222" y2="52" stroke="var(--vr)" stroke-width="4" marker-end="url(#ar)"/>
+          <path d="M70 160 A 40 40 0 0 0 98 172" fill="none" stroke="var(--muted)" stroke-width="1.5"/>
+          <text x="86" y="150" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="14">θ</text>
+          <rect x="70" y="44" width="12" height="12" fill="none" stroke="var(--muted)"/>
+          <text x="20" y="130" fill="var(--vx)" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="600">v₁=4</text>
+          <text x="120" y="32" fill="var(--vy)" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="600">v₂=3</text>
+          <text x="160" y="150" fill="var(--vr)" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="600">v=5</text>
+        </svg>
+        <figcaption>سرعة القارب ⁦4 m/s⁩ عبر النهر + تيار ⁦3 m/s⁩ = محصلة ⁦5 m/s⁩ وليست 7</figcaption>
+      </figure>
+    </div>
+
+    <div class="prose">
+      <h3>تحليل السرعة إلى مركبتين</h3>
+      <p>العكس أيضًا ممكن: أي سرعة مائلة بزاوية θ على المحور الأفقي يمكن تقسيمها إلى مركبتين متعامدتين تعمل كل منهما وحدها:</p>
+      <div class="mblock">\[ v_x = v\cos\theta \qquad v_y = v\sin\theta \]\[ v=\sqrt{v_x^2+v_y^2} \qquad \tan\theta=\frac{v_y}{v_x} \]</div>
+      <p><strong>قاعدة العبور الذهبية:</strong> زمن عبور النهر تحدده فقط مركبة السرعة <strong>العمودية على الضفة</strong>. التيار لا يطيل الرحلة ولا يقصرها، هو فقط يدفع القارب جانبيًا. لذلك:</p>
+      <div class="mblock">\[ t=\frac{\text{العرض}}{v_\perp} \qquad \text{الانجراف}=v_{\text{تيار}}\times t \]</div>
+      <p>ولكي يصل القارب إلى النقطة المقابلة تمامًا، يجب أن يوجّه مقدمته بزاوية عكس التيار بحيث تلغي مركبته الموازية للضفة سرعة التيار: <span class="m">\( \sin\alpha=\dfrac{v_{\text{تيار}}}{v_{\text{قارب}}} \)</span>.</p>
+    </div>
+
+    <div class="sim" id="sim-boat">
+      <h3>عبور النهر</h3>
+      <canvas id="cv-boat" aria-label="محاكاة قارب يعبر نهرًا"></canvas>
+      <div class="controls">
+        <div class="ctl"><label for="b-vb">سرعة القارب في الماء الساكن <output id="b-vb-o">⁦3.0 m/s⁩</output></label><input type="range" id="b-vb" min="1" max="5" step="0.5" value="3"></div>
+        <div class="ctl"><label for="b-vc">سرعة التيار <output id="b-vc-o">⁦2.0 m/s⁩</output></label><input type="range" id="b-vc" min="0" max="4" step="0.5" value="2"></div>
+        <div class="ctl"><label for="b-a">زاوية التوجيه عكس التيار <output id="b-a-o">0°</output></label><input type="range" id="b-a" min="-60" max="60" step="1" value="0"></div>
+        <div class="ctl"><label for="b-w">عرض النهر <output id="b-w-o">⁦60 m⁩</output></label><input type="range" id="b-w" min="20" max="100" step="5" value="60"></div>
+      </div>
+      <div class="row"><button id="b-go">ابدأ العبور</button><button class="ghost" id="b-straight">وجّهه ليصل للنقطة المقابلة</button></div>
+      <div class="readout" id="b-out"></div>
+      <p class="note">جرّب: ثبّت الزاوية على 0° وغيّر سرعة التيار فقط. لاحظ أن زمن العبور لا يتغير أبدًا، بينما يزيد الانجراف.</p>
+    </div>
+
+    <div class="prose">
+      <h3>السرعة النسبية: ماذا يرى المراقب المتحرك؟</h3>
+      <p>السرعة التي تقيسها تعتمد على حركتك أنت. سرعة الجسم B كما يراها المراقب A هي سرعة B مطروحًا منها سرعة A (طرحًا متجهيًا):</p>
+      <div class="mblock">\[ \vec v_{BA}=\vec v_B-\vec v_A \]</div>
+      <p>طرح متجه يساوي جمع معكوسه. مثال: المطر يسقط رأسيًا بالنسبة للأرض. بالنسبة لراكب حافلة تتحرك للأمام، نضيف للمطر سرعة مساوية لسرعة الحافلة لكن <strong>للخلف</strong>. النتيجة خطوط مائلة نحو الخلف بزاوية عن الرأسي:</p>
+      <div class="mblock">\[ \tan\theta=\frac{v_{\text{حافلة}}}{v_{\text{مطر}}} \]</div>
+      <p>إذا تحركت سيارتان في نفس الاتجاه نطرح السرعتين، وإذا تحركتا متعاكستين نجمعهما، وإذا تحركتا متعامدتين نستخدم فيثاغورث.</p>
+    </div>
+
+    <div class="sim" id="sim-rain">
+      <h3>المطر ونافذة الحافلة</h3>
+      <canvas id="cv-rain" aria-label="محاكاة المطر كما يراه مراقب ثابت ومراقب متحرك"></canvas>
+      <div class="controls">
+        <div class="ctl"><label for="r-vb">سرعة الحافلة <output id="r-vb-o">⁦10 m/s⁩</output></label><input type="range" id="r-vb" min="0" max="25" step="1" value="10"></div>
+        <div class="ctl"><label for="r-vr">سرعة سقوط المطر <output id="r-vr-o">⁦8 m/s⁩</output></label><input type="range" id="r-vr" min="3" max="15" step="1" value="8"></div>
+      </div>
+      <div class="row"><button id="r-ground" class="ghost">من الرصيف (الأرض)</button><button id="r-bus">من داخل الحافلة</button></div>
+      <div class="readout" id="r-out"></div>
+    </div>
+
+    <div class="eqbox"><div class="t">صندوق المعادلات</div><div class="eqwrap"><table>
+      <tr><td>مركبتا السرعة</td><td class="m">\( v_x=v\cos\theta,\quad v_y=v\sin\theta \)</td></tr>
+      <tr><td>مقدار المحصلة (متعامدتان)</td><td class="m">\( v=\sqrt{v_x^2+v_y^2} \)</td></tr>
+      <tr><td>اتجاه المحصلة</td><td class="m">\( \tan\theta=\dfrac{v_y}{v_x} \)</td></tr>
+      <tr><td>السرعة النسبية لـ B بالنسبة لـ A</td><td class="m">\( \vec v_{BA}=\vec v_B-\vec v_A \)</td></tr>
+    </table></div></div>
+
+    <h3>أمثلة محلولة</h3>
+    <div class="examples">
+      <details class="ex" open>
+        <summary><span class="tag">مثال 1 · العبور والانجراف</span>سبّاح سرعته في الماء الساكن ⁦1.6 m/s⁩ يسبح عموديًا على ضفة قناة عرضها ⁦40 m⁩، وسرعة تيار القناة ⁦1.2 m/s⁩. أوجد: (أ) سرعته بالنسبة للضفة، (ب) زمن العبور، (ج) المسافة التي ينجرفها مع التيار.<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>المعطيات</span><div class="mlines"><div>\(v_1 = 1.6\un{m/s}\) عبر القناة</div><div>\(v_2 = 1.2\un{m/s}\) مع التيار</div><div>العرض \(= 40\un{m}\)</div></div></div>
+          <div class="step"><span>الفكرة</span><p>السرعتان متعامدتان، إذن مثلث قائم. والزمن تحدده المركبة العمودية فقط.</p></div>
+          <div class="step"><span>(أ)</span><div class="mlines"><div>\(v=\sqrt{1.6^2+1.2^2}=\sqrt{2.56+1.44}=\sqrt{4}=2.0\un{m/s}\)</div><div>\(\tan\theta=\dfrac{1.2}{1.6}=0.75 \;\Rightarrow\; \theta\approx 37^\circ\) عن الاتجاه العمودي</div></div></div>
+          <div class="step"><span>(ب)</span><div class="mlines"><div>\(t=\dfrac{40}{1.6}=25\un{s}\)</div></div></div>
+          <div class="step"><span>(ج)</span><div class="mlines"><div>الانجراف \(= 1.2\times 25 = 30\un{m}\)</div></div></div>
+          <div class="step"><span>تحقق</span><p>المحصلة ⁦2.0 m/s⁩ أكبر من كل مركبة وحدها وأصغر من مجموعهما ⁦2.8 m/s⁩. هذا منطقي دائمًا مع المتجهات المتعامدة.</p></div>
+        </div>
+      </details>
+      <details class="ex">
+        <summary><span class="tag">مثال 2 · تحليل السرعة</span>طائرة مسيّرة تصعد بسرعة ثابتة ⁦25 m/s⁩ في اتجاه يصنع 37° مع الأفقي. كم ترتفع خلال ⁦4 s⁩؟ وما المسافة الأفقية التي تقطعها؟ (sin 37° = 0.6 و cos 37° = 0.8)<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>الفكرة</span><p>نحلل السرعة إلى مركبتين، ونتعامل مع كل اتجاه وحده بسرعة ثابتة.</p></div>
+          <div class="step"><span>الحل</span><div class="mlines"><div>\(v_x = 25\times0.8=20\un{m/s} \qquad v_y=25\times0.6=15\un{m/s}\)</div><div>الارتفاع \(= v_y t = 15\times4=60\un{m}\)</div><div>المسافة الأفقية \(= v_x t = 20\times 4 = 80\un{m}\)</div></div></div>
+          <div class="answer">ترتفع ⁦60 m⁩ وتتقدم أفقيًا ⁦80 m⁩ (والمسافة على المسار المائل ⁦100 m⁩).</div>
+        </div>
+      </details>
+      <details class="ex">
+        <summary><span class="tag">مثال 3 · سرعة نسبية متعامدة</span>السيارة A تتحرك شرقًا بسرعة ⁦15 m/s⁩، والسيارة B تتحرك شمالًا بسرعة ⁦20 m/s⁩. أوجد سرعة B كما يراها سائق A.<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>الفكرة</span><p>v_BA = v_B − v_A = v_B + (−v_A). معكوس سرعة A هو ⁦15 m/s⁩ غربًا.</p></div>
+          <div class="step"><span>الحل</span><div class="mlines"><div>\(v_{BA}=\sqrt{20^2+15^2}=\sqrt{625}=25\un{m/s}\)</div><div>\(\tan\theta=\dfrac{15}{20}=0.75\;\Rightarrow\;\theta\approx37^\circ\) غرب الشمال</div></div></div>
+          <div class="answer">يرى سائق A السيارة B تتحرك بسرعة ⁦25 m/s⁩ في اتجاه 37° غرب الشمال.</div>
+        </div>
+      </details>
+      <details class="ex">
+        <summary><span class="tag">مثال 4 · المطر والقطار</span>قطار يسير أفقيًا بسرعة ⁦12 m/s⁩، والمطر يسقط رأسيًا بسرعة ⁦9 m/s⁩. ما سرعة المطر بالنسبة لراكب القطار، وبأي زاوية تميل خطوطه على النافذة؟<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>الحل</span><div class="mlines"><div>\(\vec v_{\text{مطر/قطار}}=\vec v_{\text{مطر}}-\vec v_{\text{قطار}}\)</div><div>المقدار \(=\sqrt{9^2+12^2}=\sqrt{225}=15\un{m/s}\)</div><div>\(\tan\theta=\dfrac{12}{9}\;\Rightarrow\;\theta\approx53^\circ\) عن الرأسي، مائلة نحو مؤخرة القطار</div></div></div>
+          <div class="answer">⁦15 m/s⁩ بزاوية 53° تقريبًا عن الرأسي. كلما أسرع القطار زاد ميل الخطوط.</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="pitfalls"><h3>أخطاء شائعة</h3><ul>
+      <li>جمع المقادير مباشرة (4 + 3 = 7) بينما السرعتان متعامدتان. الصحيح 5.</li>
+      <li>كتابة المقدار فقط في الإجابة. السرعة متجهة، اذكر الاتجاه دائمًا.</li>
+      <li>الظن أن التيار الأسرع يطيل زمن العبور. التيار يزيد الانجراف فقط.</li>
+      <li>الخلط بين v_AB و v_BA. هما متساويتان في المقدار ومتعاكستان في الاتجاه.</li>
+    </ul></div>
+  </section>
+
+  <!-- ===================== LESSON 2 ===================== -->
+  <section class="lesson" id="l2">
+    <div class="lhead">
+      <span class="lnum">الدرس 1-2</span>
+      <h2>حركة المقذوفات الأفقية</h2>
+    </div>
+    <div class="question"><strong>سؤال الدرس</strong>عملتان تغادران حافة طاولة في نفس اللحظة: الأولى تُدفع أفقيًا بقوة، والثانية تسقط من الحافة مباشرة. أيهما تصل إلى الأرض أولًا؟</div>
+
+    <div class="prose">
+      <h3>الفكرة ببساطة</h3>
+      <p>الإجابة المفاجئة: <strong>تصلان معًا</strong>. السبب أن الحركة الأفقية والحركة الرأسية <strong>مستقلتان</strong> تمامًا. لا يعرف أي اتجاه شيئًا عن الآخر، والشيء الوحيد المشترك بينهما هو <strong>الزمن t</strong>.</p>
+      <p><b class="x">أفقيًا:</b> بعد أن يترك الجسم الحافة لا توجد قوة أفقية (بإهمال مقاومة الهواء)، فيتحرك بسرعة ثابتة تساوي سرعة الإطلاق v₀.</p>
+      <p><b class="y">رأسيًا:</b> الجاذبية وحدها تعمل، فيسقط الجسم سقوطًا حرًا يبدأ من سرعة رأسية صفر، تمامًا مثل العملة التي سقطت من الحافة.</p>
+      <p>اجتماع الحركتين يرسم مسارًا على شكل <strong>قطع مكافئ</strong>.</p>
+    </div>
+
+    <div class="sim" id="sim-hor">
+      <h3>قذف أفقي من فوق جرف</h3>
+      <canvas id="cv-hor" aria-label="محاكاة كرة تقذف أفقيًا وأخرى تسقط سقوطًا حرًا"></canvas>
+      <div class="controls">
+        <div class="ctl"><label for="h-h">الارتفاع <output id="h-h-o">⁦44.1 m⁩</output></label><input type="range" id="h-h" min="5" max="80" step="0.1" value="44.1"></div>
+        <div class="ctl"><label for="h-v">سرعة القذف الأفقية <output id="h-v-o">⁦12 m/s⁩</output></label><input type="range" id="h-v" min="0" max="25" step="1" value="12"></div>
+      </div>
+      <div class="row"><button id="h-go">أطلق الكرتين</button><span class="note">النقاط تُرسم كل ⁦0.25 s⁩. الخطوط المتقطعة تربط الكرتين في نفس اللحظة.</span></div>
+      <div class="readout" id="h-out"></div>
+      <p class="note">جرّب: غيّر سرعة القذف فقط. زمن السقوط لا يتغير، لكن المدى يتغير. ثم غيّر الارتفاع ولاحظ أن الزمن يتغير.</p>
+    </div>
+
+    <div class="two">
+      <div class="prose">
+        <h3>كيف نحل أي مسألة مقذوف أفقي؟</h3>
+        <p><strong>1. الزمن من الارتفاع:</strong> من معادلة السقوط الحر <span class="m">\( y=\tfrac12 g t^2 \)</span> نحصل على:</p>
+        <div class="mblock">\[ t=\sqrt{\frac{2y}{g}} \]</div>
+        <p>الارتفاع وحده (مع g) يحدد زمن الطيران. السرعة الأفقية لا علاقة لها بالزمن.</p>
+        <p><strong>2. المدى من الزمن:</strong> <span class="m">\( x=v_0 t \)</span>. مضاعفة سرعة القذف تضاعف المدى ولا تغير الزمن.</p>
+        <p><strong>3. السرعة لحظة الارتطام:</strong> المركبة الأفقية ما زالت v₀، والرأسية أصبحت <span class="m">\( v_y=gt \)</span>. نجمعهما بفيثاغورث.</p>
+      </div>
+      <figure class="figure">
+        <svg viewBox="0 0 300 230" direction="ltr" role="img" aria-label="مركبات السرعة لحظة ارتطام المقذوف الأفقي">
+          <defs>
+            <marker id="b2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--vx)"/></marker>
+            <marker id="g2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--vy)"/></marker>
+            <marker id="r2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--vr)"/></marker>
+          </defs>
+          <rect x="10" y="30" width="40" height="180" fill="var(--ground)"/>
+          <line x1="10" y1="210" x2="295" y2="210" stroke="var(--muted)" stroke-width="2"/>
+          <path d="M50 30 Q 140 30 200 205" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 5"/>
+          <circle cx="50" cy="26" r="6" fill="var(--fg)"/>
+          <line x1="58" y1="26" x2="110" y2="26" stroke="var(--vx)" stroke-width="3.5" marker-end="url(#b2)"/>
+          <text x="70" y="16" fill="var(--vx)" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">v₀</text>
+          <line x1="190" y1="170" x2="240" y2="170" stroke="var(--vx)" stroke-width="3.5" marker-end="url(#b2)"/>
+          <line x1="190" y1="170" x2="190" y2="225" stroke="var(--vy)" stroke-width="3.5" marker-end="url(#g2)" transform="translate(0,-5)"/>
+          <line x1="190" y1="170" x2="238" y2="216" stroke="var(--vr)" stroke-width="3.5" marker-end="url(#r2)"/>
+          <text x="244" y="166" fill="var(--vx)" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">vₓ=v₀</text>
+          <text x="150" y="208" fill="var(--vy)" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">gt</text>
+          <text x="242" y="200" fill="var(--vr)" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">v</text>
+          <text x="58" y="120" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="13">y</text>
+        </svg>
+        <figcaption>المركبة الأفقية لا تتغير، والرأسية تزداد بمقدار ⁦9.8 m/s⁩ كل ثانية</figcaption>
+      </figure>
+    </div>
+
+    <div class="prose">
+      <h3>لماذا المسار قطع مكافئ؟</h3>
+      <p>من المعادلة الأفقية <span class="m">\( t=\dfrac{x}{v_0} \)</span>، نعوض في المعادلة الرأسية:</p>
+      <div class="mblock">\[ y=\frac12 g\left(\frac{x}{v_0}\right)^2=\frac{g}{2v_0^2}\,x^2 \]</div>
+      <p>المسافة الرأسية تتناسب مع مربع المسافة الأفقية، وهذه بالضبط معادلة القطع المكافئ.</p>
+    </div>
+
+    <div class="eqbox"><div class="t">صندوق المعادلات (g = ⁦9.8 m/s²⁩)</div><div class="eqwrap"><table>
+      <tr><td>الحركة الأفقية (سرعة ثابتة)</td><td class="m">\( x=v_0t,\quad v_x=v_0 \)</td></tr>
+      <tr><td>الحركة الرأسية (سقوط حر من السكون)</td><td class="m">\( y=\tfrac12 gt^2,\quad v_y=gt \)</td></tr>
+      <tr><td>زمن الطيران</td><td class="m">\( t=\sqrt{\dfrac{2y}{g}} \)</td></tr>
+      <tr><td>السرعة عند أي لحظة</td><td class="m">\( v=\sqrt{v_0^2+(gt)^2} \)</td></tr>
+    </table></div></div>
+
+    <h3>أمثلة محلولة</h3>
+    <div class="examples">
+      <details class="ex" open>
+        <summary><span class="tag">مثال 1 · كرة من فوق منضدة</span>تتدحرج كرة على سطح منضدة أفقية ارتفاعها ⁦0.80 m⁩ وتغادر الحافة بسرعة ⁦3.0 m/s⁩. أوجد: (أ) زمن وصولها للأرض، (ب) بُعد نقطة الهبوط عن قاعدة المنضدة، (ج) سرعتها لحظة الارتطام واتجاهها.<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>المعطيات</span><div class="mlines"><div>\(y=0.80\un{m},\quad v_0=3.0\un{m/s},\quad g=9.8\un{m/s^2}\)</div></div></div>
+          <div class="step"><span>(أ) الزمن</span><div class="mlines"><div>\(t=\sqrt{\dfrac{2\times0.80}{9.8}}=\sqrt{0.163}\approx0.40\un{s}\)</div></div></div>
+          <div class="step"><span>(ب) المدى</span><div class="mlines"><div>\(x=v_0t=3.0\times0.404\approx1.2\un{m}\)</div></div></div>
+          <div class="step"><span>(ج) السرعة</span><div class="mlines"><div>\(v_x=3.0\un{m/s}\)</div><div>\(v_y=gt=9.8\times0.404\approx3.96\un{m/s}\)</div><div>\(v=\sqrt{3.0^2+3.96^2}\approx5.0\un{m/s}\)</div><div>\(\tan\theta=\dfrac{3.96}{3.0}\;\Rightarrow\;\theta\approx53^\circ\) أسفل الأفقي</div></div></div>
+          <div class="step"><span>تحقق</span><p>السرعة النهائية (5.0) أكبر من سرعة الإطلاق (3.0) لأن الجاذبية أضافت مركبة رأسية، بينما المركبة الأفقية بقيت 3.0.</p></div>
+        </div>
+      </details>
+      <details class="ex">
+        <summary><span class="tag">مثال 2 · حساب سرعة الإطلاق</span>رُكلت كرة أفقيًا من حافة جرف ارتفاعه ⁦44.1 m⁩ فهبطت على بعد ⁦36 m⁩ من قاعدته. ما سرعة الركلة؟ وما سرعة الكرة لحظة الهبوط؟<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>الفكرة</span><p>نبدأ دائمًا بالزمن من الارتفاع، ثم نستخدمه في الاتجاه الأفقي.</p></div>
+          <div class="step"><span>الحل</span><div class="mlines"><div>\(t=\sqrt{\dfrac{2\times44.1}{9.8}}=\sqrt9=3.0\un{s}\)</div><div>\(v_0=\dfrac{x}{t}=\dfrac{36}{3.0}=12\un{m/s}\)</div><div>\(v_y=9.8\times3.0=29.4\un{m/s}\)</div><div>\(v=\sqrt{12^2+29.4^2}\approx31.8\un{m/s}\)</div></div></div>
+          <div class="answer">سرعة الركلة ⁦12 m/s⁩، وسرعة الهبوط ⁦31.8 m/s⁩ تقريبًا.</div>
+        </div>
+      </details>
+      <details class="ex">
+        <summary><span class="tag">مثال 3 · طائرة إغاثة</span>طائرة تطير أفقيًا على ارتفاع ⁦122.5 m⁩ بسرعة ⁦50 m/s⁩ وتريد إسقاط صندوق على علامة على الأرض. على أي مسافة أفقية قبل العلامة يجب إسقاطه؟<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>الفكرة</span><p>الصندوق يغادر الطائرة بنفس سرعتها الأفقية، فيستمر في التقدم أثناء سقوطه.</p></div>
+          <div class="step"><span>الحل</span><div class="mlines"><div>\(t=\sqrt{\dfrac{2\times122.5}{9.8}}=\sqrt{25}=5.0\un{s}\)</div><div>\(x=50\times5.0=250\un{m}\)</div></div></div>
+          <div class="answer">يُسقط الصندوق قبل العلامة بمسافة ⁦250 m⁩. وطوال السقوط يبقى الصندوق تحت الطائرة مباشرة.</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="pitfalls"><h3>أخطاء شائعة</h3><ul>
+      <li>الظن أن الجسم الأسرع أفقيًا يبقى في الهواء وقتًا أطول. الزمن يعتمد على الارتفاع فقط.</li>
+      <li>وضع v₀ في المعادلة الرأسية. السرعة الرأسية الابتدائية في القذف الأفقي تساوي صفرًا.</li>
+      <li>جمع vₓ + v_y مباشرة لإيجاد السرعة النهائية. استخدم فيثاغورث.</li>
+      <li>تقريب الزمن مبكرًا ثم استخدامه في خطوات تالية، فتتراكم الأخطاء. احتفظ بالأرقام كاملة حتى النهاية.</li>
+    </ul></div>
+  </section>
+
+  <!-- ===================== LESSON 3 ===================== -->
+  <section class="lesson" id="l3">
+    <div class="lhead">
+      <span class="lnum">الدرس 1-3</span>
+      <h2>حركة المقذوفات بزاوية</h2>
+    </div>
+    <div class="question"><strong>سؤال الدرس</strong>عند أعلى نقطة في مسار كرة قدم مركولة بزاوية، تبدو الكرة وكأنها توقفت لحظة. هل سرعتها فعلًا صفر هناك؟</div>
+
+    <div class="two">
+      <div class="prose">
+        <h3>الفكرة ببساطة</h3>
+        <p>نستخدم نفس خطة الدرس السابق: نحلل سرعة الإطلاق v₀ إلى مركبتين ونعامل كل واحدة وحدها.</p>
+        <p><b class="x">أفقيًا:</b> <span class="m">\( v_x=v_0\cos\theta \)</span> وتبقى ثابتة طوال الرحلة.</p>
+        <p><b class="y">رأسيًا:</b> تبدأ بـ <span class="m">\( v_0\sin\theta \)</span> لأعلى، وتنقص ⁦9.8 m/s⁩ كل ثانية حتى تصبح صفرًا عند القمة، ثم تنعكس وتزداد لأسفل.</p>
+        <p>إذن عند القمة: <strong>المركبة الرأسية فقط = صفر</strong>. الكرة ما زالت تتحرك أفقيًا بسرعة vₓ، ولهذا لا تتوقف أبدًا. والعجلة عند القمة ليست صفرًا، هي g لأسفل كما في كل لحظة.</p>
+      </div>
+      <figure class="figure">
+        <svg viewBox="0 0 360 200" direction="ltr" role="img" aria-label="مسار مقذوف بزاوية مع مركبات السرعة عند البداية والقمة والنهاية">
+          <defs>
+            <marker id="b3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--vx)"/></marker>
+            <marker id="g3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--vy)"/></marker>
+            <marker id="p3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--grav)"/></marker>
+          </defs>
+          <line x1="10" y1="180" x2="350" y2="180" stroke="var(--muted)" stroke-width="2"/>
+          <path d="M30 180 Q 180 -40 330 180" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 5"/>
+          <line x1="30" y1="180" x2="75" y2="180" stroke="var(--vx)" stroke-width="3" marker-end="url(#b3)" transform="translate(0,-2)"/>
+          <line x1="30" y1="178" x2="30" y2="118" stroke="var(--vy)" stroke-width="3" marker-end="url(#g3)"/>
+          <line x1="180" y1="70" x2="225" y2="70" stroke="var(--vx)" stroke-width="3" marker-end="url(#b3)"/>
+          <line x1="180" y1="72" x2="180" y2="110" stroke="var(--grav)" stroke-width="3" marker-end="url(#p3)"/>
+          <circle cx="180" cy="70" r="5" fill="var(--fg)"/>
+          <text x="190" y="58" fill="var(--vy)" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">v_y = 0</text>
+          <text x="186" y="112" fill="var(--grav)" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">g</text>
+          <line x1="330" y1="178" x2="375" y2="178" stroke="var(--vx)" stroke-width="3" marker-end="url(#b3)" transform="translate(-45,0)"/>
+          <line x1="330" y1="120" x2="330" y2="172" stroke="var(--vy)" stroke-width="3" marker-end="url(#g3)"/>
+          <text x="40" y="112" fill="var(--vy)" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600">v₀ sinθ</text>
+          <text x="36" y="196" fill="var(--vx)" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600">v₀ cosθ</text>
+          <line x1="180" y1="70" x2="180" y2="180" stroke="var(--line)" stroke-dasharray="3 4"/>
+          <text x="140" y="140" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="12">H</text>
+        </svg>
+        <figcaption>المسار متماثل حول القمة: زمن الصعود = زمن الهبوط</figcaption>
+      </figure>
+    </div>
+
+    <div class="prose">
+      <h3>من أين تأتي معادلات القمة والمدى؟</h3>
+      <p><strong>زمن الوصول للقمة:</strong> عند القمة <span class="m">\( v_y=0 \)</span>، إذن <span class="m">\( 0=v_0\sin\theta-gt \)</span>:</p>
+      <div class="mblock">\[ t_{\text{قمة}}=\frac{v_0\sin\theta}{g} \]</div>
+      <p><strong>أقصى ارتفاع:</strong> نعوض الزمن السابق في <span class="m">\( y=v_0\sin\theta\,t-\tfrac12 gt^2 \)</span>:</p>
+      <div class="mblock">\[ H=\frac{(v_0\sin\theta)^2}{2g} \]</div>
+      <p><strong>زمن الطيران الكلي</strong> (إذا هبط على نفس مستوى الإطلاق): بسبب التماثل <span class="m">\( T=2\,t_{\text{قمة}} \)</span>.</p>
+      <p><strong>المدى الأفقي:</strong> السرعة الأفقية ثابتة، إذن <span class="m">\( R=v_0\cos\theta\times T \)</span>. وبالتعويض واستخدام <span class="m">\( 2\sin\theta\cos\theta=\sin2\theta \)</span>:</p>
+      <div class="mblock">\[ R=\frac{v_0^2\sin2\theta}{g} \]</div>
+      <p>أكبر قيمة لـ sin 2θ هي 1 عند 2θ = 90°، لذلك <strong>أكبر مدى عند 45°</strong>. والزاويتان المتتامتان (مثل 30° و 60°) تعطيان نفس المدى لأن sin 60° = sin 120°.</p>
+    </div>
+
+    <div class="sim" id="sim-ang">
+      <h3>قذف بزاوية</h3>
+      <canvas id="cv-ang" aria-label="محاكاة مقذوف بزاوية مع مركبات السرعة"></canvas>
+      <div class="controls">
+        <div class="ctl"><label for="a-v">سرعة الإطلاق <output id="a-v-o">⁦24.5 m/s⁩</output></label><input type="range" id="a-v" min="5" max="30" step="0.5" value="24.5"></div>
+        <div class="ctl"><label for="a-t">زاوية الإطلاق <output id="a-t-o">53°</output></label><input type="range" id="a-t" min="5" max="85" step="1" value="53"></div>
+      </div>
+      <div class="row"><button id="a-go">أطلق</button><label class="check"><input type="checkbox" id="a-comp" checked> أظهر مسار الزاوية المتتامة</label><label class="check"><input type="checkbox" id="a-pred" checked> أظهر المسار المتوقع</label></div>
+      <div class="readout" id="a-out"></div>
+      <p class="note">جرّب: 30° ثم 60° بنفس السرعة. نفس المدى، لكن 60° أعلى وأطول زمنًا. ثم جرّب 45°.</p>
+    </div>
+
+    <div class="eqbox"><div class="t">صندوق المعادلات</div><div class="eqwrap"><table>
+      <tr><td>الحركة الأفقية</td><td class="m">\( v_x=v_0\cos\theta,\quad x=v_0\cos\theta\,t \)</td></tr>
+      <tr><td>الحركة الرأسية</td><td class="m">\( v_y=v_0\sin\theta-gt,\quad y=v_0\sin\theta\,t-\tfrac12gt^2 \)</td></tr>
+      <tr><td>زمن الوصول للقمة</td><td class="m">\( t=\dfrac{v_0\sin\theta}{g} \)</td></tr>
+      <tr><td>أقصى ارتفاع</td><td class="m">\( H=\dfrac{(v_0\sin\theta)^2}{2g} \)</td></tr>
+      <tr><td>الزمن الكلي (نفس المستوى)</td><td class="m">\( T=\dfrac{2v_0\sin\theta}{g} \)</td></tr>
+      <tr><td>المدى الأفقي (نفس المستوى)</td><td class="m">\( R=v_0\cos\theta\,T=\dfrac{v_0^2\sin2\theta}{g} \)</td></tr>
+    </table></div></div>
+
+    <h3>أمثلة محلولة</h3>
+    <div class="examples">
+      <details class="ex" open>
+        <summary><span class="tag">مثال 1 · الرحلة الكاملة</span>رُكلت كرة من سطح الأرض بسرعة ⁦24.5 m/s⁩ بزاوية 53° مع الأفقي. أوجد: زمن الوصول لأقصى ارتفاع، أقصى ارتفاع، زمن الطيران، والمدى الأفقي. (sin 53° = 0.8 و cos 53° = 0.6)<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>التحليل</span><div class="mlines"><div>\(v_x=24.5\times0.6=14.7\un{m/s}\)</div><div>\(v_{0y}=24.5\times0.8=19.6\un{m/s}\)</div></div></div>
+          <div class="step"><span>زمن القمة</span><div class="mlines"><div>\(t=\dfrac{19.6}{9.8}=2.0\un{s}\)</div></div></div>
+          <div class="step"><span>أقصى ارتفاع</span><div class="mlines"><div>\(H=\dfrac{19.6^2}{2\times9.8}=\dfrac{384.16}{19.6}=19.6\un{m}\)</div></div></div>
+          <div class="step"><span>الزمن الكلي</span><div class="mlines"><div>\(T=2\times2.0=4.0\un{s}\)</div></div></div>
+          <div class="step"><span>المدى</span><div class="mlines"><div>\(R=14.7\times4.0=58.8\un{m}\)</div></div></div>
+          <div class="step"><span>تحقق</span><div class="mlines"><div>\(R=\dfrac{v_0^2\sin2\theta}{g}=\dfrac{600.25\times(2\times0.8\times0.6)}{9.8}=58.8\un{m}\;\checkmark\)</div></div></div>
+        </div>
+      </details>
+      <details class="ex">
+        <summary><span class="tag">مثال 2 · أين الكرة بعد 3 ثوانٍ؟</span>لنفس الكرة في المثال 1، أوجد موضعها وسرعتها بعد ⁦3.0 s⁩ من الركل.<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>الموضع</span><div class="mlines"><div>\(x=14.7\times3.0=44.1\un{m}\)</div><div>\(y=19.6\times3.0-4.9\times3.0^2=58.8-44.1=14.7\un{m}\)</div></div></div>
+          <div class="step"><span>السرعة</span><div class="mlines"><div>\(v_x=14.7\un{m/s}\) لم تتغير</div><div>\(v_y=19.6-9.8\times3.0=-9.8\un{m/s}\) الإشارة السالبة تعني أنها هابطة</div><div>\(v=\sqrt{14.7^2+9.8^2}\approx17.7\un{m/s}\)</div></div></div>
+          <div class="answer">الكرة على ارتفاع ⁦14.7 m⁩ وفي طريقها للهبوط، لأنها تجاوزت القمة عند t = ⁦2 s⁩.</div>
+        </div>
+      </details>
+      <details class="ex">
+        <summary><span class="tag">مثال 3 · زاويتان ومدى واحد</span>قذيفتان تنطلقان من الأرض بنفس السرعة ⁦20 m/s⁩، الأولى بزاوية 30° والثانية بزاوية 60°. قارن بين مداهما وزمن طيرانهما.<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>المدى</span><div class="mlines"><div>\(R_{30}=\dfrac{400\times\sin60^\circ}{9.8}\approx35.3\un{m}\)</div><div>\(R_{60}=\dfrac{400\times\sin120^\circ}{9.8}\approx35.3\un{m}\)</div></div></div>
+          <div class="step"><span>الزمن</span><div class="mlines"><div>\(T_{30}=\dfrac{2\times20\times0.5}{9.8}\approx2.04\un{s}\)</div><div>\(T_{60}=\dfrac{2\times20\times0.866}{9.8}\approx3.53\un{s}\)</div></div></div>
+          <div class="answer">المدى متساوٍ، لكن القذيفة ذات الزاوية 60° تبقى في الهواء وقتًا أطول وتصل لارتفاع أكبر.</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="pitfalls"><h3>أخطاء شائعة</h3><ul>
+      <li>القول إن السرعة عند القمة صفر. المركبة الرأسية فقط صفر، والسرعة تساوي vₓ.</li>
+      <li>القول إن العجلة عند القمة صفر. العجلة g لأسفل طوال الرحلة.</li>
+      <li>استخدام T = 2 t_قمة و R = v₀² sin2θ / g عند الإطلاق من فوق مبنى. هذه القوانين للهبوط على نفس مستوى الإطلاق فقط.</li>
+      <li>الخلط بين sin و cos. الأفقي يجاور الزاوية (cos)، والرأسي يقابلها (sin)، إذا كانت الزاوية مقيسة من الأفقي.</li>
+    </ul></div>
+  </section>
+
+  <!-- ===================== LESSON 4 ===================== -->
+  <section class="lesson" id="l4">
+    <div class="lhead">
+      <span class="lnum">الدرس 1-4</span>
+      <h2>عزم القوة</h2>
+    </div>
+    <div class="question"><strong>سؤال الدرس</strong>تدفع الباب بنفس القوة مرتين: مرة عند المقبض ومرة بجوار المفصلة. لماذا يدور بسهولة في الأولى ولا يكاد يتحرك في الثانية؟</div>
+
+    <div class="two">
+      <div class="prose">
+        <h3>الفكرة ببساطة</h3>
+        <p>القوة لا تدفع الأجسام فقط، بل يمكنها أن <strong>تدوّرها</strong> حول نقطة أو محور. هذا التأثير الدوراني يسمى <strong>عزم القوة</strong>، ويرمز له M.</p>
+        <p>العزم يعتمد على شيئين معًا: <strong>مقدار القوة</strong>، و<strong>ذراع العزم</strong>، وهو البعد العمودي من محور الدوران إلى خط عمل القوة.</p>
+        <div class="mblock">\[ M=F\,d \qquad [\,\mathrm{N\cdot m}\,] \]</div>
+        <p>نفس القوة على ذراع أطول تعطي عزمًا أكبر. لهذا يوضع مقبض الباب بعيدًا عن المفصلة، ولهذا يفك المفتاح الطويل الصامولة بسهولة.</p>
+      </div>
+      <figure class="figure">
+        <svg viewBox="0 0 320 210" direction="ltr" role="img" aria-label="ذراع العزم العمودي لقوة مائلة">
+          <defs>
+            <marker id="r4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--vr)"/></marker>
+          </defs>
+          <rect x="40" y="140" width="250" height="14" rx="4" fill="var(--ground)"/>
+          <circle cx="50" cy="147" r="8" fill="var(--fg)"/>
+          <text x="38" y="180" fill="var(--fg)" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="600">O</text>
+          <line x1="250" y1="147" x2="300" y2="60" stroke="var(--vr)" stroke-width="4" marker-end="url(#r4)"/>
+          <line x1="250" y1="147" x2="205" y2="225" stroke="var(--vr)" stroke-width="1.5" stroke-dasharray="5 5"/>
+          <line x1="50" y1="147" x2="206" y2="223" stroke="var(--vy)" stroke-width="2.5" stroke-dasharray="6 4" transform="translate(0,0)"/>
+          <text x="296" y="54" fill="var(--vr)" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="600">F</text>
+          <text x="244" y="134" fill="var(--fg)" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">A</text>
+          <path d="M268 147 A 18 18 0 0 0 259 131" fill="none" stroke="var(--muted)" stroke-width="1.5"/>
+          <text x="268" y="132" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="13">θ</text>
+          <text x="130" y="134" fill="var(--vx)" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">L</text>
+          <text x="100" y="200" fill="var(--vy)" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">d = L sinθ</text>
+        </svg>
+        <figcaption>مع القوة المائلة: الذراع العمودي d = L sin θ وليس L</figcaption>
+      </figure>
+    </div>
+
+    <div class="prose">
+      <h3>عندما تكون القوة مائلة</h3>
+      <p>إذا أثرت القوة عند نقطة تبعد L عن المحور وصنعت زاوية θ مع الخط الواصل بين المحور ونقطة التأثير، فإن ذراع العزم العمودي هو <span class="m">\( d=L\sin\theta \)</span>، وبالتالي:</p>
+      <div class="mblock">\[ M=F\,L\sin\theta \]</div>
+      <p>طريقة أخرى للتفكير: حلّل القوة إلى مركبة عمودية على الذراع <span class="m">\( F\sin\theta \)</span> وهي التي تُدوّر، ومركبة موازية للذراع <span class="m">\( F\cos\theta \)</span> تشد أو تدفع في اتجاه المحور فلا تُدوّر شيئًا. النتيجة واحدة.</p>
+      <h3>إشارة العزم</h3>
+      <p>نحتاج الإشارة لنعرف اتجاه الدوران. الاصطلاح المستخدم: الدوران <strong>عكس اتجاه عقارب الساعة موجب (+)</strong>، و<strong>مع اتجاه عقارب الساعة سالب (−)</strong>.</p>
+      <h3>متى يكون العزم صفرًا؟</h3>
+      <p>عندما يمر خط عمل القوة بمحور الدوران (θ = 0° أو 180°)، أو عندما تؤثر القوة عند المحور نفسه. الذراع العمودي يساوي صفرًا فلا يحدث دوران مهما كبرت القوة. جرّب أن تدفع الباب من حافته في اتجاه المفصلة!</p>
+      <h3>الاتزان الدوراني والرافعة</h3>
+      <p>إذا كان الجسم لا يدور، فإن مجموع العزوم حول أي نقطة يساوي صفرًا: عزم كل قوة تدوّر عكس عقارب الساعة يلغيه عزم قوة تدوّر معها. للرافعة البسيطة:</p>
+      <div class="mblock">\[ F_1\,d_1=F_2\,d_2 \]</div>
+      <p>قوة صغيرة على ذراع طويل توازن قوة كبيرة على ذراع قصير. هذا مبدأ الرافعة الذي استخدمه أرشميدس، وهو نفس مبدأ مفتاح العزم في ورش السيارات.</p>
+    </div>
+
+    <div class="sim" id="sim-door">
+      <h3>ادفع الباب</h3>
+      <canvas id="cv-door" aria-label="محاكاة عزم قوة على باب حول المفصلة"></canvas>
+      <div class="controls">
+        <div class="ctl"><label for="d-f">مقدار القوة <output id="d-f-o">⁦40 N⁩</output></label><input type="range" id="d-f" min="0" max="100" step="5" value="40"></div>
+        <div class="ctl"><label for="d-l">بُعد نقطة التأثير عن المفصلة <output id="d-l-o">⁦0.80 m⁩</output></label><input type="range" id="d-l" min="0" max="1" step="0.05" value="0.8"></div>
+        <div class="ctl"><label for="d-a">الزاوية بين القوة والباب <output id="d-a-o">90°</output></label><input type="range" id="d-a" min="0" max="360" step="5" value="90"></div>
+      </div>
+      <div class="row"><button id="d-push">ادفع!</button><button class="ghost" id="d-reset">أعد الباب</button><span class="note">الباب يحتاج عزمًا أكبر من ⁦15 N·m⁩ ليتغلب على احتكاك المفصلة.</span></div>
+      <div class="readout" id="d-out"></div>
+    </div>
+
+    <div class="eqbox"><div class="t">صندوق المعادلات</div><div class="eqwrap"><table>
+      <tr><td>عزم القوة (قوة عمودية على الذراع)</td><td class="m">\( M=F\,d \)</td></tr>
+      <tr><td>عزم قوة مائلة</td><td class="m">\( M=F\,L\sin\theta \)</td></tr>
+      <tr><td>الإشارة</td><td class="m">\(+\) عكس عقارب الساعة، \(-\) مع عقارب الساعة</td></tr>
+      <tr><td>اتزان الرافعة</td><td class="m">\( F_1d_1=F_2d_2 \)</td></tr>
+    </table></div></div>
+
+    <h3>أمثلة محلولة</h3>
+    <div class="examples">
+      <details class="ex" open>
+        <summary><span class="tag">مثال 1 · مفتاح الصامولة</span>يؤثر ميكانيكي بقوة ⁦80 N⁩ عموديًا على طرف مفتاح طوله ⁦0.25 m⁩، فيدور المفتاح مع اتجاه عقارب الساعة. (أ) أوجد العزم. (ب) إذا كانت الصامولة تحتاج عزمًا مقداره ⁦30 N·m⁩ لفكها، ما القوة اللازمة بنفس المفتاح؟ وبمفتاح طوله ⁦0.40 m⁩؟<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>(أ)</span><div class="mlines"><div>\(M=Fd=80\times0.25=20\un{N\cdot m}\)</div><div>مع عقارب الساعة \(\;\Rightarrow\; M=-20\un{N\cdot m}\)</div></div></div>
+          <div class="step"><span>(ب)</span><div class="mlines"><div>\(F=\dfrac{M}{d}=\dfrac{30}{0.25}=120\un{N}\)</div><div>\(F=\dfrac{30}{0.40}=75\un{N}\)</div></div></div>
+          <div class="answer">المفتاح الأطول يحقق نفس العزم بقوة أقل (⁦75 N⁩ بدل ⁦120 N⁩).</div>
+        </div>
+      </details>
+      <details class="ex">
+        <summary><span class="tag">مثال 2 · قوة مائلة على باب</span>تُدفع حافة باب على بعد ⁦0.60 m⁩ من المفصلة بقوة ⁦50 N⁩ تصنع زاوية 30° مع سطح الباب، فيدور الباب عكس عقارب الساعة. أوجد العزم. وماذا لو كانت القوة عمودية؟<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>الحل</span><div class="mlines"><div>\(d=L\sin\theta=0.60\times\sin30^\circ=0.30\un{m}\)</div><div>\(M=Fd=50\times0.30=+15\un{N\cdot m}\)</div></div></div>
+          <div class="step"><span>عمودية</span><div class="mlines"><div>\(M=50\times0.60\times\sin90^\circ=+30\un{N\cdot m}\)</div></div></div>
+          <div class="answer">الدفع المائل بزاوية 30° يعطي نصف عزم الدفع العمودي فقط.</div>
+        </div>
+      </details>
+      <details class="ex">
+        <summary><span class="tag">مثال 3 · الأرجوحة المتزنة</span>أرجوحة (سيسو) نقطة ارتكازها في منتصفها. يجلس طفل وزنه ⁦300 N⁩ على بعد ⁦2.0 m⁩ يسار نقطة الارتكاز. على أي بعد يمين نقطة الارتكاز يجب أن يجلس طفل وزنه ⁦400 N⁩ لتتزن الأرجوحة؟<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>الفكرة</span><p>الطفل الأيسر يدوّر الأرجوحة عكس عقارب الساعة، والأيمن معها. عند الاتزان مجموع العزوم صفر.</p></div>
+          <div class="step"><span>الحل</span><div class="mlines"><div>\(300\times2.0=400\times d\)</div><div>\(d=\dfrac{600}{400}=1.5\un{m}\)</div></div></div>
+          <div class="answer">يجلس الطفل الأثقل أقرب لنقطة الارتكاز، على بعد ⁦1.5 m⁩.</div>
+        </div>
+      </details>
+      <details class="ex">
+        <summary><span class="tag">مثال 4 · محصلة عزوم</span>قضيب طوله ⁦1.0 m⁩ يدور حول محور في منتصفه. تؤثر قوة ⁦20 N⁩ لأعلى عند طرفه الأيمن، وقوة ⁦30 N⁩ لأعلى على بعد ⁦0.20 m⁩ يسار المحور. أوجد محصلة العزوم واتجاه الدوران.<span class="open">اضغط لعرض الحل</span></summary>
+        <div class="steps">
+          <div class="step"><span>الحل</span><div class="mlines"><div>القوة اليمنى: \(20\times0.50=10\un{N\cdot m}\) عكس عقارب الساعة \(\;\Rightarrow +10\)</div><div>القوة اليسرى: \(30\times0.20=6\un{N\cdot m}\) مع عقارب الساعة \(\;\Rightarrow -6\)</div><div>المحصلة \(=+10-6=+4\un{N\cdot m}\)</div></div></div>
+          <div class="answer">+⁦4 N·m⁩، أي يدور القضيب عكس عقارب الساعة رغم أن القوة اليسرى أكبر.</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="pitfalls"><h3>أخطاء شائعة</h3><ul>
+      <li>استخدام المسافة إلى نقطة التأثير L بدل الذراع العمودي مع القوى المائلة. اضرب في sin θ.</li>
+      <li>نسيان إشارة العزم، خصوصًا عند جمع عدة عزوم.</li>
+      <li>الظن أن القوة الأكبر تعطي دائمًا عزمًا أكبر. الذراع مهم بنفس الدرجة.</li>
+      <li>كتابة وحدة العزم J. العزم يقاس بـ N·m، أما الجول فوحدة الطاقة.</li>
+    </ul></div>
+  </section>
+
+  <!-- ===================== PRACTICE ===================== -->
+  <section class="lesson" id="practice">
+    <div class="lhead"><span class="lnum">تدريبات</span><h2>اختبر فهمك</h2></div>
+    <p class="note">اختر إجابة لكل سؤال لترى التصحيح والتفسير فورًا.</p>
+    <div class="scorebar">النتيجة: <span class="num" id="mcq-score">0 / 0</span><button class="ghost" id="mcq-reset">ابدأ من جديد</button></div>
+    <div class="mcq" id="mcq"></div>
+
+    <h3>مسائل للتدريب</h3>
+    <p class="note">حل كل مسألة في كراستك أولًا، ثم افتح الحل لتراجع خطواتك.</p>
+    <div class="examples" id="problems"></div>
+  </section>
+
+  <!-- ===================== GAMES ===================== -->
+  <section class="lesson" id="games">
+    <div class="lhead"><span class="lnum">ألعاب</span><h2>العب وتعلّم</h2></div>
+    <p class="note">كل لعبة تحتاج قانونًا من الدروس. احسب قبل أن تجرب، وستفوز أسرع.</p>
+    <div class="games">
+
+      <div class="game" id="g-cannon">
+        <div class="ghead"><h3>أصب الهدف</h3><span class="stats" id="gc-stats"></span></div>
+        <p class="note">اختر سرعة وزاوية الإطلاق لتصيب الهدف. لديك 5 جولات، ومن الجولة الثالثة يظهر جدار في الطريق. (درس 1-3)</p>
+        <canvas id="cv-cannon" aria-label="لعبة إصابة الهدف بالمقذوف"></canvas>
+        <div class="controls">
+          <div class="ctl"><label for="gc-v">سرعة الإطلاق <output id="gc-v-o">⁦20 m/s⁩</output></label><input type="range" id="gc-v" min="5" max="35" step="0.5" value="20"></div>
+          <div class="ctl"><label for="gc-a">الزاوية <output id="gc-a-o">45°</output></label><input type="range" id="gc-a" min="5" max="85" step="1" value="45"></div>
+        </div>
+        <div class="row"><button id="gc-fire">أطلق</button><button class="ghost" id="gc-new">لعبة جديدة</button></div>
+        <div class="msg" id="gc-msg"></div>
+      </div>
+
+      <div class="game" id="g-drop">
+        <div class="ghead"><h3>طائرة الإغاثة</h3><span class="stats" id="gd-stats"></span></div>
+        <p class="note">الطائرة تطير أفقيًا. احسب على أي مسافة قبل الهدف يجب إسقاط الصندوق، ثم اضغط "أسقط" في اللحظة المناسبة. (درس 1-2)</p>
+        <canvas id="cv-drop" aria-label="لعبة إسقاط صندوق من طائرة على هدف"></canvas>
+        <div class="row"><button id="gd-start">ابدأ الطيران</button><button id="gd-drop" disabled>أسقط الصندوق</button><button class="ghost" id="gd-new">لعبة جديدة</button></div>
+        <div class="readout" id="gd-out"></div>
+        <div class="msg" id="gd-msg"></div>
+      </div>
+
+      <div class="game" id="g-bal">
+        <div class="ghead"><h3>وازن الرافعة</h3><span class="stats" id="gb-stats"></span></div>
+        <p class="note">ضع ثقلك على الجانب الأيمن في المكان الذي يجعل الرافعة متزنة، ثم اضغط "تحقق". لديك محاولتان في كل جولة. (درس 1-4)</p>
+        <canvas id="cv-bal" aria-label="لعبة اتزان الرافعة"></canvas>
+        <div class="controls">
+          <div class="ctl"><label for="gb-p">بُعد ثقلك عن نقطة الارتكاز <output id="gb-p-o">⁦2.0 m⁩</output></label><input type="range" id="gb-p" min="1" max="8" step="1" value="4"></div>
+        </div>
+        <div class="row"><button id="gb-check">تحقق</button><button class="ghost" id="gb-next" hidden>الجولة التالية</button><button class="ghost" id="gb-new">لعبة جديدة</button></div>
+        <div class="msg" id="gb-msg"></div>
+      </div>
+
+      <div class="game" id="g-quiz">
+        <div class="ghead"><h3>تحدي الدقيقة</h3><span class="stats" id="gq-stats"></span></div>
+        <p class="note">أجب عن أكبر عدد من الأسئلة السريعة في 60 ثانية. أسئلة من الدروس الأربعة تتولد عشوائيًا. (g = ⁦9.8 m/s²⁩)</p>
+        <div class="timer"><i id="gq-bar"></i></div>
+        <div class="quiz">
+          <div class="qtext" id="gq-q">اضغط "ابدأ التحدي" لتظهر الأسئلة.</div>
+          <div class="opts" id="gq-opts"></div>
+        </div>
+        <div class="row"><button id="gq-start">ابدأ التحدي</button></div>
+        <div class="msg" id="gq-msg"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>شرح وأمثلة وتمارين من إعداد مستقل لدعم دراسة الدروس 1-1 إلى 1-4 من كتاب الفيزياء. جميع الحسابات باعتبار g = ⁦9.8 m/s²⁩ وإهمال مقاومة الهواء.</footer>
+</div>
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]], macros: { un: ["\\,\\mathrm{#1}", 1] } },
+  svg: { fontCache: "global", mtextInheritFont: true }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const G = 9.8, RAD = Math.PI / 180;
+const f = (x, d = 1) => (Math.abs(x) < 1e-9 ? 0 : x).toFixed(d);
+const C = {};
+const iso = s => String(s).replace(/(^|[^\w.\u2066])(-?\d+(?:\.\d+)?) (m\/s²|m\/s|N·m|m|s|N)(?![\w\/²·])/g, "$1\u2066$2 $3\u2069");
+const canvases = [];
+function readColors() {
+  const cs = getComputedStyle(document.documentElement);
+  ["bg","surface","sunk","fg","muted","line","accent","vx","vy","vr","grav","water","waterline","ground","sky","good","bad"].forEach(k => C[k] = cs.getPropertyValue("--" + k).trim());
+}
+readColors();
+function redrawAll() { readColors(); canvases.forEach(s => s.w && s.draw()); }
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll);
+new MutationObserver(redrawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+function makeCanvas(cv, ratio, draw, minH = 0) {
+  const st = { cv, ctx: cv.getContext("2d"), w: 0, h: 0, draw };
+  const fit = () => {
+    const w = cv.clientWidth;
+    if (!w || w === st.w) return;
+    const h = Math.max(minH, Math.round(w * ratio));
+    const d = window.devicePixelRatio || 1;
+    cv.width = Math.round(w * d); cv.height = Math.round(h * d);
+    cv.style.height = h + "px";
+    st.ctx.setTransform(d, 0, 0, d, 0, 0);
+    st.w = w; st.h = h;
+    draw();
+  };
+  new ResizeObserver(fit).observe(cv);
+  canvases.push(st);
+  return st;
+}
+function loop(step) {
+  let id = null, last = 0;
+  const frame = now => {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (step(dt) === false) { id = null; return; }
+    id = requestAnimationFrame(frame);
+  };
+  return {
+    start() { if (id === null) { last = performance.now(); id = requestAnimationFrame(frame); } },
+    stop() { if (id !== null) cancelAnimationFrame(id); id = null; },
+    get on() { return id !== null; }
+  };
+}
+function arrow(ctx, x1, y1, x2, y2, col, lw = 2.5) {
+  const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy);
+  if (L < 3) return;
+  const ux = dx / L, uy = dy / L, hs = Math.min(11, L * 0.45);
+  ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = lw; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2 - ux * hs * 0.7, y2 - uy * hs * 0.7); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - ux * hs - uy * hs * 0.5, y2 - uy * hs + ux * hs * 0.5);
+  ctx.lineTo(x2 - ux * hs + uy * hs * 0.5, y2 - uy * hs - ux * hs * 0.5);
+  ctx.closePath(); ctx.fill();
+}
+function txt(ctx, s, x, y, col, size = 12, align = "center", arabic = false) {
+  ctx.fillStyle = col; ctx.textAlign = align; ctx.textBaseline = "middle";
+  ctx.direction = arabic ? "rtl" : "ltr";
+  ctx.font = arabic ? `600 ${size}px "IBM Plex Sans Arabic", Tahoma, sans-serif` : `600 ${size}px "IBM Plex Mono", Menlo, monospace`;
+  ctx.fillText(s, x, y);
+}
+function dashed(ctx, x1, y1, x2, y2, col, lw = 1.5, pat = [5, 5]) {
+  ctx.save(); ctx.setLineDash(pat); ctx.strokeStyle = col; ctx.lineWidth = lw;
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); ctx.restore();
+}
+function slider(id, fmt, cb) {
+  const el = $("#" + id), out = $("#" + id + "-o");
+  const upd = () => { if (out) out.textContent = fmt(+el.value); cb && cb(+el.value); };
+  el.addEventListener("input", upd);
+  if (out) out.textContent = fmt(+el.value);
+  return () => +el.value;
+}
+const cell = (label, value) => `<div>${label}<b>${value}</b></div>`;
+const store = {
+  get(k) { try { return +localStorage.getItem(k) || 0; } catch (e) { return 0; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+};
+const rand = (a, b) => a + Math.random() * (b - a);
+const randi = (a, b) => Math.floor(rand(a, b + 1));
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+/* ---------- Lesson 1: boat ---------- */
+(() => {
+  let t = 0, crossing = false, flow = 0;
+  const vb = slider("b-vb", v => f(v) + " m/s", reset);
+  const vc = slider("b-vc", v => f(v) + " m/s", reset);
+  const ang = slider("b-a", v => v + "°", reset);
+  const W = slider("b-w", v => v + " m", reset);
+  const st = makeCanvas($("#cv-boat"), 0.56, draw, 260);
+  function comps() {
+    const a = ang() * RAD, hx = -vb() * Math.sin(a), hy = vb() * Math.cos(a);
+    return { hx, hy, rx: hx + vc(), ry: hy };
+  }
+  function reset() { t = 0; crossing = false; anim.stop(); draw(); }
+  function draw() {
+    const { ctx, w, h } = st; if (!w) return;
+    const c = comps(), bank = h * 0.11, rh = h - 2 * bank, s = rh / W(), x0 = w * 0.3;
+    ctx.fillStyle = C.ground; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = C.water; ctx.fillRect(0, bank, w, rh);
+    ctx.strokeStyle = C.waterline; ctx.lineWidth = 2;
+    const off = (flow * vc() * 18) % 90;
+    for (let i = 0; i < 5; i++) {
+      const y = bank + rh * (i + 0.5) / 5;
+      for (let x = -90 + off; x < w; x += 90) { ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 30, y); ctx.stroke(); }
+    }
+    txt(ctx, "اتجاه التيار ←", w - 12, bank + 12, C.muted, 12, "left", true);
+    ctx.save(); ctx.translate(w - 70, bank + 12); arrow(ctx, -30, 0, 30, 0, C.vy, 2); ctx.restore();
+    dashed(ctx, x0, h - bank, x0, bank, C.muted);
+    txt(ctx, "النقطة المقابلة", x0, bank / 2, C.fg, 12, "center", true);
+    const bx = x0 + c.rx * t * s, by = h - bank - c.ry * t * s;
+    ctx.strokeStyle = C.vr; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x0, h - bank); ctx.lineTo(bx, by); ctx.stroke();
+    ctx.save(); ctx.translate(bx, by); ctx.rotate(Math.atan2(c.hx, c.hy));
+    ctx.fillStyle = C.surface; ctx.strokeStyle = C.fg; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(0, -16); ctx.quadraticCurveTo(9, -4, 7, 12); ctx.lineTo(-7, 12); ctx.quadraticCurveTo(-9, -4, 0, -16); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.restore();
+    const k = Math.min(18, rh / 7);
+    arrow(ctx, bx, by, bx + c.hx * k, by - c.hy * k, C.vx, 3);
+    arrow(ctx, bx + c.hx * k, by - c.hy * k, bx + c.rx * k, by - c.ry * k, C.vy, 3);
+    arrow(ctx, bx, by, bx + c.rx * k, by - c.ry * k, C.vr, 3);
+    const T = W() / c.ry, drift = c.rx * T, v = Math.hypot(c.rx, c.ry);
+    const dev = Math.atan2(c.rx, c.ry) / RAD;
+    let tip;
+    if (vc() === 0) tip = "لا يوجد تيار: وجّه القارب عموديًا";
+    else if (vc() < vb()) tip = `وجّه بزاوية ${f(Math.asin(vc() / vb()) / RAD, 1)}° عكس التيار`;
+    else tip = "مستحيل: التيار أسرع من القارب";
+    $("#b-out").innerHTML =
+      cell("السرعة المحصلة", f(v, 2) + " m/s") +
+      cell("زاوية المسار عن العمودي", f(dev, 1) + "°") +
+      cell("زمن العبور", f(T, 1) + " s") +
+      cell("الانجراف مع التيار", f(drift, 1) + " m") +
+      cell("الزمن الحالي", f(Math.min(t, T), 1) + " s") +
+      `<div>للوصول للنقطة المقابلة<b style="font-family:var(--body);font-size:15px;direction:rtl">${tip}</b></div>`;
+  }
+  const anim = loop(dt => {
+    const c = comps(), T = W() / c.ry;
+    flow += dt;
+    t += dt * T / 4;
+    if (t >= T) { t = T; crossing = false; draw(); return false; }
+    draw();
+  });
+  $("#b-go").addEventListener("click", () => { t = 0; crossing = true; anim.stop(); anim.start(); });
+  $("#b-straight").addEventListener("click", () => {
+    if (vc() >= vb()) { draw(); return; }
+    const a = Math.round(Math.asin(vc() / vb()) / RAD);
+    $("#b-a").value = a; $("#b-a-o").textContent = a + "°"; reset();
+  });
+})();
+
+/* ---------- Lesson 1: rain ---------- */
+(() => {
+  let mode = "bus", busX = 0, poleX = 0;
+  const vb = slider("r-vb", v => v + " m/s", upd);
+  const vr = slider("r-vr", v => v + " m/s", upd);
+  const st = makeCanvas($("#cv-rain"), 0.46, draw, 220);
+  const drops = Array.from({ length: 90 }, () => ({ x: Math.random(), y: Math.random() }));
+  const PX = 16;
+  function upd() { draw(); }
+  function draw() {
+    const { ctx, w, h } = st; if (!w) return;
+    ctx.fillStyle = C.sky; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = C.ground; ctx.fillRect(0, h * 0.86, w, h * 0.14);
+    const relX = mode === "bus" ? -vb() : 0, relY = vr();
+    if (mode === "bus") {
+      ctx.strokeStyle = C.muted; ctx.lineWidth = 6;
+      for (let x = (poleX % 140 + 140) % 140 - 140; x < w + 140; x += 140) { ctx.beginPath(); ctx.moveTo(x, h * 0.25); ctx.lineTo(x, h * 0.86); ctx.stroke(); }
+    } else {
+      const bw = Math.min(220, w * 0.4), bh = h * 0.36, x = ((busX % (w + bw)) + w + bw) % (w + bw) - bw;
+      ctx.fillStyle = C.vx; ctx.globalAlpha = 0.85; ctx.fillRect(x, h * 0.86 - bh, bw, bh); ctx.globalAlpha = 1;
+      ctx.fillStyle = C.sky; for (let i = 0; i < 4; i++) ctx.fillRect(x + 12 + i * (bw - 24) / 4, h * 0.86 - bh + 10, (bw - 24) / 4 - 8, bh * 0.4);
+      txt(ctx, "الحافلة →", x + bw / 2, h * 0.86 - bh * 0.25, C.surface, 13, "center", true);
+    }
+    const L = 0.07;
+    ctx.strokeStyle = C.vx; ctx.lineWidth = 1.6; ctx.globalAlpha = 0.75;
+    for (const d of drops) {
+      const x = d.x * w, y = d.y * h * 0.86;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - relX * PX * L, y - relY * PX * L); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    if (mode === "bus") {
+      ctx.strokeStyle = C.fg; ctx.lineWidth = 10; ctx.strokeRect(5, 5, w - 10, h - 10);
+      txt(ctx, "داخل الحافلة: المطر مائل نحو الخلف", w - 20, 26, C.fg, 13, "right", true);
+    } else {
+      txt(ctx, "من الرصيف: المطر يسقط رأسيًا", w - 20, 26, C.fg, 13, "right", true);
+    }
+    const k = 5.5, px = 40, py = 30;
+    ctx.fillStyle = C.surface; ctx.globalAlpha = 0.9; ctx.fillRect(10, 14, Math.max(70, vb() * k + 50), vr() * k + 46); ctx.globalAlpha = 1;
+    arrow(ctx, px + vb() * k, py, px + vb() * k, py + vr() * k, C.vy, 2.5);
+    if (mode === "bus" && vb() > 0) {
+      arrow(ctx, px + vb() * k, py + vr() * k, px, py + vr() * k, C.vx, 2.5);
+      arrow(ctx, px + vb() * k, py, px, py + vr() * k, C.vr, 2.5);
+    }
+    const ang = Math.atan2(vb(), vr()) / RAD, rel = Math.hypot(vb(), vr());
+    $("#r-out").innerHTML =
+      cell("سرعة المطر بالنسبة للأرض", vr() + " m/s رأسيًا") +
+      cell("سرعة المطر بالنسبة للحافلة", f(rel, 1) + " m/s") +
+      cell("زاوية الميل عن الرأسي", f(ang, 1) + "°") +
+      cell("tan θ = v_bus / v_rain", f(vb() / vr(), 2));
+  }
+  const anim = loop(dt => {
+    const relX = mode === "bus" ? -vb() : 0;
+    for (const d of drops) {
+      d.x += relX * PX * dt / st.w; d.y += vr() * PX * dt / (st.h * 0.86);
+      if (d.y > 1) { d.y -= 1; d.x = Math.random(); }
+      if (d.x < 0) d.x += 1; if (d.x > 1) d.x -= 1;
+    }
+    busX += vb() * PX * dt; poleX -= vb() * PX * dt;
+    draw();
+  });
+  const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? anim.start() : anim.stop()));
+  io.observe($("#cv-rain"));
+  const setMode = m => { mode = m; $("#r-bus").className = m === "bus" ? "" : "ghost"; $("#r-ground").className = m === "ground" ? "" : "ghost"; draw(); };
+  $("#r-bus").addEventListener("click", () => setMode("bus"));
+  $("#r-ground").addEventListener("click", () => setMode("ground"));
+})();
+
+/* ---------- Lesson 2: horizontal projectile ---------- */
+(() => {
+  let t = 0, marks = [];
+  const H = slider("h-h", v => f(v) + " m", reset);
+  const V = slider("h-v", v => v + " m/s", reset);
+  const st = makeCanvas($("#cv-hor"), 0.58, draw, 280);
+  function reset() { t = 0; marks = []; anim.stop(); draw(); }
+  function geo() {
+    const { w, h } = st, s = Math.min((w - 50) / 112, (h - 46) / 84);
+    return { s, ox: 16 + 10 * s, oy: h - 22 };
+  }
+  function draw() {
+    const { ctx, w, h } = st; if (!w) return;
+    const { s, ox, oy } = geo(), hh = H(), v0 = V(), T = Math.sqrt(2 * hh / G);
+    ctx.fillStyle = C.sky; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = C.ground; ctx.fillRect(0, oy, w, h - oy);
+    ctx.fillRect(ox - 10 * s, oy - hh * s, 10 * s, hh * s);
+    ctx.strokeStyle = C.line; ctx.lineWidth = 1;
+    for (let m = 10; m <= 100; m += 10) { const x = ox + m * s; ctx.beginPath(); ctx.moveTo(x, oy); ctx.lineTo(x, oy + 5); ctx.stroke(); if (m % 20 === 0) txt(ctx, m + " m", x, oy + 13, C.fg, 10); }
+    for (const mk of marks) {
+      dashed(ctx, ox, mk.y, mk.x, mk.y, C.muted, 1, [3, 4]);
+      ctx.fillStyle = C.vr; ctx.beginPath(); ctx.arc(mk.x, mk.y, 3.5, 0, 7); ctx.fill();
+      ctx.fillStyle = C.grav; ctx.beginPath(); ctx.arc(ox + 5, mk.y, 3.5, 0, 7); ctx.fill();
+    }
+    const tt = Math.min(t, T), y = hh - 0.5 * G * tt * tt;
+    const ax = ox + v0 * tt * s, ay = oy - y * s;
+    ctx.fillStyle = C.grav; ctx.beginPath(); ctx.arc(ox + 5, ay, 7, 0, 7); ctx.fill();
+    ctx.fillStyle = C.vr; ctx.beginPath(); ctx.arc(ax, ay, 7, 0, 7); ctx.fill();
+    const k = 2.4, vy = G * tt;
+    arrow(ctx, ax, ay, ax + v0 * k, ay, C.vx, 2.5);
+    arrow(ctx, ax, ay, ax, ay + vy * k, C.vy, 2.5);
+    arrow(ctx, ax, ay, ax + v0 * k, ay + vy * k, C.vr, 2);
+    txt(ctx, "قُذفت أفقيًا", ax + 10, ay - 16, C.vr, 11, "left", true);
+    txt(ctx, "سقطت من السكون", ox + 14, ay - 16, C.grav, 11, "right", true);
+    const vyEnd = G * T;
+    $("#h-out").innerHTML =
+      cell("t (الآن)", f(tt, 2) + " s") +
+      cell("زمن السقوط t = √(2y/g)", f(T, 2) + " s") +
+      cell("المدى x = v₀t", f(v0 * T, 1) + " m") +
+      cell("vₓ (ثابتة)", f(v0, 1) + " m/s") +
+      cell("v_y = gt (الآن)", f(vy, 1) + " m/s") +
+      cell("سرعة الارتطام", f(Math.hypot(v0, vyEnd), 1) + " m/s") +
+      cell("زاوية الارتطام أسفل الأفقي", f(Math.atan2(vyEnd, v0) / RAD, 1) + "°");
+  }
+  let nextMark = 0;
+  const anim = loop(dt => {
+    const T = Math.sqrt(2 * H() / G);
+    t += dt;
+    while (nextMark <= Math.min(t, T)) {
+      const { s, ox, oy } = geo(), y = H() - 0.5 * G * nextMark * nextMark;
+      marks.push({ x: ox + V() * nextMark * s, y: oy - y * s });
+      nextMark += 0.25;
+    }
+    if (t >= T) { t = T; draw(); return false; }
+    draw();
+  });
+  $("#h-go").addEventListener("click", () => { t = 0; marks = []; nextMark = 0; anim.stop(); anim.start(); });
+})();
+
+/* ---------- Lesson 3: angled projectile ---------- */
+(() => {
+  let t = 0, flying = false, trail = [];
+  const V = slider("a-v", v => f(v) + " m/s", reset);
+  const A = slider("a-t", v => v + "°", reset);
+  const st = makeCanvas($("#cv-ang"), 0.55, draw, 260);
+  $("#a-comp").addEventListener("change", draw);
+  $("#a-pred").addEventListener("change", draw);
+  function reset() { t = 0; trail = []; flying = false; anim.stop(); draw(); }
+  function geo() { const { w, h } = st, s = Math.min((w - 40) / 96, (h - 40) / 48); return { s, ox: 20, oy: h - 22 }; }
+  function path(ctx, v0, th, col, dash) {
+    const { s, ox, oy } = geo(), vx = v0 * Math.cos(th), vy = v0 * Math.sin(th), T = 2 * vy / G;
+    ctx.save(); if (dash) ctx.setLineDash(dash); ctx.strokeStyle = col; ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i <= 60; i++) { const tt = T * i / 60; const x = ox + vx * tt * s, y = oy - (vy * tt - 0.5 * G * tt * tt) * s; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke(); ctx.restore();
+  }
+  function draw() {
+    const { ctx, w, h } = st; if (!w) return;
+    const { s, ox, oy } = geo(), v0 = V(), th = A() * RAD;
+    const vx = v0 * Math.cos(th), vy0 = v0 * Math.sin(th), tu = vy0 / G, T = 2 * tu, Hm = vy0 * vy0 / (2 * G), R = vx * T;
+    ctx.fillStyle = C.sky; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = C.ground; ctx.fillRect(0, oy, w, h - oy);
+    for (let m = 10; m <= 90; m += 10) { const x = ox + m * s; ctx.fillStyle = C.fg; ctx.fillRect(x, oy, 1, 5); if (m % 20 === 0) txt(ctx, m + " m", x, oy + 13, C.fg, 10); }
+    if ($("#a-comp").checked && Math.abs(A() - 45) > 0.5) path(ctx, v0, (90 - A()) * RAD, C.muted, [3, 6]);
+    if ($("#a-pred").checked) path(ctx, v0, th, C.accent, [6, 5]);
+    if ($("#a-comp").checked && Math.abs(A() - 45) > 0.5) {
+      const th2 = (90 - A()) * RAD, T2 = 2 * v0 * Math.sin(th2) / G, tp = T2 / 2;
+      const px = ox + v0 * Math.cos(th2) * tp * s, py = oy - (v0 * Math.sin(th2)) ** 2 / (2 * G) * s;
+      txt(ctx, (90 - A()) + "°", px, py - 10, C.muted, 11);
+    }
+    ctx.fillStyle = C.vr; for (const p of trail) { ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, 7); ctx.fill(); }
+    ctx.save(); ctx.translate(ox, oy); ctx.rotate(-th); ctx.fillStyle = C.fg; ctx.fillRect(-4, -5, 26, 10); ctx.restore();
+    const tt = Math.min(t, T), bx = ox + vx * tt * s, by = oy - (vy0 * tt - 0.5 * G * tt * tt) * s, vy = vy0 - G * tt;
+    if (t >= T && T > 0) {
+      dashed(ctx, ox + vx * tu * s, oy, ox + vx * tu * s, oy - Hm * s, C.vy, 1.5);
+      txt(ctx, "H = " + f(Hm, 1) + " m", ox + vx * tu * s + 6, oy - Hm * s / 2, C.vy, 12, "left");
+      txt(ctx, "R = " + f(R, 1) + " m", Math.min(w - 60, ox + R * s), oy - 12, C.vr, 12, "center");
+    }
+    ctx.fillStyle = C.fg; ctx.beginPath(); ctx.arc(bx, by, 7, 0, 7); ctx.fill();
+    const k = 2.2;
+    arrow(ctx, bx, by, bx + vx * k, by, C.vx, 2.5);
+    if (Math.abs(vy) > 0.6) arrow(ctx, bx, by, bx, by - vy * k, C.vy, 2.5);
+    else txt(ctx, "v_y = 0", bx, by - 18, C.vy, 12);
+    $("#a-out").innerHTML =
+      cell("vₓ = v₀ cos θ (ثابتة)", f(vx, 2) + " m/s") +
+      cell("v₀y = v₀ sin θ", f(vy0, 2) + " m/s") +
+      cell("زمن الوصول للقمة", f(tu, 2) + " s") +
+      cell("أقصى ارتفاع H", f(Hm, 2) + " m") +
+      cell("زمن الطيران T", f(T, 2) + " s") +
+      cell("المدى R", f(R, 2) + " m") +
+      cell("t (الآن)", f(tt, 2) + " s") +
+      cell("v_y (الآن)", f(vy, 2) + " m/s");
+  }
+  let nextDot = 0;
+  const anim = loop(dt => {
+    const v0 = V(), th = A() * RAD, vx = v0 * Math.cos(th), vy0 = v0 * Math.sin(th), T = 2 * vy0 / G;
+    t += dt;
+    while (nextDot <= Math.min(t, T)) {
+      const { s, ox, oy } = geo();
+      trail.push({ x: ox + vx * nextDot * s, y: oy - (vy0 * nextDot - 0.5 * G * nextDot * nextDot) * s });
+      nextDot += 0.2;
+    }
+    if (t >= T) { t = T; draw(); return false; }
+    draw();
+  });
+  $("#a-go").addEventListener("click", () => { t = 0; trail = []; nextDot = 0; anim.stop(); anim.start(); });
+})();
+
+/* ---------- Lesson 4: door torque ---------- */
+(() => {
+  let phi = 0, target = 0, shake = 0;
+  const F = slider("d-f", v => v + " N", draw);
+  const Lr = slider("d-l", v => f(v, 2) + " m", draw);
+  const A = slider("d-a", v => v + "°", draw);
+  const st = makeCanvas($("#cv-door"), 0.55, draw, 260);
+  const MF = 15, LIM = 35 * RAD;
+  const torque = () => F() * Lr() * Math.sin(A() * RAD);
+  function draw() {
+    const { ctx, w, h } = st; if (!w) return;
+    const px = w * 0.16, py = h * 0.5, Lpx = Math.min(w * 0.68, (h * 0.5 - 18) / Math.sin(LIM));
+    ctx.fillStyle = C.sky; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = C.ground; ctx.fillRect(0, py - 7, px - 8, 14);
+    txt(ctx, "الجدار", (px - 8) / 2, py - 18, C.muted, 11, "center", true);
+    const ang = phi + Math.sin(shake * 40) * shake * 0.04;
+    const ux = Math.cos(ang), uy = -Math.sin(ang);
+    ctx.save(); ctx.translate(px, py); ctx.rotate(-ang);
+    ctx.fillStyle = C.ground; ctx.strokeStyle = C.fg; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.roundRect ? ctx.roundRect(0, -8, Lpx, 16, 4) : ctx.rect(0, -8, Lpx, 16); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = C.fg; ctx.fillRect(Lpx - 18, -12, 6, 24);
+    ctx.restore();
+    ctx.fillStyle = C.fg; ctx.beginPath(); ctx.arc(px, py, 7, 0, 7); ctx.fill();
+    txt(ctx, "المفصلة", px, py + 22, C.fg, 12, "center", true);
+    const L = Lr(), ax = px + ux * L * Lpx, ay = py + uy * L * Lpx;
+    const fa = ang + A() * RAD, fx = Math.cos(fa), fy = -Math.sin(fa);
+    dashed(ctx, ax - fx * 900, ay - fy * 900, ax + fx * 900, ay + fy * 900, C.line, 1.2, [4, 5]);
+    const proj = (px - ax) * fx + (py - ay) * fy, fx0 = ax + fx * proj, fy0 = ay + fy * proj;
+    const M = torque(), dperp = Math.abs(L * Math.sin(A() * RAD));
+    if (dperp > 0.01) {
+      dashed(ctx, px, py, fx0, fy0, C.vy, 2.5, [6, 4]);
+      txt(ctx, "d⊥ = " + f(dperp, 2) + " m", (px + fx0) / 2 + 8, (py + fy0) / 2 - 10, C.vy, 12, "left");
+    }
+    const flen = 20 + F() * 1.5;
+    if (F() > 0) arrow(ctx, ax, ay, ax + fx * flen, ay + fy * flen, C.vr, 3.5);
+    txt(ctx, "F", ax + fx * (flen + 12), ay + fy * (flen + 12), C.vr, 14);
+    ctx.fillStyle = C.vx; ctx.beginPath(); ctx.arc(ax, ay, 5, 0, 7); ctx.fill();
+    if (Math.abs(M) > 0.05) {
+      const col = M > 0 ? C.good : C.bad, r = 34;
+      ctx.strokeStyle = col; ctx.lineWidth = 3;
+      const a0 = -0.6, a1 = -2.2;
+      ctx.beginPath();
+      if (M > 0) ctx.arc(px, py, r, a0, a1, true); else ctx.arc(px, py, r, a1, a0, false);
+      ctx.stroke();
+      const end = M > 0 ? a1 : a0, ex = px + r * Math.cos(end), ey = py + r * Math.sin(end);
+      const tx = M > 0 ? Math.sin(end) : -Math.sin(end), ty = M > 0 ? -Math.cos(end) : Math.cos(end);
+      arrow(ctx, ex - tx * 8, ey - ty * 8, ex + tx * 2, ey + ty * 2, col, 3);
+    }
+    const dirTxt = Math.abs(M) < 0.05 ? "لا دوران (الذراع العمودي صفر)" : M > 0 ? "عكس عقارب الساعة (+)" : "مع عقارب الساعة (−)";
+    $("#d-out").innerHTML =
+      `<div>M = F × L × sin θ<b>${F()} × ${f(L, 2)} × sin ${A()}° = ${M >= 0 ? "+" : ""}${f(M, 1)} N·m</b></div>` +
+      cell("الذراع العمودي d = L sin θ", f(dperp, 2) + " m") +
+      `<div>اتجاه الدوران<b style="font-family:var(--body);font-size:15px;direction:rtl">${dirTxt}</b></div>` +
+      `<div>هل يكفي لفتح الباب؟<b style="font-family:var(--body);font-size:15px;direction:rtl;color:${Math.abs(M) > MF ? C.good : C.bad}">${Math.abs(M) > MF ? "نعم، |M| > ⁦15 N·m⁩" : "لا، |M| ≤ ⁦15 N·m⁩"}</b></div>`;
+  }
+  const anim = loop(dt => {
+    if (shake > 0) { shake = Math.max(0, shake - dt * 2); draw(); return shake > 0 || Math.abs(phi - target) > 0.001; }
+    const M = torque(), rate = 0.4 + (Math.abs(M) - MF) / 40;
+    const d = target - phi, step = Math.sign(d) * Math.min(Math.abs(d), rate * dt);
+    phi += step; draw();
+    return Math.abs(target - phi) > 0.001;
+  });
+  $("#d-push").addEventListener("click", () => {
+    const M = torque();
+    if (Math.abs(M) > MF) target = Math.sign(M) * LIM; else { shake = 1; }
+    anim.stop(); anim.start();
+  });
+  $("#d-reset").addEventListener("click", () => { target = 0; anim.stop(); anim.start(); });
+})();
+
+/* ---------- Practice: MCQ ---------- */
+const MCQ = [
+  ["1-1", "قارب سرعته ⁦5 m/s⁩ يتجه عموديًا على ضفة نهر سرعة تياره ⁦5 m/s⁩. ما الزاوية بين مساره والاتجاه العمودي على الضفة؟", ["0°", "30°", "45°", "90°"], 2, "\\(\\tan\\theta=\\tfrac55=1\\)، إذن \\(\\theta=45^\\circ\\). المركبتان متساويتان فالمسار في منتصف المسافة بين الاتجاهين."],
+  ["1-1", "قارب يتجه عموديًا على الضفة. إذا تضاعفت سرعة التيار، فإن زمن العبور:", ["يتضاعف", "يقل للنصف", "يبقى ثابتًا", "يزيد قليلًا"], 2, "الزمن = العرض ÷ المركبة العمودية على الضفة، والتيار موازٍ للضفة فلا يؤثر عليها. يتضاعف الانجراف فقط."],
+  ["1-1", "سيارة A تتحرك شرقًا بسرعة ⁦25 m/s⁩ وسيارة B تتحرك غربًا بسرعة ⁦25 m/s⁩. سرعة B بالنسبة لـ A:", ["صفر", "⁦25 m/s⁩ غربًا", "⁦50 m/s⁩ غربًا", "⁦50 m/s⁩ شرقًا"], 2, "\\(v_{BA}=v_B-v_A=(-25)-(+25)=-50\\)، أي ⁦50 m/s⁩ غربًا. الحركتان متعاكستان فنجمع المقدارين."],
+  ["1-1", "مركبتا سرعة جسم: vₓ = ⁦6 m/s⁩ و v_y = ⁦8 m/s⁩. مقدار سرعته:", ["⁦14 m/s⁩", "⁦10 m/s⁩", "⁦2 m/s⁩", "⁦48 m/s⁩"], 1, "\\(v=\\sqrt{36+64}=\\sqrt{100}=10\\un{m/s}\\)."],
+  ["1-2", "كرتان تغادران حافة نفس الطاولة أفقيًا، الأولى بسرعة ⁦2 m/s⁩ والثانية بسرعة ⁦6 m/s⁩. أيهما تصل الأرض أولًا؟", ["الأولى", "الثانية", "تصلان معًا", "يعتمد على كتلتيهما"], 2, "زمن السقوط يحدده الارتفاع فقط. الثانية تهبط أبعد بثلاثة أضعاف لكن في نفس اللحظة."],
+  ["1-2", "قُذف جسم أفقيًا بسرعة ⁦5 m/s⁩ من ارتفاع ⁦19.6 m⁩. مداه الأفقي:", ["⁦5 m⁩", "⁦10 m⁩", "⁦19.6 m⁩", "⁦20 m⁩"], 1, "\\(t=\\sqrt{2\\times19.6/9.8}=2\\un{s}\\)، ثم \\(x=5\\times2=10\\un{m}\\)."],
+  ["1-2", "في حركة المقذوف الأفقي (بإهمال الهواء)، الكمية الثابتة هي:", ["السرعة المحصلة", "المركبة الرأسية للسرعة", "المركبة الأفقية للسرعة", "الارتفاع"], 2, "لا توجد قوة أفقية، فالمركبة الأفقية ثابتة. المركبة الرأسية تزداد بمعدل g."],
+  ["1-3", "عند أعلى نقطة في مسار مقذوف بزاوية، عجلة الجسم:", ["صفر", "g لأعلى", "g لأسفل", "أكبر من g"], 2, "الجاذبية تعمل طوال الرحلة بنفس المقدار والاتجاه. الصفر هو المركبة الرأسية للسرعة فقط."],
+  ["1-3", "قُذفت كرة بمركبتين ابتدائيتين vₓ = ⁦8 m/s⁩ و v_y = ⁦6 m/s⁩. سرعتها عند أعلى نقطة:", ["0", "⁦6 m/s⁩", "⁦8 m/s⁩", "⁦10 m/s⁩"], 2, "عند القمة v_y = 0 وتبقى vₓ = ⁦8 m/s⁩، فالسرعة = ⁦8 m/s⁩."],
+  ["1-3", "بنفس سرعة الإطلاق على أرض مستوية، أي زاوية تعطي أكبر مدى أفقي؟", ["30°", "45°", "60°", "90°"], 1, "\\(R=v_0^2\\sin2\\theta/g\\)، وأكبر قيمة لـ \\(\\sin2\\theta\\) عند \\(2\\theta=90^\\circ\\)، أي \\(\\theta=45^\\circ\\)."],
+  ["1-3", "مدى مقذوف بزاوية 20° يساوي مدى نفس المقذوف (بنفس السرعة) بزاوية:", ["40°", "70°", "80°", "160°"], 1, "الزاويتان المتتامتان (مجموعهما 90°) تعطيان نفس المدى لأن \\(\\sin40^\\circ=\\sin140^\\circ\\)."],
+  ["1-4", "تؤثر قوة ⁦30 N⁩ عموديًا على مفتاح عند بعد ⁦0.20 m⁩ من مركز الصامولة. مقدار العزم:", ["⁦6 N·m⁩", "⁦30 N·m⁩", "⁦150 N·m⁩", "⁦0.6 N·m⁩"], 0, "\\(M=Fd=30\\times0.20=6\\un{N\\cdot m}\\)."],
+  ["1-4", "قوة يمر خط عملها بمحور الدوران، عزمها:", ["أكبر ما يمكن", "يساوي F × L", "صفر", "سالب دائمًا"], 2, "الذراع العمودي من المحور إلى خط عمل القوة صفر، فالعزم صفر مهما كانت القوة."],
+  ["1-4", "حسب الاصطلاح المستخدم، العزم الذي يدوّر الجسم مع اتجاه عقارب الساعة إشارته:", ["موجبة", "سالبة", "لا إشارة له", "تعتمد على القوة"], 1, "عكس عقارب الساعة موجب، ومع عقارب الساعة سالب."],
+  ["1-4", "لمضاعفة العزم دون تغيير القوة يجب:", ["تقليل الذراع للنصف", "مضاعفة الذراع العمودي", "تدوير القوة لتوازي الذراع", "تحريك القوة نحو المحور"], 1, "\\(M=Fd\\)، فمضاعفة \\(d\\) تضاعف \\(M\\). توازي القوة مع الذراع يجعل العزم صفرًا."]
+];
+(() => {
+  const box = $("#mcq");
+  let answered = 0, correct = 0;
+  const score = () => $("#mcq-score").textContent = `${correct} / ${answered}`;
+  function build() {
+    answered = 0; correct = 0; score();
+    box.innerHTML = "";
+    MCQ.forEach(([src, q, opts, ans, why], qi) => {
+      const d = document.createElement("div"); d.className = "q";
+      const qt = document.createElement("div"); qt.className = "qt";
+      qt.innerHTML = `<span class="src">${src}</span>`; qt.append(document.createTextNode((qi + 1) + ". " + iso(q)));
+      const o = document.createElement("div"); o.className = "opts";
+      const w = document.createElement("p"); w.className = "why"; w.hidden = true; w.innerHTML = why;
+      opts.forEach((t, i) => {
+        const b = document.createElement("button"); b.type = "button"; b.textContent = t;
+        b.addEventListener("click", () => {
+          if (o.dataset.done) return;
+          o.dataset.done = 1; answered++;
+          if (i === ans) { correct++; b.classList.add("ok"); } else { b.classList.add("no"); o.children[ans].classList.add("ok"); }
+          w.hidden = false; score();
+        });
+        o.append(b);
+      });
+      d.append(qt, o, w); box.append(d);
+    });
+  }
+  $("#mcq-reset").addEventListener("click", () => { build(); window.MathJax?.typesetPromise?.([box]); });
+  build();
+})();
+
+/* ---------- Practice: written problems ---------- */
+const PROBLEMS = [
+  ["1-1", "طائرة تطير شمالًا بسرعة ⁦120 m/s⁩ بالنسبة للهواء، وتهب رياح شرقًا بسرعة ⁦50 m/s⁩. أوجد سرعة الطائرة بالنسبة للأرض واتجاهها.", ["\\(v=\\sqrt{120^2+50^2}=\\sqrt{16900}=130\\un{m/s}\\)", "\\(\\tan\\theta=\\dfrac{50}{120}\\;\\Rightarrow\\;\\theta\\approx22.6^\\circ\\) شرق الشمال"]],
+  ["1-1", "قارب سرعته في الماء الساكن ⁦4.0 m/s⁩ يريد عبور نهر عرضه ⁦80 m⁩ وسرعة تياره ⁦2.0 m/s⁩ ليصل إلى النقطة المقابلة تمامًا. (أ) بأي زاوية يوجه مقدمته؟ (ب) كم يستغرق العبور؟", ["(أ) \\(\\sin\\alpha=\\dfrac{2.0}{4.0}=0.5\\;\\Rightarrow\\;\\alpha=30^\\circ\\) عكس التيار", "(ب) \\(v_\\perp=4.0\\cos30^\\circ\\approx3.46\\un{m/s}\\)", "\\(t=\\dfrac{80}{3.46}\\approx23.1\\un{s}\\)"]],
+  ["1-2", "قُذف حجر أفقيًا بسرعة ⁦8.0 m/s⁩ من فوق جسر ارتفاعه ⁦11.025 m⁩. أوجد زمن سقوطه، والمسافة الأفقية، وسرعته لحظة ملامسة الماء.", ["\\(t=\\sqrt{\\dfrac{2\\times11.025}{9.8}}=\\sqrt{2.25}=1.5\\un{s}\\)", "\\(x=8.0\\times1.5=12\\un{m}\\)", "\\(v_y=9.8\\times1.5=14.7\\un{m/s}\\)", "\\(v=\\sqrt{8^2+14.7^2}\\approx16.7\\un{m/s}\\)"]],
+  ["1-2", "تتدحرج كرة من فوق سطح أفقي ارتفاعه ⁦4.9 m⁩ وتهبط على بعد ⁦4.0 m⁩ من قاعدته. ما سرعتها لحظة مغادرة السطح؟", ["\\(t=\\sqrt{\\dfrac{2\\times4.9}{9.8}}=1.0\\un{s}\\)", "\\(v_0=\\dfrac{x}{t}=\\dfrac{4.0}{1.0}=4.0\\un{m/s}\\)"]],
+  ["1-3", "قُذفت كرة من الأرض بسرعة ⁦30 m/s⁩ بزاوية 30° مع الأفقي. أوجد: زمن الوصول للقمة، أقصى ارتفاع، زمن الطيران، والمدى.", ["\\(v_x=30\\cos30^\\circ\\approx26.0\\un{m/s},\\quad v_{0y}=30\\sin30^\\circ=15\\un{m/s}\\)", "\\(t_{\\text{قمة}}=\\dfrac{15}{9.8}\\approx1.53\\un{s}\\)", "\\(H=\\dfrac{15^2}{2\\times9.8}\\approx11.5\\un{m}\\)", "\\(T=2\\times1.53\\approx3.06\\un{s}\\)", "\\(R=26.0\\times3.06\\approx79.5\\un{m}\\)"]],
+  ["1-3", "كرة تنطلق من الأرض بسرعة ⁦20 m/s⁩ بزاوية 37° (sin 37° = 0.6). أوجد موضعها ومركبتي سرعتها بعد ⁦2.0 s⁩. هل هي صاعدة أم هابطة؟", ["\\(v_x=16\\un{m/s},\\quad v_{0y}=12\\un{m/s}\\)", "\\(x=16\\times2=32\\un{m}\\)", "\\(y=12\\times2-4.9\\times2^2=4.4\\un{m}\\)", "\\(v_y=12-9.8\\times2=-7.6\\un{m/s}\\) إذن الكرة هابطة"]],
+  ["1-4", "تؤثر قوة ⁦60 N⁩ على طرف مفتاح طوله ⁦0.30 m⁩ بزاوية 60° مع المفتاح، فيدور مع عقارب الساعة. أوجد العزم بإشارته.", ["\\(M=-FL\\sin\\theta=-60\\times0.30\\times\\sin60^\\circ\\approx-15.6\\un{N\\cdot m}\\)"]],
+  ["1-4", "طفل وزنه ⁦250 N⁩ يجلس على بعد ⁦1.8 m⁩ من نقطة ارتكاز أرجوحة. على أي بعد في الجهة الأخرى يجلس طفل وزنه ⁦300 N⁩ لتتزن الأرجوحة؟", ["\\(250\\times1.8=300\\times d\\)", "\\(d=\\dfrac{450}{300}=1.5\\un{m}\\)"]]
+];
+(() => {
+  const box = $("#problems");
+  PROBLEMS.forEach(([src, q, sol], i) => {
+    const d = document.createElement("details"); d.className = "ex";
+    const s = document.createElement("summary");
+    s.innerHTML = `<span class="tag">مسألة ${i + 1} · درس ${src}</span>`;
+    s.append(document.createTextNode(iso(q)));
+    const o = document.createElement("span"); o.className = "open"; o.textContent = "اضغط لعرض الحل"; s.append(o);
+    const st = document.createElement("div"); st.className = "steps";
+    const step = document.createElement("div"); step.className = "step";
+    step.innerHTML = "<span>الحل</span><div class=\"mlines\">" + sol.map(l => "<div>" + l + "</div>").join("") + "</div>";
+    st.append(step); d.append(s, st); box.append(d);
+  });
+})();
+
+/* ---------- Game 1: cannon ---------- */
+(() => {
+  const BEST = "lab-best-cannon";
+  let round, score, target, wall, shots, flying = false, t = 0, cur = null, over = false;
+  const V = slider("gc-v", v => f(v) + " m/s", draw);
+  const A = slider("gc-a", v => v + "°", draw);
+  const st = makeCanvas($("#cv-cannon"), 0.52, draw, 240);
+  const msg = (s, cls = "") => { const m = $("#gc-msg"); m.textContent = iso(s); m.className = "msg " + cls; };
+  const stats = () => $("#gc-stats").textContent = `round ${Math.min(round, 5)}/5 · score ${score} · best ${store.get(BEST)}`;
+  function newRound() {
+    target = randi(25, 88);
+    wall = round >= 3 ? { x: Math.round(target * rand(0.35, 0.6)), h: randi(8, 22) } : null;
+    cur = null; stats(); draw();
+  }
+  function newGame() { round = 1; score = 0; shots = []; over = false; newRound(); msg(`الجولة 1: الهدف على بعد ${target} m`); }
+  function geo() { const { w, h } = st, s = Math.min((w - 30) / 98, (h - 30) / 50); return { s, ox: 16, oy: h - 18 }; }
+  function draw() {
+    const { ctx, w, h } = st; if (!w || target == null) return;
+    const { s, ox, oy } = geo();
+    ctx.fillStyle = C.sky; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = C.ground; ctx.fillRect(0, oy, w, h - oy);
+    for (let m = 10; m <= 90; m += 10) { ctx.fillStyle = C.fg; ctx.fillRect(ox + m * s, oy, 1, 5); if (m % 20 === 0) txt(ctx, m + "", ox + m * s, oy + 11, C.fg, 9); }
+    const tx = ox + target * s;
+    ctx.fillStyle = C.vr; ctx.fillRect(tx - 2 * s, oy - 4, 4 * s, 4);
+    ctx.fillStyle = C.fg; ctx.fillRect(tx - 1, oy - 34, 2, 30);
+    ctx.fillStyle = C.vr; ctx.beginPath(); ctx.moveTo(tx + 1, oy - 34); ctx.lineTo(tx + 18, oy - 28); ctx.lineTo(tx + 1, oy - 22); ctx.fill();
+    txt(ctx, target + " m", tx, oy - 44, C.vr, 12);
+    if (wall) { ctx.fillStyle = C.muted; ctx.fillRect(ox + (wall.x - 0.6) * s, oy - wall.h * s, 1.2 * s + 2, wall.h * s); txt(ctx, wall.h + " m", ox + wall.x * s, oy - wall.h * s - 10, C.fg, 11); }
+    for (const sh of shots) { ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.35; ctx.lineWidth = 1.5; ctx.beginPath(); sh.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.stroke(); ctx.globalAlpha = 1; }
+    if (cur) { ctx.strokeStyle = C.accent; ctx.lineWidth = 2.5; ctx.beginPath(); cur.pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.stroke(); const p = cur.pts[cur.pts.length - 1]; ctx.fillStyle = C.fg; ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, 7); ctx.fill(); }
+    ctx.save(); ctx.translate(ox, oy - 4); ctx.rotate(-A() * RAD); ctx.fillStyle = C.fg; ctx.fillRect(0, -5, 28, 10); ctx.restore();
+    ctx.fillStyle = C.fg; ctx.beginPath(); ctx.arc(ox, oy - 4, 9, 0, 7); ctx.fill();
+  }
+  const anim = loop(dt => {
+    const { s, ox, oy } = geo(), v0 = cur.v0, th = cur.th, vx = v0 * Math.cos(th), vy = v0 * Math.sin(th);
+    t += dt * 1.6;
+    const x = vx * t, y = vy * t - 0.5 * G * t * t;
+    let end = null;
+    if (wall && x >= wall.x - 0.6 && x <= wall.x + 0.6 && y <= wall.h) end = { x: wall.x - 0.6, hitWall: true };
+    else if (y < 0 && t > 0.05) { const T = 2 * vy / G; end = { x: vx * T }; }
+    if (end) {
+      const ey = end.hitWall ? Math.max(0, vy * ((end.x) / vx) - 0.5 * G * (end.x / vx) ** 2) : 0;
+      cur.pts.push({ x: ox + end.x * s, y: oy - ey * s });
+      finish(end); return false;
+    }
+    cur.pts.push({ x: ox + x * s, y: oy - y * s });
+    draw();
+  });
+  function finish(end) {
+    flying = false; $("#gc-fire").disabled = false;
+    shots.push(cur.pts);
+    const err = end.x - target;
+    let pts = 0, text;
+    if (end.hitWall) text = "اصطدمت القذيفة بالجدار! زد الزاوية أو السرعة لتعبر فوقه.";
+    else if (Math.abs(err) <= 2) { pts = 100; text = "إصابة مباشرة! +100"; }
+    else if (Math.abs(err) <= 5) { pts = 50; text = `قريب جدًا: ${err > 0 ? "تجاوزت" : "قصرت عن"} الهدف بـ ${f(Math.abs(err), 1)} m. +50`; }
+    else text = `${err > 0 ? "تجاوزت" : "قصرت عن"} الهدف بـ ${f(Math.abs(err), 1)} m. هبطت عند ${f(end.x, 1)} m.`;
+    score += pts; round++;
+    draw();
+    if (round > 5) {
+      over = true;
+      if (score > store.get(BEST)) store.set(BEST, score);
+      msg(`${text} انتهت اللعبة. مجموعك ${score} من 500.`, pts ? "ok" : "no");
+      stats();
+    } else {
+      msg(`${text} الجولة ${round}: هدف جديد.`, pts ? "ok" : "no");
+      setTimeout(() => { if (!over && !flying) { shots = []; newRound(); } }, 1400);
+    }
+  }
+  $("#gc-fire").addEventListener("click", () => {
+    if (flying || over) return;
+    flying = true; t = 0; $("#gc-fire").disabled = true;
+    cur = { v0: V(), th: A() * RAD, pts: [] };
+    anim.start();
+  });
+  $("#gc-new").addEventListener("click", () => { anim.stop(); flying = false; $("#gc-fire").disabled = false; newGame(); });
+  newGame();
+})();
+
+/* ---------- Game 2: relief drop ---------- */
+(() => {
+  const BEST = "lab-best-drop";
+  const HEIGHTS = [44.1, 78.4, 122.5, 176.4];
+  let round, score, v, hh, target, px, running = false, pkg = null, over = false;
+  const st = makeCanvas($("#cv-drop"), 0.48, draw, 230);
+  const WORLD = 720;
+  const msg = (s, cls = "") => { const m = $("#gd-msg"); m.textContent = iso(s); m.className = "msg " + cls; };
+  const stats = () => $("#gd-stats").textContent = `round ${Math.min(round, 5)}/5 · score ${score} · best ${store.get(BEST)}`;
+  function newRound() {
+    v = randi(6, 12) * 5; hh = pick(HEIGHTS); target = randi(440, 660); px = 0; pkg = null; running = false;
+    $("#gd-start").disabled = false; $("#gd-drop").disabled = true; stats(); info(); draw();
+  }
+  function newGame() { round = 1; score = 0; over = false; msg("احسب أولًا: t = √(2h/g) ثم المسافة = v × t."); newRound(); }
+  function info() {
+    $("#gd-out").innerHTML =
+      cell("ارتفاع الطائرة h", f(hh, 1) + " m") +
+      cell("سرعة الطائرة v", v + " m/s") +
+      cell("المسافة الأفقية إلى الهدف", f(target - px, 0) + " m");
+  }
+  function geo() { const { w, h } = st, s = Math.min(w / (WORLD + 20), (h - 40) / 200); return { s, ox: 8, oy: h - 16 }; }
+  function draw() {
+    const { ctx, w, h } = st; if (!w || target == null) return;
+    const { s, ox, oy } = geo();
+    ctx.fillStyle = C.sky; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = C.ground; ctx.fillRect(0, oy, w, h - oy);
+    const tx = ox + target * s;
+    ctx.strokeStyle = C.vr; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.ellipse(tx, oy - 1, 14, 4, 0, 0, 7); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(tx, oy - 1, 5, 2, 0, 0, 7); ctx.stroke();
+    const ay = oy - hh * s, ax = ox + px * s;
+    ctx.fillStyle = C.fg;
+    ctx.beginPath(); ctx.ellipse(ax, ay, 22, 6, 0, 0, 7); ctx.fill();
+    ctx.fillRect(ax - 6, ay - 14, 8, 14); ctx.fillRect(ax - 22, ay - 10, 6, 10);
+    if (pkg) {
+      ctx.strokeStyle = C.accent; ctx.lineWidth = 2; ctx.setLineDash([4, 4]);
+      ctx.beginPath(); pkg.pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.stroke(); ctx.setLineDash([]);
+      const p = pkg.pts[pkg.pts.length - 1];
+      ctx.fillStyle = C.ground; ctx.strokeStyle = C.fg; ctx.lineWidth = 1.5; ctx.fillRect(p.x - 6, p.y - 6, 12, 12); ctx.strokeRect(p.x - 6, p.y - 6, 12, 12);
+    }
+  }
+  const anim = loop(dt => {
+    const d = dt * 2;
+    px += v * d;
+    if (pkg && !pkg.done) {
+      pkg.t += d;
+      const y = hh - 0.5 * G * pkg.t * pkg.t, x = pkg.x0 + v * pkg.t;
+      const { s, ox, oy } = geo();
+      if (y <= 0) {
+        const T = Math.sqrt(2 * hh / G), xl = pkg.x0 + v * T;
+        pkg.pts.push({ x: ox + xl * s, y: oy - 6 }); pkg.done = true; land(xl);
+      } else pkg.pts.push({ x: ox + x * s, y: oy - y * s });
+    }
+    info(); draw();
+    if (px > WORLD + 30) {
+      running = false; $("#gd-drop").disabled = true;
+      if (!pkg) land(null);
+      return pkg ? !pkg.done : false;
+    }
+    return running || (pkg && !pkg.done);
+  });
+  function land(xl) {
+    const T = Math.sqrt(2 * hh / G), need = v * T;
+    let pts = 0, text, cls = "no";
+    if (xl === null) text = "لم تُسقط الصندوق!";
+    else {
+      const err = xl - target;
+      if (Math.abs(err) <= 6) { pts = 100; cls = "ok"; text = "في المنتصف تمامًا! +100"; }
+      else if (Math.abs(err) <= 18) { pts = 60; cls = "ok"; text = `قريب: ${err > 0 ? "بعد" : "قبل"} الهدف بـ ${f(Math.abs(err), 0)} m. +60`; }
+      else if (Math.abs(err) <= 35) { pts = 30; cls = "ok"; text = `${err > 0 ? "بعد" : "قبل"} الهدف بـ ${f(Math.abs(err), 0)} m. +30`; }
+      else text = `${err > 0 ? "بعد" : "قبل"} الهدف بـ ${f(Math.abs(err), 0)} m.`;
+    }
+    text += ` الحل: t = √(2×${hh}/9.8) = ${f(T, 1)} s، فالمسافة = ${v} × ${f(T, 1)} = ${f(need, 0)} m قبل الهدف.`;
+    score += pts; round++;
+    if (round > 5) { over = true; if (score > store.get(BEST)) store.set(BEST, score); text += ` انتهت اللعبة. مجموعك ${score} من 500.`; stats(); msg(text, cls); }
+    else { msg(text, cls); stats(); setTimeout(() => { if (!over) newRound(); }, 2600); }
+  }
+  $("#gd-start").addEventListener("click", () => {
+    if (running || over) return;
+    running = true; $("#gd-start").disabled = true; $("#gd-drop").disabled = false; $("#gd-drop").focus();
+    anim.start();
+  });
+  $("#gd-drop").addEventListener("click", () => {
+    if (!running || pkg) return;
+    pkg = { x0: px, t: 0, pts: [], done: false }; $("#gd-drop").disabled = true;
+  });
+  $("#gd-new").addEventListener("click", () => { anim.stop(); newGame(); });
+  newGame();
+})();
+
+/* ---------- Game 3: balance ---------- */
+(() => {
+  const BEST = "lab-best-balance";
+  const WTS = [10, 20, 30, 40, 50, 60];
+  let round, score, left, mine, tries, tilt = 0, tiltTarget = 0, solved = false, over = false;
+  const P = slider("gb-p", v => f(v * 0.5, 1) + " m", () => { if (!solved) { tiltTarget = 0; tilt = 0; } draw(); });
+  const st = makeCanvas($("#cv-bal"), 0.46, draw, 220);
+  const msg = (s, cls = "") => { const m = $("#gb-msg"); m.textContent = iso(s); m.className = "msg " + cls; };
+  const stats = () => $("#gb-stats").textContent = `round ${Math.min(round, 5)}/5 · score ${score} · best ${store.get(BEST)}`;
+  function gen() {
+    for (let k = 0; k < 500; k++) {
+      const m3 = pick([20, 30, 40, 50]), s = randi(1, 8), T = m3 * s;
+      if (round <= 2) {
+        const c = [];
+        for (let p = 1; p <= 8; p++) if (p !== s && T % p === 0 && WTS.includes(T / p)) c.push(p);
+        if (c.length) { const p = pick(c); return { left: [{ w: T / p, p }], mine: m3, sol: s }; }
+      } else {
+        const p1 = randi(1, 8), w1 = pick(WTS);
+        if (w1 * p1 >= T) continue;
+        const R = T - w1 * p1, c = [];
+        for (let p = 1; p <= 8; p++) if (p !== p1 && R % p === 0 && WTS.includes(R / p)) c.push(p);
+        if (c.length) { const p2 = pick(c); return { left: [{ w: w1, p: p1 }, { w: R / p2, p: p2 }], mine: m3, sol: s }; }
+      }
+    }
+    return { left: [{ w: 40, p: 3 }], mine: 30, sol: 4 };
+  }
+  function newRound() {
+    const g = gen(); left = g.left; mine = g.mine; tries = 0; solved = false; tilt = 0; tiltTarget = 0;
+    $("#gb-check").disabled = false; $("#gb-next").hidden = true;
+    stats(); draw();
+    msg(`ثقلك ${mine} N. أين تضعه؟`);
+  }
+  function newGame() { round = 1; score = 0; over = false; newRound(); }
+  const leftT = () => left.reduce((a, b) => a + b.w * b.p * 0.5, 0);
+  function draw() {
+    const { ctx, w, h } = st; if (!w || !left) return;
+    ctx.fillStyle = C.sky; ctx.fillRect(0, 0, w, h);
+    const cx = w / 2, cy = h * 0.62, half = Math.min(w * 0.46, 420), u = half / 8.6;
+    ctx.fillStyle = C.ground; ctx.fillRect(0, h * 0.9, w, h * 0.1);
+    ctx.fillStyle = C.fg; ctx.beginPath(); ctx.moveTo(cx, cy + 4); ctx.lineTo(cx - 22, h * 0.9); ctx.lineTo(cx + 22, h * 0.9); ctx.closePath(); ctx.fill();
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(tilt);
+    ctx.fillStyle = C.ground; ctx.strokeStyle = C.fg; ctx.lineWidth = 1.5;
+    ctx.fillRect(-half, -6, 2 * half, 12); ctx.strokeRect(-half, -6, 2 * half, 12);
+    for (let i = 1; i <= 8; i++) for (const sg of [-1, 1]) {
+      ctx.fillStyle = C.fg; ctx.fillRect(sg * i * u - 1, 6, 2, 6);
+      if (i % 2 === 0) txt(ctx, f(i * 0.5, 0), sg * i * u, 20, C.muted, 10);
+    }
+    const box = (x, wgt, col, lbl) => {
+      const s = 14 + wgt * 0.35;
+      ctx.fillStyle = col; ctx.fillRect(x - s / 2, -6 - s, s, s);
+      txt(ctx, lbl, x, -6 - s - 9, C.fg, 11);
+    };
+    for (const L of left) box(-L.p * u, L.w, C.vx, L.w + " N");
+    box(P() * u, mine, solved ? C.good : C.vr, mine + " N");
+    ctx.restore();
+    txt(ctx, "يسار", cx - half + 20, 16, C.muted, 12, "center", true);
+    txt(ctx, "يمين (ثقلك)", cx + half - 40, 16, C.muted, 12, "center", true);
+  }
+  const anim = loop(dt => { const d = tiltTarget - tilt; tilt += Math.sign(d) * Math.min(Math.abs(d), dt * 0.5); draw(); return Math.abs(tiltTarget - tilt) > 0.0005; });
+  $("#gb-check").addEventListener("click", () => {
+    if (over || solved) return;
+    tries++;
+    const Lt = leftT(), Rt = mine * P() * 0.5, net = Lt - Rt;
+    const calc = `عزم اليسار = ${left.map(l => `${l.w}×${f(l.p * 0.5, 1)}`).join(" + ")} = ${f(Lt, 1)} N·m، عزم اليمين = ${mine}×${f(P() * 0.5, 1)} = ${f(Rt, 1)} N·m.`;
+    if (Math.abs(net) < 1e-6) {
+      solved = true; tiltTarget = 0; const pts = tries === 1 ? 100 : 50; score += pts;
+      msg(`متزنة! +${pts}. ${calc}`, "ok");
+      $("#gb-check").disabled = true; round++;
+      if (round > 5) { over = true; if (score > store.get(BEST)) store.set(BEST, score); msg(`متزنة! +${pts}. انتهت اللعبة. مجموعك ${score} من 500.`, "ok"); }
+      else $("#gb-next").hidden = false;
+    } else {
+      tiltTarget = net > 0 ? -Math.min(0.22, 0.04 + Math.abs(net) * 0.003) : Math.min(0.22, 0.04 + Math.abs(net) * 0.003);
+      if (tries >= 2) {
+        msg(`لم تتزن. ${calc} الموضع الصحيح: ${f(Lt / mine, 1)} m.`, "no");
+        $("#gb-check").disabled = true; round++;
+        if (round > 5) { over = true; if (score > store.get(BEST)) store.set(BEST, score); }
+        else $("#gb-next").hidden = false;
+      } else msg(`تميل نحو ${net > 0 ? "اليسار: أبعد ثقلك عن نقطة الارتكاز" : "اليمين: قرّب ثقلك من نقطة الارتكاز"}. محاولة أخيرة.`, "no");
+    }
+    stats(); anim.start();
+  });
+  $("#gb-next").addEventListener("click", newRound);
+  $("#gb-new").addEventListener("click", newGame);
+  newGame();
+})();
+
+/* ---------- Game 4: minute challenge ---------- */
+(() => {
+  const BEST = "lab-best-quiz";
+  let score = 0, left = 0, timer = null, cur = null, lock = false;
+  const n = x => +(+x).toFixed(2);
+  function opts(ans, cands, unit) {
+    const set = [n(ans)], ok = v => (ans < 0 || v >= 0) && !set.includes(v);
+    for (const c of cands) { const v = n(c); if (ok(v) && set.length < 4) set.push(v); }
+    const stepv = Math.max(1, Math.round(Math.abs(ans) * 0.3));
+    for (let k = 1; set.length < 4 && k < 40; k++) { const v = n(ans + Math.ceil(k / 2) * (k % 2 ? 1 : -1) * stepv); if (ok(v) && v !== 0) set.push(v); }
+    return { opts: shuffle(set.map(v => v + unit)), a: n(ans) + unit };
+  }
+  const GEN = [
+    () => { const [a, b, c] = pick([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15]]), k = pick([1, 2]); return { q: `سرعتان متعامدتان ${a * k} m/s و ${b * k} m/s. مقدار المحصلة؟`, ...opts(c * k, [(a + b) * k, (b - a) * k, (c + 1) * k], " m/s") }; },
+    () => { const t = randi(1, 5), h = n(4.9 * t * t); return { q: `يسقط جسم من السكون من ارتفاع ${h} m. زمن وصوله للأرض؟`, ...opts(t, [t * 2, t + 1, t * t], " s") }; },
+    () => { const t = randi(1, 4), v = randi(3, 15), h = n(4.9 * t * t); return { q: `قُذف جسم أفقيًا بسرعة ${v} m/s من ارتفاع ${h} m. المدى الأفقي؟`, ...opts(v * t, [v * t * 2, v + t, h], " m") }; },
+    () => { const F = randi(2, 8) * 10, d = pick([0.2, 0.25, 0.4, 0.5]), cw = Math.random() < 0.5; const M = (cw ? -1 : 1) * F * d; return { q: `قوة ${F} N عمودية على ذراع ${d} m تدوّر ${cw ? "مع" : "عكس"} عقارب الساعة. العزم؟`, ...opts(M, [-M, F / d, (cw ? -1 : 1) * F * d * 2], " N·m") }; },
+    () => { const vx = pick([6, 9, 12, 15]), vy = pick([8, 12, 16, 20]); return { q: `مركبتا سرعة الإطلاق: vₓ = ${vx} و v_y = ${vy} m/s. السرعة عند أعلى نقطة؟`, ...opts(vx, [0, vy, n(Math.hypot(vx, vy))], " m/s") }; },
+    () => { const k = randi(1, 4), vy = n(9.8 * k); return { q: `كرة تنطلق من الأرض بمركبة رأسية ${vy} m/s. زمن الطيران الكلي؟`, ...opts(2 * k, [k, 4 * k, 2 * k + 1], " s") }; },
+    () => { const a = randi(2, 6) * 5, b = a + randi(1, 4) * 5, same = Math.random() < 0.5; return { q: `سيارتان ${same ? "في نفس الاتجاه" : "متعاكستان"} بسرعتي ${a} و ${b} m/s. مقدار السرعة النسبية؟`, ...opts(same ? b - a : a + b, [same ? a + b : b - a, a, b], " m/s") }; },
+    () => { const W = randi(2, 6) * 100, d1 = pick([1, 1.5, 2, 2.5]), W2 = W * pick([2, 0.5, 1.25]); return { q: `وزن ${W} N على بعد ${d1} m من نقطة الارتكاز. على أي بعد يوضع وزن ${W2} N في الجهة الأخرى للاتزان؟`, ...opts(W * d1 / W2, [d1, W2 * d1 / W, d1 * 2], " m") }; }
+  ];
+  const stats = () => $("#gq-stats").textContent = `score ${score} · best ${store.get(BEST)}`;
+  const msg = (s, cls = "") => { const m = $("#gq-msg"); m.textContent = iso(s); m.className = "msg " + cls; };
+  function next() {
+    cur = pick(GEN)(); lock = false;
+    $("#gq-q").textContent = iso(cur.q);
+    const box = $("#gq-opts"); box.innerHTML = "";
+    cur.opts.forEach(o => {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = o; b.dir = "ltr";
+      b.addEventListener("click", () => {
+        if (lock || left <= 0) return; lock = true;
+        if (o === cur.a) { score++; b.classList.add("ok"); msg("صح!", "ok"); }
+        else { b.classList.add("no"); [...box.children].find(x => x.textContent === cur.a)?.classList.add("ok"); msg("الإجابة: " + cur.a, "no"); }
+        stats(); setTimeout(() => left > 0 && next(), o === cur.a ? 350 : 1100);
+      });
+      box.append(b);
+    });
+  }
+  function end() {
+    clearInterval(timer); timer = null; lock = true;
+    if (score > store.get(BEST)) store.set(BEST, score);
+    $("#gq-q").textContent = `انتهى الوقت! أجبت ${score} إجابة صحيحة.`;
+    $("#gq-opts").innerHTML = ""; $("#gq-start").disabled = false; $("#gq-start").textContent = "العب مرة أخرى";
+    stats(); msg("");
+  }
+  $("#gq-start").addEventListener("click", () => {
+    score = 0; left = 60; stats(); msg(""); $("#gq-start").disabled = true;
+    $("#gq-bar").style.width = "100%"; next();
+    timer = setInterval(() => { left--; $("#gq-bar").style.width = (left / 60 * 100) + "%"; if (left <= 0) end(); }, 1000);
+  });
+  stats();
+})();
+</script>
+
+</body>
+</html>

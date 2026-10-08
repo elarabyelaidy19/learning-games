@@ -9,6 +9,7 @@ Live: https://elarabyelaidy19.github.io/learning-games/
 | Game | Subject | Covers |
 |---|---|---|
 | [مفتاح التواريخ](https://elarabyelaidy19.github.io/learning-games/history-bac2-unit1/) | History, 2nd year Egyptian Baccalaureate, term 1 | Unit 1, lessons 1–4 |
+| [مختبر الحركة والعزم](https://elarabyelaidy19.github.io/learning-games/physics-bac2-unit1/) | Physics, 2nd year Egyptian Baccalaureate, term 1 | Chapter 1 (Mechanics), lessons 1-1 to 1-4 |
 
 ## Layout
 
