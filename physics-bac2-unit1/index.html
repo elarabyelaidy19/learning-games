@@ -87,6 +87,7 @@ section.lesson { padding-block: 44px 8px; display: grid; gap: 22px; border-botto
 .question strong { display: block; font-family: var(--display); font-size: 17px; }
 .analogy { background: var(--accent-soft); border-inline-start: 4px solid var(--accent); border-radius: 10px; padding: 10px 16px; }
 .analogy strong:first-child { display: block; font-family: var(--display); color: var(--accent); }
+.eqbox .mean { display: block; font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 2px; }
 .goals { margin: 0; padding-inline-start: 22px; color: var(--muted); }
 
 .two { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 22px; align-items: start; }
@@ -284,11 +285,11 @@ mjx-container { font-size: 108% !important; }
       <div class="readout" id="r-out"></div>
     </div>
 
-    <div class="eqbox"><div class="t">صندوق المعادلات</div><div class="eqwrap"><table>
-      <tr><td>مركبتا السرعة</td><td class="m">\( v_x=v\cos\theta,\quad v_y=v\sin\theta \)</td></tr>
-      <tr><td>مقدار المحصلة (متعامدتان)</td><td class="m">\( v=\sqrt{v_x^2+v_y^2} \)</td></tr>
-      <tr><td>اتجاه المحصلة</td><td class="m">\( \tan\theta=\dfrac{v_y}{v_x} \)</td></tr>
-      <tr><td>السرعة النسبية لـ B بالنسبة لـ A</td><td class="m">\( \vec v_{BA}=\vec v_B-\vec v_A \)</td></tr>
+    <div class="eqbox"><div class="t">صندوق المعادلات ومعناها</div><div class="eqwrap"><table>
+      <tr><td>مركبتا السرعة<span class="mean">اقسم السهم المائل إلى جزأين: cos يعطيك الجزء الأفقي (المجاور للزاوية)، و sin يعطيك الجزء الرأسي (المقابل لها). كأنك تسأل: كم من سرعتي تذهب للأمام، وكم تذهب لأعلى؟</span></td><td class="m">\( v_x=v\cos\theta,\quad v_y=v\sin\theta \)</td></tr>
+      <tr><td>مقدار المحصلة (متعامدتان)<span class="mean">فيثاغورث: الحركتان ضلعا مثلث قائم، والمحصلة هي الوتر. لهذا تكون دائمًا أكبر من كل واحدة وحدها، وأصغر من مجموعهما.</span></td><td class="m">\( v=\sqrt{v_x^2+v_y^2} \)</td></tr>
+      <tr><td>اتجاه المحصلة<span class="mean">الزاوية تعتمد على نسبة الحركتين: كلما زادت الحركة الرأسية مقارنة بالأفقية، مال السهم أكثر لأعلى.</span></td><td class="m">\( \tan\theta=\dfrac{v_y}{v_x} \)</td></tr>
+      <tr><td>السرعة النسبية لـ B بالنسبة لـ A<span class="mean">ما يراه A = حركة B ناقص حركة A نفسه. لو تحركتما معًا بنفس السرعة يرى A صديقه B واقفًا (الناتج صفر).</span></td><td class="m">\( \vec v_{BA}=\vec v_B-\vec v_A \)</td></tr>
     </table></div></div>
 
     <h3>أمثلة محلولة</h3>
@@ -407,11 +408,11 @@ mjx-container { font-size: 108% !important; }
       <p>المسافة الرأسية تتناسب مع مربع المسافة الأفقية، وهذه بالضبط معادلة القطع المكافئ.</p>
     </div>
 
-    <div class="eqbox"><div class="t">صندوق المعادلات (g = ⁦9.8 m/s²⁩)</div><div class="eqwrap"><table>
-      <tr><td>الحركة الأفقية (سرعة ثابتة)</td><td class="m">\( x=v_0t,\quad v_x=v_0 \)</td></tr>
-      <tr><td>الحركة الرأسية (سقوط حر من السكون)</td><td class="m">\( y=\tfrac12 gt^2,\quad v_y=gt \)</td></tr>
-      <tr><td>زمن الطيران</td><td class="m">\( t=\sqrt{\dfrac{2y}{g}} \)</td></tr>
-      <tr><td>السرعة عند أي لحظة</td><td class="m">\( v=\sqrt{v_0^2+(gt)^2} \)</td></tr>
+    <div class="eqbox"><div class="t">صندوق المعادلات ومعناها (g = ⁦9.8 m/s²⁩)</div><div class="eqwrap"><table>
+      <tr><td>الحركة الأفقية (سرعة ثابتة)<span class="mean">المسافة = السرعة × الزمن. لا شيء يسرّع الجسم أو يبطئه أفقيًا، فالسرعة الأفقية تبقى v₀ من البداية للنهاية.</span></td><td class="m">\( x=v_0t,\quad v_x=v_0 \)</td></tr>
+      <tr><td>الحركة الرأسية (سقوط حر من السكون)<span class="mean">الجاذبية تضيف 9.8 m/s للسرعة كل ثانية (v_y = gt). والمسافة فيها t² لأن الجسم يسقط أسرع فأسرع، فيقطع في الثانية الثانية مسافة أكبر من الأولى.</span></td><td class="m">\( y=\tfrac12 gt^2,\quad v_y=gt \)</td></tr>
+      <tr><td>زمن الطيران<span class="mean">نفس المعادلة السابقة بعد إيجاد t. لاحظ أن v₀ غير موجودة: الارتفاع وحده يقرر متى يصل الجسم للأرض.</span></td><td class="m">\( t=\sqrt{\dfrac{2y}{g}} \)</td></tr>
+      <tr><td>السرعة عند أي لحظة<span class="mean">فيثاغورث من جديد: الجزء الأفقي ثابت (v₀)، والجزء الرأسي يكبر مع الزمن (gt)، لذلك تزيد السرعة الكلية كلما سقط الجسم.</span></td><td class="m">\( v=\sqrt{v_0^2+(gt)^2} \)</td></tr>
     </table></div></div>
 
     <h3>أمثلة محلولة</h3>
@@ -520,13 +521,13 @@ mjx-container { font-size: 108% !important; }
       <p class="note">جرّب: 30° ثم 60° بنفس السرعة. نفس المدى، لكن 60° أعلى وأطول زمنًا. ثم جرّب 45°.</p>
     </div>
 
-    <div class="eqbox"><div class="t">صندوق المعادلات</div><div class="eqwrap"><table>
-      <tr><td>الحركة الأفقية</td><td class="m">\( v_x=v_0\cos\theta,\quad x=v_0\cos\theta\,t \)</td></tr>
-      <tr><td>الحركة الرأسية</td><td class="m">\( v_y=v_0\sin\theta-gt,\quad y=v_0\sin\theta\,t-\tfrac12gt^2 \)</td></tr>
-      <tr><td>زمن الوصول للقمة</td><td class="m">\( t=\dfrac{v_0\sin\theta}{g} \)</td></tr>
-      <tr><td>أقصى ارتفاع</td><td class="m">\( H=\dfrac{(v_0\sin\theta)^2}{2g} \)</td></tr>
-      <tr><td>الزمن الكلي (نفس المستوى)</td><td class="m">\( T=\dfrac{2v_0\sin\theta}{g} \)</td></tr>
-      <tr><td>المدى الأفقي (نفس المستوى)</td><td class="m">\( R=v_0\cos\theta\,T=\dfrac{v_0^2\sin2\theta}{g} \)</td></tr>
+    <div class="eqbox"><div class="t">صندوق المعادلات ومعناها</div><div class="eqwrap"><table>
+      <tr><td>الحركة الأفقية<span class="mean">نفس قانون الدرس السابق، لكن السرعة الأفقية الآن هي الجزء الأفقي فقط من سرعة الإطلاق: v₀ cos θ.</span></td><td class="m">\( v_x=v_0\cos\theta,\quad x=v_0\cos\theta\,t \)</td></tr>
+      <tr><td>الحركة الرأسية<span class="mean">تبدأ بسرعة لأعلى (v₀ sin θ) والجاذبية تنقص منها gt. علامة الناقص تعني أن الجاذبية تعمل ضد الصعود. الارتفاع = ما تصعده بسرعتك − ما تسحبه الجاذبية منك.</span></td><td class="m">\( v_y=v_0\sin\theta-gt,\quad y=v_0\sin\theta\,t-\tfrac12gt^2 \)</td></tr>
+      <tr><td>زمن الوصول للقمة<span class="mean">سؤال بسيط: إذا كانت سرعتك لأعلى 19.6 والجاذبية تأخذ 9.8 كل ثانية، كم ثانية حتى تنتهي؟ الجواب 19.6 ÷ 9.8 = 2 ثانية.</span></td><td class="m">\( t=\dfrac{v_0\sin\theta}{g} \)</td></tr>
+      <tr><td>أقصى ارتفاع<span class="mean">كلما رميت لأعلى أسرع، صعدت أعلى بكثير: ضاعف السرعة الرأسية يتضاعف الارتفاع 4 مرات (لأنها مربعة). والجاذبية الأقوى (g أكبر) تقلل الارتفاع.</span></td><td class="m">\( H=\dfrac{(v_0\sin\theta)^2}{2g} \)</td></tr>
+      <tr><td>الزمن الكلي (نفس المستوى)<span class="mean">المسار متماثل: زمن الطلوع = زمن النزول، فالزمن الكلي ضعف زمن الوصول للقمة.</span></td><td class="m">\( T=\dfrac{2v_0\sin\theta}{g} \)</td></tr>
+      <tr><td>المدى الأفقي (نفس المستوى)<span class="mean">المدى = السرعة الأفقية × زمن البقاء في الهواء. الزاوية تلعب دورين متعاكسين: زاوية كبيرة تبقيك في الهواء أطول لكن تقدمك أبطأ. أفضل توازن بينهما عند 45°.</span></td><td class="m">\( R=v_0\cos\theta\,T=\dfrac{v_0^2\sin2\theta}{g} \)</td></tr>
     </table></div></div>
 
     <h3>أمثلة محلولة</h3>
@@ -635,11 +636,11 @@ mjx-container { font-size: 108% !important; }
       <div class="readout" id="d-out"></div>
     </div>
 
-    <div class="eqbox"><div class="t">صندوق المعادلات</div><div class="eqwrap"><table>
-      <tr><td>عزم القوة (قوة عمودية على الذراع)</td><td class="m">\( M=F\,d \)</td></tr>
-      <tr><td>عزم قوة مائلة</td><td class="m">\( M=F\,L\sin\theta \)</td></tr>
-      <tr><td>الإشارة</td><td class="m">\(+\) عكس عقارب الساعة، \(-\) مع عقارب الساعة</td></tr>
-      <tr><td>اتزان الرافعة</td><td class="m">\( F_1d_1=F_2d_2 \)</td></tr>
+    <div class="eqbox"><div class="t">صندوق المعادلات ومعناها</div><div class="eqwrap"><table>
+      <tr><td>عزم القوة (قوة عمودية على الذراع)<span class="mean">قدرة التدوير = كم تدفع × كم تبعد عن المحور. 10 N على بعد 1 m تساوي في التدوير 20 N على بعد 0.5 m.</span></td><td class="m">\( M=F\,d \)</td></tr>
+      <tr><td>عزم قوة مائلة<span class="mean">sin θ هي "نسبة الدفعة المفيدة": عند 90° كل القوة تدوّر (sin 90° = 1)، وعند 0° لا شيء يدوّر (sin 0° = 0) لأنك تدفع نحو المفصلة نفسها.</span></td><td class="m">\( M=F\,L\sin\theta \)</td></tr>
+      <tr><td>الإشارة<span class="mean">مثل الموجب والسالب في الحساب: نعطي كل اتجاه دوران إشارة، حتى عندما نجمع العزوم يلغي بعضها بعضًا ونعرف من "يفوز".</span></td><td class="m">\(+\) عكس عقارب الساعة، \(-\) مع عقارب الساعة</td></tr>
+      <tr><td>اتزان الرافعة<span class="mean">كفتا الميزان في التدوير: الثقل الخفيف البعيد يوازن الثقيل القريب. إذا ضاعفت البعد يكفيك نصف القوة.</span></td><td class="m">\( F_1d_1=F_2d_2 \)</td></tr>
     </table></div></div>
 
     <h3>أمثلة محلولة</h3>
