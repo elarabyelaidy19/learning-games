@@ -108,7 +108,7 @@ div.eq { unicode-bidi: plaintext; background: var(--sunk); border-radius: 8px; p
 
 .sim { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 12px; }
 .sim h3::before { content: "محاكاة · "; color: var(--muted); font-family: var(--body); font-size: 14px; font-weight: 500; }
-.sim canvas, .game canvas { width: 100%; display: block; border-radius: 10px; background: var(--sky); touch-action: manipulation; }
+.sim canvas, .game canvas, canvas.exc { width: 100%; display: block; border-radius: 10px; background: var(--sky); touch-action: manipulation; }
 .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px 18px; }
 .ctl { display: grid; gap: 2px; font-size: 14px; }
 .ctl label { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); }
@@ -303,6 +303,7 @@ mjx-container { font-size: 108% !important; }
       <details class="ex" open>
         <summary><span class="tag">مثال 1 · العبور والانجراف</span>سبّاح سرعته في الماء الساكن ⁦1.6 m/s⁩ يسبح عموديًا على ضفة قناة عرضها ⁦40 m⁩، وسرعة تيار القناة ⁦1.2 m/s⁩. أوجد: (أ) سرعته بالنسبة للضفة، (ب) زمن العبور، (ج) المسافة التي ينجرفها مع التيار.<span class="open">اضغط لعرض الحل</span></summary>
         <div class="steps">
+          <canvas class="exc" data-ex="swim" aria-label="حركة السبّاح وهو يعبر القناة وينجرف مع التيار"></canvas>
           <div class="step"><span>المعطيات</span><div class="mlines"><div>\(v_1 = 1.6\un{m/s}\) عبر القناة</div><div>\(v_2 = 1.2\un{m/s}\) مع التيار</div><div>العرض \(= 40\un{m}\)</div></div></div>
           <div class="step"><span>الفكرة</span><p>السرعتان متعامدتان، إذن مثلث قائم. والزمن تحدده المركبة العمودية فقط.</p></div>
           <div class="step"><span>(أ)</span><div class="mlines"><div>\(v=\sqrt{1.6^2+1.2^2}=\sqrt{2.56+1.44}=\sqrt{4}=2.0\un{m/s}\)</div><div>\(\tan\theta=\dfrac{1.2}{1.6}=0.75 \;\Rightarrow\; \theta\approx 37^\circ\) عن الاتجاه العمودي</div></div></div>
@@ -314,6 +315,7 @@ mjx-container { font-size: 108% !important; }
       <details class="ex">
         <summary><span class="tag">مثال 2 · تحليل السرعة</span>طائرة مسيّرة تصعد بسرعة ثابتة ⁦25 m/s⁩ في اتجاه يصنع 37° مع الأفقي. كم ترتفع خلال ⁦4 s⁩؟ وما المسافة الأفقية التي تقطعها؟ (sin 37° = 0.6 و cos 37° = 0.8)<span class="open">اضغط لعرض الحل</span></summary>
         <div class="steps">
+          <canvas class="exc" data-ex="drone" aria-label="صعود الطائرة المسيّرة ومركبتا سرعتها"></canvas>
           <div class="step"><span>الفكرة</span><p>نحلل السرعة إلى مركبتين، ونتعامل مع كل اتجاه وحده بسرعة ثابتة.</p></div>
           <div class="step"><span>الحل</span><div class="mlines"><div>\(v_x = 25\times0.8=20\un{m/s} \qquad v_y=25\times0.6=15\un{m/s}\)</div><div>الارتفاع \(= v_y t = 15\times4=60\un{m}\)</div><div>المسافة الأفقية \(= v_x t = 20\times 4 = 80\un{m}\)</div></div></div>
           <div class="answer">ترتفع ⁦60 m⁩ وتتقدم أفقيًا ⁦80 m⁩ (والمسافة على المسار المائل ⁦100 m⁩).</div>
@@ -322,6 +324,7 @@ mjx-container { font-size: 108% !important; }
       <details class="ex">
         <summary><span class="tag">مثال 3 · سرعة نسبية متعامدة</span>السيارة A تتحرك شرقًا بسرعة ⁦15 m/s⁩، والسيارة B تتحرك شمالًا بسرعة ⁦20 m/s⁩. أوجد سرعة B كما يراها سائق A.<span class="open">اضغط لعرض الحل</span></summary>
         <div class="steps">
+          <canvas class="exc" data-ex="cars" aria-label="حركة السيارتين من الأرض ومن داخل السيارة A"></canvas>
           <div class="step"><span>الفكرة</span><p>v_BA = v_B − v_A = v_B + (−v_A). معكوس سرعة A هو ⁦15 m/s⁩ غربًا.</p></div>
           <div class="step"><span>الحل</span><div class="mlines"><div>\(v_{BA}=\sqrt{20^2+15^2}=\sqrt{625}=25\un{m/s}\)</div><div>\(\tan\theta=\dfrac{15}{20}=0.75\;\Rightarrow\;\theta\approx37^\circ\) غرب الشمال</div></div></div>
           <div class="answer">يرى سائق A السيارة B تتحرك بسرعة ⁦25 m/s⁩ في اتجاه 37° غرب الشمال.</div>
@@ -330,6 +333,7 @@ mjx-container { font-size: 108% !important; }
       <details class="ex">
         <summary><span class="tag">مثال 4 · المطر والقطار</span>قطار يسير أفقيًا بسرعة ⁦12 m/s⁩، والمطر يسقط رأسيًا بسرعة ⁦9 m/s⁩. ما سرعة المطر بالنسبة لراكب القطار، وبأي زاوية تميل خطوطه على النافذة؟<span class="open">اضغط لعرض الحل</span></summary>
         <div class="steps">
+          <canvas class="exc" data-ex="rain" aria-label="المطر من الأرض ومن داخل القطار"></canvas>
           <div class="step"><span>الحل</span><div class="mlines"><div>\(\vec v_{\text{مطر/قطار}}=\vec v_{\text{مطر}}-\vec v_{\text{قطار}}\)</div><div>المقدار \(=\sqrt{9^2+12^2}=\sqrt{225}=15\un{m/s}\)</div><div>\(\tan\theta=\dfrac{12}{9}\;\Rightarrow\;\theta\approx53^\circ\) عن الرأسي، مائلة نحو مؤخرة القطار</div></div></div>
           <div class="answer">⁦15 m/s⁩ بزاوية 53° تقريبًا عن الرأسي. كلما أسرع القطار زاد ميل الخطوط.</div>
         </div>
@@ -991,6 +995,144 @@ function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.fl
   const setMode = m => { mode = m; $("#r-bus").className = m === "bus" ? "" : "ghost"; $("#r-ground").className = m === "ground" ? "" : "ghost"; draw(); };
   $("#r-bus").addEventListener("click", () => setMode("bus"));
   $("#r-ground").addEventListener("click", () => setMode("ground"));
+})();
+
+/* ---------- Lesson 1: worked-example animations ---------- */
+(() => {
+  const HOLD = 1.5;
+  const box = (ctx, x, y, w, h) => { ctx.fillStyle = C.surface; ctx.globalAlpha = 0.88; ctx.fillRect(x, y, w, h); ctx.globalAlpha = 1; };
+  const vehicle = (ctx, x, y, col, lbl, vert) => {
+    const a = vert ? 10 : 18, b = vert ? 18 : 10;
+    ctx.fillStyle = col; ctx.fillRect(x - a / 2, y - b / 2, a, b);
+    txt(ctx, lbl, x, y, C.surface, 10);
+  };
+  const scenes = {
+    swim: { ratio: 0.55, T: 25, dur: 6, draw(ctx, w, h, t, tau) {
+      const bank = 26, rh = h - 2 * bank, s = rh / 40, x0 = w * 0.22, k = rh / 10;
+      ctx.fillStyle = C.ground; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = C.water; ctx.fillRect(0, bank, w, rh);
+      ctx.strokeStyle = C.waterline; ctx.lineWidth = 2;
+      const off = (tau * 1.2 * s * 4) % 70;
+      for (let i = 0; i < 5; i++) {
+        const y = bank + rh * (i + 0.5) / 5;
+        for (let x = -70 + off; x < w; x += 70) { ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 24, y); ctx.stroke(); }
+      }
+      dashed(ctx, x0, h - bank, x0, bank, C.muted);
+      txt(ctx, "40 m", x0 - 22, h / 2, C.fg, 12);
+      const px = x0 + 1.2 * t * s, py = h - bank - 1.6 * t * s;
+      ctx.strokeStyle = C.vr; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x0, h - bank); ctx.lineTo(px, py); ctx.stroke();
+      ctx.fillStyle = C.fg; ctx.beginPath(); ctx.arc(px, py, 7, 0, 7); ctx.fill();
+      arrow(ctx, px, py, px, py - 1.6 * k, C.vx, 3);
+      arrow(ctx, px, py - 1.6 * k, px + 1.2 * k, py - 1.6 * k, C.vy, 3);
+      arrow(ctx, px, py, px + 1.2 * k, py - 1.6 * k, C.vr, 3);
+      if (t >= 25) {
+        arrow(ctx, x0, bank / 2, x0 + 30 * s, bank / 2, C.vy, 2);
+        txt(ctx, "30 m", x0 + 15 * s, bank / 2 - 1, C.fg, 12);
+      }
+      box(ctx, w - 150, bank + 8, 142, 58);
+      txt(ctx, `t = ${f(t)} s`, w - 140, bank + 22, C.fg, 13, "left");
+      txt(ctx, `drift = ${f(1.2 * t)} m`, w - 140, bank + 40, C.vy, 13, "left");
+      txt(ctx, "v = 2.0 m/s", w - 140, bank + 56, C.vr, 13, "left");
+    } },
+    drone: { ratio: 0.6, T: 4, dur: 5, draw(ctx, w, h, t) {
+      const ox = 46, oy = h - 34, s = Math.min((w - ox - 70) / 80, (oy - 40) / 72), k = s * 0.5;
+      ctx.fillStyle = C.ground; ctx.fillRect(0, oy, w, h - oy);
+      dashed(ctx, ox, oy, ox + 80 * s, oy - 60 * s, C.line);
+      ctx.strokeStyle = C.muted; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(ox, oy, 34, -37 * RAD, 0); ctx.stroke();
+      txt(ctx, "37°", ox + 46, oy - 12, C.muted, 12);
+      const x = 20 * t, y = 15 * t, X = ox + x * s, Y = oy - y * s;
+      dashed(ctx, X, Y, X, oy, C.vy); dashed(ctx, X, Y, ox, Y, C.vx);
+      ctx.strokeStyle = C.vr; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(X, Y); ctx.stroke();
+      txt(ctx, `x = 20t = ${f(x, 0)} m`, (ox + X) / 2, oy + 17, C.vx, 12);
+      if (y > 3) txt(ctx, `y = 15t = ${f(y, 0)} m`, X + 8, (oy + Y) / 2, C.vy, 12, "left");
+      if (t > 1) txt(ctx, `${f(25 * t, 0)} m`, (ox + X) / 2 - 18, (oy + Y) / 2 - 12, C.vr, 12);
+      arrow(ctx, X, Y, X + 20 * k, Y, C.vx, 2.5);
+      arrow(ctx, X + 20 * k, Y, X + 20 * k, Y - 15 * k, C.vy, 2.5);
+      arrow(ctx, X, Y, X + 20 * k, Y - 15 * k, C.vr, 2.5);
+      ctx.fillStyle = C.fg; ctx.fillRect(X - 11, Y - 3, 22, 6);
+      ctx.strokeStyle = C.fg; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(X - 15, Y - 7); ctx.lineTo(X - 5, Y - 7); ctx.moveTo(X + 5, Y - 7); ctx.lineTo(X + 15, Y - 7); ctx.stroke();
+      box(ctx, 8, 8, 116, 24);
+      txt(ctx, `t = ${f(t)} s`, 16, 20, C.fg, 13, "left");
+    } },
+    cars: { ratio: 0.62, T: 3, dur: 4.5, draw(ctx, w, h, t) {
+      const pw = w / 2, oy = h - 30, s = Math.min((pw - 40) / 45, (oy - 40) / 74), k = s * 0.6;
+      const o1 = (pw - 45 * s) / 2, o2 = pw + (pw + 45 * s) / 2;
+      ctx.fillStyle = C.ground;
+      ctx.fillRect(0, oy - 8, w, 16); ctx.fillRect(o1 - 8, 0, 16, h);
+      ctx.strokeStyle = C.surface; ctx.lineWidth = 2;
+      const off = (-15 * t * s) % 24;
+      for (let x = pw + off - 24; x < w; x += 24) { if (x > pw) { ctx.beginPath(); ctx.moveTo(x, oy); ctx.lineTo(x + 10, oy); ctx.stroke(); } }
+      ctx.strokeStyle = C.line; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(pw, 0); ctx.lineTo(pw, h); ctx.stroke();
+      txt(ctx, "من الأرض", pw - 10, 16, C.fg, 13, "right", true);
+      txt(ctx, "كما يراها سائق A", w - 10, 16, C.fg, 13, "right", true);
+      const ax = o1 + 15 * t * s, by = oy - 20 * t * s;
+      dashed(ctx, ax, oy, o1, by, C.vr);
+      vehicle(ctx, ax, oy, C.vx, "A", false); vehicle(ctx, o1, by, C.vy, "B", true);
+      arrow(ctx, ax + 10, oy, ax + 10 + 15 * k, oy, C.vx, 2.5);
+      arrow(ctx, o1, by - 10, o1, by - 10 - 20 * k, C.vy, 2.5);
+      const bx2 = o2 - 15 * t * s;
+      ctx.strokeStyle = C.vr; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(o2, oy); ctx.lineTo(bx2, by); ctx.stroke();
+      dashed(ctx, o2, oy, o2, 30, C.muted, 1, [3, 4]);
+      if (t > 0.8) {
+        ctx.strokeStyle = C.muted; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(o2, oy, 30, -Math.PI / 2 - 37 * RAD, -Math.PI / 2); ctx.stroke();
+        txt(ctx, "37°", o2 - 9, oy - 42, C.muted, 11);
+      }
+      vehicle(ctx, o2, oy, C.vx, "A", false); vehicle(ctx, bx2, by, C.vy, "B", true);
+      arrow(ctx, bx2, by, bx2, by - 20 * k, C.vy, 2.5);
+      arrow(ctx, bx2, by - 20 * k, bx2 - 15 * k, by - 20 * k, C.vx, 2.5);
+      arrow(ctx, bx2, by, bx2 - 15 * k, by - 20 * k, C.vr, 2.5);
+      txt(ctx, `t = ${f(t)} s`, 10, 16, C.fg, 12, "left");
+      txt(ctx, "v_BA = 25 m/s", pw + 10, h - 12, C.vr, 12, "left");
+    } },
+    rain: { ratio: 0.55, T: 0, dur: 0, draw(ctx, w, h, t, tau) {
+      const pw = w / 2, gy = h * 0.86, PX = h / 25, L = 0.06;
+      const drops = this.drops || (this.drops = Array.from({ length: 60 }, () => [Math.random(), Math.random()]));
+      ctx.fillStyle = C.ground; ctx.fillRect(0, gy, pw, h - gy);
+      const tw = Math.min(150, pw * 0.7), th = h * 0.3, tx = ((12 * PX * tau) % (pw + tw)) - tw;
+      ctx.save(); ctx.beginPath(); ctx.rect(0, 0, pw, h); ctx.clip();
+      ctx.strokeStyle = C.vx; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.75;
+      for (const [a, b] of drops) {
+        const x = a * pw, y = (b * gy + 9 * PX * tau) % gy;
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - 9 * PX * L); ctx.stroke();
+      }
+      ctx.globalAlpha = 0.9; ctx.fillStyle = C.vx; ctx.fillRect(tx, gy - th, tw, th); ctx.globalAlpha = 1;
+      ctx.fillStyle = C.sky; for (let i = 0; i < 3; i++) ctx.fillRect(tx + 10 + i * (tw - 20) / 3, gy - th + 8, (tw - 20) / 3 - 8, th * 0.4);
+      txt(ctx, "→ 12 m/s", tx + tw / 2, gy - th * 0.2, C.surface, 11);
+      ctx.restore();
+      ctx.save(); ctx.beginPath(); ctx.rect(pw, 0, pw, h); ctx.clip();
+      ctx.strokeStyle = C.muted; ctx.lineWidth = 5;
+      const poff = (((-12 * PX * tau) % 110) + 110) % 110;
+      for (let x = pw + poff - 110; x < w; x += 110) { ctx.beginPath(); ctx.moveTo(x, h * 0.3); ctx.lineTo(x, gy); ctx.stroke(); }
+      ctx.strokeStyle = C.vx; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.75;
+      for (const [a, b] of drops) {
+        const x = pw + ((((a * pw - 12 * PX * tau) % pw) + pw) % pw), y = (b * gy + 9 * PX * tau) % gy;
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 12 * PX * L, y - 9 * PX * L); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = C.fg; ctx.lineWidth = 8; ctx.strokeRect(pw + 4, 4, pw - 8, h - 8);
+      const k = Math.min(5, pw / 34), P = [w - 22, 34];
+      box(ctx, P[0] - 12 * k - 34, P[1] - 12, 12 * k + 50, 9 * k + 34);
+      arrow(ctx, P[0], P[1], P[0], P[1] + 9 * k, C.vy, 2.5);
+      arrow(ctx, P[0], P[1] + 9 * k, P[0] - 12 * k, P[1] + 9 * k, C.vx, 2.5);
+      arrow(ctx, P[0], P[1], P[0] - 12 * k, P[1] + 9 * k, C.vr, 2.5);
+      txt(ctx, "15 m/s", P[0] - 6 * k, P[1] + 9 * k + 14, C.vr, 11);
+      txt(ctx, "53°", P[0] - 10, P[1] + 22, C.muted, 10);
+      ctx.restore();
+      txt(ctx, "من الأرض", pw - 10, 16, C.fg, 13, "right", true);
+      txt(ctx, "من نافذة القطار", w - 16, h - 18, C.fg, 13, "right", true);
+    } }
+  };
+  document.querySelectorAll("canvas.exc").forEach(cv => {
+    const sc = scenes[cv.dataset.ex];
+    let tau = 0, seen = false;
+    const real = () => sc.dur ? Math.min(1, (tau % (sc.dur + HOLD)) / sc.dur) * sc.T : tau;
+    const st = makeCanvas(cv, sc.ratio, () => { if (!st || !st.w) return; st.ctx.clearRect(0, 0, st.w, st.h); sc.draw(st.ctx, st.w, st.h, real(), tau); }, 240);
+    const anim = loop(dt => { tau += dt; st.draw(); });
+    const sync = () => (seen && cv.closest("details").open ? anim.start() : anim.stop());
+    new IntersectionObserver(es => { seen = es[0].isIntersecting; sync(); }).observe(cv);
+    cv.closest("details").addEventListener("toggle", () => { tau = 0; sync(); });
+  });
 })();
 
 /* ---------- Lesson 2: horizontal projectile ---------- */
