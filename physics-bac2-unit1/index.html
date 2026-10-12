@@ -788,7 +788,7 @@ mjx-container { font-size: 108% !important; }
     <div class="mcq" id="mcq"></div>
 
     <h3>مسائل للتدريب</h3>
-    <p class="note">حل كل مسألة في كراستك أولًا، ثم افتح الحل لتراجع خطواتك.</p>
+    <p class="note">حل كل مسألة في كراستك.</p>
     <div class="examples" id="problems"></div>
   </section>
 
@@ -1829,6 +1829,7 @@ const MCQ = [
 })();
 
 /* ---------- Practice: written problems ---------- */
+const SHOW_SOLUTIONS = false;
 const PROBLEMS = [
   ["1-1", "طائرة تطير شمالًا بسرعة ⁦120 m/s⁩ بالنسبة للهواء، وتهب رياح شرقًا بسرعة ⁦50 m/s⁩. أوجد سرعة الطائرة بالنسبة للأرض واتجاهها.", ["\\(v=\\sqrt{120^2+50^2}=\\sqrt{16900}=130\\un{m/s}\\)", "\\(\\tan\\theta=\\dfrac{50}{120}\\;\\Rightarrow\\;\\theta\\approx22.6^\\circ\\) شرق الشمال"]],
   ["1-1", "قارب سرعته في الماء الساكن ⁦4.0 m/s⁩ يريد عبور نهر عرضه ⁦80 m⁩ وسرعة تياره ⁦2.0 m/s⁩ ليصل إلى النقطة المقابلة تمامًا. (أ) بأي زاوية يوجه مقدمته؟ (ب) كم يستغرق العبور؟", ["(أ) \\(\\sin\\alpha=\\dfrac{2.0}{4.0}=0.5\\;\\Rightarrow\\;\\alpha=30^\\circ\\) عكس التيار", "(ب) \\(v_\\perp=4.0\\cos30^\\circ\\approx3.46\\un{m/s}\\)", "\\(t=\\dfrac{80}{3.46}\\approx23.1\\un{s}\\)"]],
@@ -1846,6 +1847,7 @@ const PROBLEMS = [
     const s = document.createElement("summary");
     s.innerHTML = `<span class="tag">مسألة ${i + 1} · درس ${src}</span>`;
     s.append(document.createTextNode(iso(q)));
+    if (!SHOW_SOLUTIONS) { s.style.cursor = "default"; s.addEventListener("click", e => e.preventDefault()); d.append(s); box.append(d); return; }
     const o = document.createElement("span"); o.className = "open"; o.textContent = "اضغط لعرض الحل"; s.append(o);
     const st = document.createElement("div"); st.className = "steps";
     const step = document.createElement("div"); step.className = "step";
