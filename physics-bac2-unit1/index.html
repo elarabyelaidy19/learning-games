@@ -179,6 +179,13 @@ footer { padding-block: 28px; color: var(--muted); font-size: 14px; }
 td.m { text-align: left; white-space: nowrap; }
 mjx-container { font-size: 108% !important; }
 .why mjx-container, .q mjx-container { font-size: 100% !important; }
+.proof h3::before { content: "برهان متحرك · "; }
+.pdots { display: flex; flex-wrap: wrap; gap: 6px; }
+.pdots button { padding: 4px 10px; font-size: 13px; background: var(--sunk); color: var(--fg); border-color: var(--line); }
+.pdots button[aria-current="step"] { background: var(--accent); color: var(--surface); border-color: var(--accent); }
+.pstep { min-width: 0; }
+.pstep h4 { margin: 0 0 4px; font-family: var(--display); font-size: 16px; }
+.pstep p, .pstep li { margin: 4px 0; line-height: 1.8; }
 </style>
 </head>
 <body>
@@ -525,6 +532,67 @@ mjx-container { font-size: 108% !important; }
       <div class="mblock">\[ R=\frac{v_0^2\sin2\theta}{g} \]</div>
       <p class="read"><strong>اقرأها هكذا:</strong> \(R\) المسافة حتى تهبط الكرة. ضاعف سرعة الرمي ← المسافة 4 أضعاف. و\(\sin2\theta\) مثل "درجة" للزاوية: أعلى درجة عند \(45^\circ\).</p>
       <p>أكبر قيمة لـ sin 2θ هي 1 عند 2θ = 90°، لذلك <strong>أكبر مدى عند 45°</strong>. والزاويتان المتتامتان (مثل 30° و 60°) تعطيان نفس المدى لأن sin 60° = sin 120°.</p>
+    </div>
+
+    <div class="sim proof" id="proof3">
+      <h3>لماذا هذه القوانين صحيحة؟ وأين تنطبق؟</h3>
+      <div class="pdots" id="p-dots">
+        <button type="button">1 · التحليل</button><button type="button">2 · حركتان</button><button type="button">3 · زمن القمة</button><button type="button">4 · الارتفاع</button><button type="button">5 · التماثل</button><button type="button">6 · المدى</button><button type="button">7 · لماذا 45°</button><button type="button">8 · أين تنطبق</button>
+      </div>
+      <canvas id="cv-proof" aria-label="برهان متحرك لقوانين المقذوف بزاوية: المسار على اليمين ورسم بياني يثبت القانون"></canvas>
+      <div class="pstep">
+        <h4>1. لماذا cos للأفقي و sin للرأسي؟</h4>
+        <p>سرعة الإطلاق \(v_0\) مائلة، فنرسم تحتها مثلثًا قائمًا: الوتر هو \(v_0\)، والضلع <b class="x">المجاور</b> للزاوية هو الجزء الأفقي، والضلع <b class="y">المقابل</b> هو الجزء الرأسي.</p>
+        <p>تعريف cos: المجاور ÷ الوتر، وتعريف sin: المقابل ÷ الوتر. نضرب في \(v_0\) فنحصل على الجزأين:</p>
+        <div class="mblock">\[ \cos\theta=\frac{v_x}{v_0}\Rightarrow v_x=v_0\cos\theta \qquad \sin\theta=\frac{v_{0y}}{v_0}\Rightarrow v_{0y}=v_0\sin\theta \]</div>
+      </div>
+      <div class="pstep" hidden>
+        <h4>2. حركتان لا تؤثر إحداهما في الأخرى</h4>
+        <p>شاهد الظلين: <b class="x">ظل الأرض</b> يتحرك بخطوات متساوية لأنه لا توجد قوة أفقية. <b class="y">ظل الحائط</b> يصعد ويبطئ ثم ينزل ويسرع، تمامًا مثل كرة رُميت رأسيًا، لأن الجاذبية رأسية فقط.</p>
+        <p>لذلك نكتب لكل اتجاه معادلته وحده، كما في الدرس السابق:</p>
+        <div class="mblock">\[ x=v_0\cos\theta\;t \qquad y=v_0\sin\theta\;t-\tfrac12gt^2 \]</div>
+      </div>
+      <div class="pstep" hidden>
+        <h4>3. من أين يأتي زمن القمة؟</h4>
+        <p>كل ثانية تأخذ الجاذبية \(9.8\un{m/s}\) من السرعة الرأسية، وهذا هو ميل الخط في الرسم. عند القمة نفدت السرعة الرأسية تمامًا: \(v_y=0\). نسأل: كم ثانية حتى تنفد؟</p>
+        <div class="mblock">\[ v_y=v_0\sin\theta-gt=0 \;\Rightarrow\; t_{\text{قمة}}=\frac{v_0\sin\theta}{g} \]</div>
+      </div>
+      <div class="pstep" hidden>
+        <h4>4. من أين يأتي أقصى ارتفاع؟</h4>
+        <p>السرعة الرأسية نزلت بانتظام من \(v_0\sin\theta\) إلى صفر، إذن <b>متوسطها</b> نصف قيمتها الأولى. والمسافة = متوسط السرعة × الزمن. وفي الرسم: المسافة هي <b>مساحة المثلث</b> تحت الخط، وتساوي مساحة المستطيل المنقط.</p>
+        <div class="mblock">\[ H=\frac{v_0\sin\theta}{2}\times\frac{v_0\sin\theta}{g}=\frac{(v_0\sin\theta)^2}{2g} \]</div>
+      </div>
+      <div class="pstep" hidden>
+        <h4>5. لماذا زمن النزول = زمن الصعود؟</h4>
+        <p>بعد القمة يكمل الخط في الرسم بنفس الميل تحت المحور. المثلث السفلي يطابق العلوي: ما كسبته الكرة من ارتفاع تخسره في نفس الزمن. لذلك النزول صورة مرآة للصعود، وللكرة نفس السرعة عند نفس الارتفاع.</p>
+        <div class="mblock">\[ T=2\,t_{\text{قمة}}=\frac{2v_0\sin\theta}{g} \]</div>
+      </div>
+      <div class="pstep" hidden>
+        <h4>6. من أين يأتي قانون المدى؟</h4>
+        <p>أفقيًا لا شيء يغيّر السرعة، فالمسافة = السرعة × الزمن، وهي مساحة المستطيل في الرسم. نضرب في زمن الطيران كله، ثم نستخدم \(2\sin\theta\cos\theta=\sin2\theta\):</p>
+        <div class="mblock">\[ R=v_0\cos\theta\times\frac{2v_0\sin\theta}{g}=\frac{v_0^2\,(2\sin\theta\cos\theta)}{g}=\frac{v_0^2\sin2\theta}{g} \]</div>
+      </div>
+      <div class="pstep" hidden>
+        <h4>7. لماذا أكبر مدى عند 45°؟</h4>
+        <p>في قانون المدى الجزء الوحيد الذي يتغير مع الزاوية هو \(\sin2\theta\)، وأكبر قيمة له 1 عند \(2\theta=90^\circ\)، أي \(\theta=45^\circ\). الرسم يجرب كل الزوايا بنفس السرعة.</p>
+        <p>ولأن \(\sin(180^\circ-2\theta)=\sin2\theta\)، فالزاويتان \(\theta\) و \(90^\circ-\theta\) تعطيان نفس المدى، مثل 30° و 60°. الأعلى فقط يبقى في الهواء وقتًا أطول.</p>
+        <div class="mblock">\[ R_{\max}=\frac{v_0^2}{g}\quad(\theta=45^\circ) \qquad R(\theta)=R(90^\circ-\theta) \]</div>
+      </div>
+      <div class="pstep" hidden>
+        <h4>8. أين تنطبق هذه القوانين؟ وأين لا تنطبق؟</h4>
+        <p>قوانين \(T\) و \(H\) و \(R\) صحيحة بثلاثة شروط: الهبوط على <b>نفس مستوى</b> الإطلاق، و<b>مقاومة الهواء</b> مهملة، والحركة قرب سطح الأرض حيث \(g\) ثابتة.</p>
+        <ul>
+          <li><b class="y">تنطبق:</b> ركلة كرة قدم على أرض الملعب، نافورة ماء، رمي حجر في ساحة، خرطوم إطفاء على أرض مستوية.</li>
+          <li><b class="r">من فوق مبنى (الرسم الأول):</b> الكرة تمر بمستوى الإطلاق عند \(R\) ثم تكمل نزولها فتهبط أبعد. هنا نترك \(T\) و \(R\) ونحل \(y=-h\) مباشرة.</li>
+          <li><b class="r">مع الهواء (الرسم الثاني):</b> كرة خفيفة أو ريشة: الهواء يبطئها فتهبط أقرب، والنزول أشد انحدارًا من الصعود، فيختفي التماثل.</li>
+        </ul>
+      </div>
+      <div class="row"><button type="button" class="ghost" id="p-prev">السابق</button><button type="button" id="p-next">التالي</button><button type="button" class="ghost" id="p-replay">أعد الحركة</button></div>
+      <div class="controls">
+        <div class="ctl"><label for="p-v">سرعة الإطلاق <output id="p-v-o">⁦20 m/s⁩</output></label><input type="range" id="p-v" min="8" max="30" step="0.5" value="20"></div>
+        <div class="ctl"><label for="p-t">زاوية الإطلاق <output id="p-t-o">53°</output></label><input type="range" id="p-t" min="10" max="80" step="1" value="53"></div>
+      </div>
+      <div class="readout" id="p-out"></div>
     </div>
 
     <div class="sim" id="sim-ang">
@@ -1312,6 +1380,329 @@ function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.fl
     draw();
   });
   $("#a-go").addEventListener("click", () => { t = 0; trail = []; nextDot = 0; anim.stop(); anim.start(); });
+})();
+
+/* ---------- Lesson 3: animated proofs ---------- */
+(() => {
+  const HOLD = 2, DUR = [3, 4, 3.5, 3.5, 4.5, 4, 6, 4.5];
+  const steps = [...document.querySelectorAll("#proof3 .pstep")], dots = [...document.querySelectorAll("#p-dots button")];
+  const V = slider("p-v", v => f(v) + " m/s"), A = slider("p-t", v => v + "°");
+  let cur = 0, tau = 0, lastOut = "";
+  const ease = u => u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u);
+  const panels = (w, h) => w >= 560 ? [[0, 0, w * 0.56, h], [w * 0.56, 0, w * 0.44, h]] : [[0, 0, w, h * 0.56], [0, h * 0.56, w, h * 0.44]];
+  const inP = (ctx, p, fn) => { ctx.save(); ctx.beginPath(); ctx.rect(...p); ctx.clip(); fn(); ctx.restore(); };
+  const dot = (ctx, x, y, col, r = 7, a = 1) => { ctx.globalAlpha = a; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); ctx.globalAlpha = 1; };
+  function world(p, R, H, ox = 30) {
+    const [x, y, w, h] = p, s = Math.min((w - ox - 30) / R, (h - 70) / H), oy = y + h - 26;
+    return { s, ox: x + ox, oy, X: m => x + ox + m * s, Y: m => oy - m * s };
+  }
+  const ground = (ctx, p, W) => { ctx.fillStyle = C.ground; ctx.fillRect(p[0], W.oy, p[2], p[1] + p[3] - W.oy); };
+  function curve(ctx, W, fx, fy, t0, t1, col, lw = 2, dash) {
+    ctx.save(); if (dash) ctx.setLineDash(dash); ctx.strokeStyle = col; ctx.lineWidth = lw; ctx.beginPath();
+    for (let i = 0; i <= 50; i++) { const t = t0 + (t1 - t0) * i / 50, X = W.X(fx(t)), Y = W.Y(fy(t)); i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); }
+    ctx.stroke(); ctx.restore();
+  }
+  function graph(ctx, p, xMax, yMax, yMin, ylab, xlab = "t") {
+    const [x, y, w, h] = p, l = x + 40, r = x + w - 18, t = y + 32, b = y + h - 22;
+    ctx.fillStyle = C.surface; ctx.fillRect(x, y, w, h);
+    ctx.strokeStyle = C.line; ctx.lineWidth = 1; ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+    const g = { X: v => l + v / xMax * (r - l), Y: v => t + (yMax - v) / (yMax - yMin) * (b - t) };
+    ctx.strokeStyle = C.muted; ctx.lineWidth = 1.5; ctx.beginPath();
+    ctx.moveTo(l, t - 8); ctx.lineTo(l, b); ctx.moveTo(l, g.Y(0)); ctx.lineTo(r + 8, g.Y(0)); ctx.stroke();
+    txt(ctx, ylab, l, t - 18, C.fg, 13, "center");
+    txt(ctx, xlab, r + 10, g.Y(0) - 10, C.muted, 12);
+    return g;
+  }
+  function plot(ctx, g, fn, t0, t1, col, lw = 2.5, dash) {
+    ctx.save(); if (dash) ctx.setLineDash(dash); ctx.strokeStyle = col; ctx.lineWidth = lw; ctx.beginPath();
+    for (let i = 0; i <= 40; i++) { const t = t0 + (t1 - t0) * i / 40; i ? ctx.lineTo(g.X(t), g.Y(fn(t))) : ctx.moveTo(g.X(t), g.Y(fn(t))); }
+    ctx.stroke(); ctx.restore();
+  }
+  function area(ctx, g, fn, t0, t1, col) {
+    if (t1 <= t0) return;
+    ctx.globalAlpha = 0.25; ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(g.X(t0), g.Y(0));
+    for (let i = 0; i <= 30; i++) { const t = t0 + (t1 - t0) * i / 30; ctx.lineTo(g.X(t), g.Y(fn(t))); }
+    ctx.lineTo(g.X(t1), g.Y(0)); ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function flight(ctx, a, P, t, opts = {}) {
+    const W = world(a, P.R, P.H); ground(ctx, a, W);
+    curve(ctx, W, P.fx, P.fy, 0, P.T, C.line, 2, [5, 5]);
+    curve(ctx, W, P.fx, P.fy, 0, t, C.accent, 2.5);
+    return { W, X: W.X(P.fx(t)), Y: W.Y(P.fy(t)), vy: P.vy0 - G * t, k: Math.min(a[2], a[3]) * 0.22 / P.v0 };
+  }
+  const vArrows = (ctx, B, P) => {
+    arrow(ctx, B.X, B.Y, B.X + P.vx * B.k, B.Y, C.vx, 2.5);
+    if (Math.abs(B.vy * B.k) > 4) arrow(ctx, B.X, B.Y, B.X, B.Y - B.vy * B.k, C.vy, 2.5);
+  };
+  const vyFn = P => t => P.vy0 - G * t;
+  const num = (v, u) => `\u2066${f(v)} ${u}\u2069`;
+
+  const STEPS = [
+    (ctx, a, b, P, u) => {
+      inP(ctx, a, () => {
+        const W = world(a, P.R, P.H); ground(ctx, a, W);
+        curve(ctx, W, P.fx, P.fy, 0, P.T, C.line, 2, [5, 5]);
+        const L = Math.min((a[2] - 120) / Math.cos(P.th), (a[3] - 80) / Math.sin(P.th), a[2] * 0.6);
+        const e1 = ease(u / 0.35), e2 = ease((u - 0.4) / 0.5), Lc = L * Math.cos(P.th), Ls = L * Math.sin(P.th);
+        const ox = W.ox, oy = W.oy - 2;
+        ctx.strokeStyle = C.muted; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(ox, oy, 34, -P.th, 0); ctx.stroke();
+        txt(ctx, "θ = " + A() + "°", ox + 44, oy - 12, C.muted, 12, "left");
+        arrow(ctx, ox, oy, ox + Lc * e1, oy - Ls * e1, C.vr, 3.5);
+        if (e2 > 0) {
+          dashed(ctx, ox + Lc, oy - Ls, ox + Lc, oy, C.muted, 1, [3, 4]);
+          arrow(ctx, ox, oy, ox + Lc * e2, oy, C.vx, 3.5);
+          arrow(ctx, ox + Lc, oy, ox + Lc, oy - Ls * e2, C.vy, 3.5);
+          ctx.strokeStyle = C.fg; ctx.lineWidth = 1; ctx.strokeRect(ox + Lc - 10, oy - 10, 10, 10);
+        }
+        if (e1 > 0.9) txt(ctx, `v₀ = ${f(P.v0)} m/s`, Math.max(a[0] + 140, ox + Lc - 14), oy - Ls - 4, C.vr, 13, "right");
+        if (e2 > 0.6) {
+          txt(ctx, `v₀cosθ = ${f(P.vx)} m/s`, ox + Lc / 2, oy + 15, C.vx, 12);
+          txt(ctx, `v₀sinθ = ${f(P.vy0)} m/s`, ox + Lc + 8, oy - Ls / 2, C.vy, 12, "left");
+        }
+      });
+      inP(ctx, b, () => {
+        const [x, y, w, h] = b;
+        ctx.fillStyle = C.surface; ctx.fillRect(x, y, w, h);
+        let bw = w - 90, bh = bw * Math.tan(P.th);
+        if (bh > h - 120) { bh = h - 120; bw = bh / Math.tan(P.th); }
+        const Ax = x + w / 2 - bw / 2 - 10, Ay = y + 26 + bh + 10, Bx = Ax + bw;
+        const e = ease(u / 0.6);
+        ctx.lineWidth = 3; ctx.lineCap = "round";
+        ctx.strokeStyle = C.vx; ctx.beginPath(); ctx.moveTo(Ax, Ay); ctx.lineTo(Ax + bw * e, Ay); ctx.stroke();
+        ctx.strokeStyle = C.vy; ctx.beginPath(); ctx.moveTo(Bx, Ay); ctx.lineTo(Bx, Ay - bh * e); ctx.stroke();
+        ctx.strokeStyle = C.vr; ctx.beginPath(); ctx.moveTo(Ax, Ay); ctx.lineTo(Ax + bw * e, Ay - bh * e); ctx.stroke();
+        txt(ctx, "θ", Ax + 26, Ay - 9, C.muted, 13);
+        txt(ctx, "المجاور", Ax + bw / 2, Ay + 14, C.vx, 13, "center", true);
+        txt(ctx, "المقابل", Bx + 6, Ay - bh / 2, C.vy, 13, "left", true);
+        txt(ctx, "الوتر v₀", Ax + bw / 2 - 10, Ay - bh / 2 - 12, C.vr, 13, "right", true);
+        if (u > 0.5) {
+          txt(ctx, "cos θ = المجاور ÷ الوتر", x + w / 2, y + h - 40, C.vx, 13, "center", true);
+          txt(ctx, "sin θ = المقابل ÷ الوتر", x + w / 2, y + h - 18, C.vy, 13, "center", true);
+        }
+      });
+    },
+    (ctx, a, b, P, u) => {
+      const t = u * P.T;
+      inP(ctx, a, () => {
+        const B = flight(ctx, a, P, t), W = B.W, wx = a[0] + 12;
+        ctx.strokeStyle = C.muted; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(wx, a[1] + 14); ctx.lineTo(wx, W.oy); ctx.stroke();
+        for (let i = 0; i <= 8; i++) {
+          const ti = i * P.T / 8; if (ti > t + 1e-9) break;
+          const gx = W.X(P.fx(ti)), gy = W.Y(P.fy(ti));
+          dot(ctx, gx, gy, C.fg, 5, 0.3);
+          ctx.fillStyle = C.vx; ctx.fillRect(gx - 1, W.oy - 9, 2, 9);
+          ctx.fillStyle = C.vy; ctx.fillRect(wx - 6, gy - 1, 12, 2);
+        }
+        dashed(ctx, B.X, B.Y, B.X, W.oy, C.vx, 1, [3, 4]); dashed(ctx, B.X, B.Y, wx, B.Y, C.vy, 1, [3, 4]);
+        dot(ctx, B.X, W.oy, C.vx, 6); dot(ctx, wx, B.Y, C.vy, 6); dot(ctx, B.X, B.Y, C.fg);
+        txt(ctx, `t = ${f(t, 2)} s`, a[0] + a[2] - 10, a[1] + 16, C.fg, 13, "right");
+      });
+      inP(ctx, b, () => {
+        const [x, y, w, h] = b, b1 = [x, y, w, h / 2], b2 = [x, y + h / 2, w, h / 2];
+        const g1 = graph(ctx, b1, P.T, P.R * 1.1, 0, "x"), g2 = graph(ctx, b2, P.T, P.H * 1.3, 0, "y");
+        plot(ctx, g1, P.fx, 0, P.T, C.line, 1.5, [4, 4]); plot(ctx, g1, P.fx, 0, t, C.vx);
+        plot(ctx, g2, P.fy, 0, P.T, C.line, 1.5, [4, 4]); plot(ctx, g2, P.fy, 0, t, C.vy);
+        dot(ctx, g1.X(t), g1.Y(P.fx(t)), C.vx, 5); dot(ctx, g2.X(t), g2.Y(P.fy(t)), C.vy, 5);
+        txt(ctx, "خط مستقيم: سرعة ثابتة", x + w - 10, y + 14, C.vx, 12, "right", true);
+        txt(ctx, "منحنى: الجاذبية تغيّر السرعة", x + w - 10, y + h / 2 + 14, C.vy, 12, "right", true);
+      });
+    },
+    (ctx, a, b, P, u) => {
+      const t = u * P.tp, vy = vyFn(P);
+      inP(ctx, a, () => {
+        const B = flight(ctx, a, P, t);
+        dot(ctx, B.X, B.Y, C.fg); vArrows(ctx, B, P);
+        arrow(ctx, B.X - 14, B.Y + 8, B.X - 14, B.Y + 34, C.grav, 2); txt(ctx, "g", B.X - 24, B.Y + 24, C.grav, 12);
+        if (u >= 1) { txt(ctx, "v_y = 0", B.X, B.Y - 18, C.vy, 13); dashed(ctx, B.X, B.Y, B.X, B.W.oy, C.muted, 1, [3, 4]); }
+        txt(ctx, `v_y = ${f(P.vy0)} − 9.8 × ${f(t, 2)}`, a[0] + a[2] - 10, a[1] + 16, C.fg, 12, "right");
+        txt(ctx, `= ${f(vy(t))} m/s`, a[0] + a[2] - 10, a[1] + 34, C.vy, 13, "right");
+      });
+      inP(ctx, b, () => {
+        const g = graph(ctx, b, P.T, P.vy0 * 1.2, -P.vy0 * 1.2, "v_y");
+        plot(ctx, g, vy, 0, P.T, C.line, 1.5, [4, 4]); plot(ctx, g, vy, 0, t, C.vy);
+        const d = P.tp > 1.3 ? 1 : 0.5, t0 = P.tp * 0.15;
+        if (u > 0.4) {
+          ctx.strokeStyle = C.grav; ctx.lineWidth = 1.5; ctx.beginPath();
+          ctx.moveTo(g.X(t0), g.Y(vy(t0))); ctx.lineTo(g.X(t0 + d), g.Y(vy(t0))); ctx.lineTo(g.X(t0 + d), g.Y(vy(t0 + d))); ctx.stroke();
+          txt(ctx, `${d} s`, g.X(t0 + d / 2), g.Y(vy(t0)) - 9, C.grav, 11);
+          txt(ctx, `−${f(G * d)}`, g.X(t0 + d) + 4, g.Y(vy(t0 + d / 2)), C.grav, 11, "left");
+        }
+        dot(ctx, g.X(t), g.Y(vy(t)), C.vy, 5);
+        if (u >= 1) {
+          dot(ctx, g.X(P.tp), g.Y(0), C.vr, 5);
+          txt(ctx, `t = ${f(P.tp, 2)} s`, g.X(P.tp), g.Y(0) + 14, C.vr, 12);
+        }
+      });
+    },
+    (ctx, a, b, P, u) => {
+      const t = u * P.tp, vy = vyFn(P), y = P.fy(t);
+      inP(ctx, a, () => {
+        const B = flight(ctx, a, P, t);
+        ctx.strokeStyle = C.vy; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(B.X, B.W.oy); ctx.lineTo(B.X, B.Y); ctx.stroke();
+        dot(ctx, B.X, B.Y, C.fg);
+        txt(ctx, `${u >= 1 ? "H" : "y"} = ${f(y)} m`, B.X + 10, (B.Y + B.W.oy) / 2, C.vy, 13, "left");
+      });
+      inP(ctx, b, () => {
+        const g = graph(ctx, b, P.T, P.vy0 * 1.2, -P.vy0 * 1.2, "v_y");
+        plot(ctx, g, vy, 0, P.T, C.line, 1.5, [4, 4]);
+        area(ctx, g, vy, 0, t, C.vy);
+        plot(ctx, g, vy, 0, t, C.vy);
+        dot(ctx, g.X(t), g.Y(vy(t)), C.vy, 5);
+        txt(ctx, `المساحة = ${num(y, "m")}`, g.X(P.tp * 0.36), g.Y(P.vy0 * 0.16), C.fg, 12, "center", true);
+        if (u >= 1) {
+          ctx.save(); ctx.setLineDash([4, 4]); ctx.strokeStyle = C.grav; ctx.lineWidth = 1.5;
+          ctx.strokeRect(g.X(0), g.Y(P.vy0 / 2), g.X(P.tp) - g.X(0), g.Y(0) - g.Y(P.vy0 / 2)); ctx.restore();
+          txt(ctx, "المتوسط = نصف v₀sinθ", g.X(P.tp) + 6, g.Y(P.vy0 / 2), C.grav, 11, "left", true);
+        }
+      });
+    },
+    (ctx, a, b, P, u) => {
+      const t = u * P.T, vy = vyFn(P);
+      inP(ctx, a, () => {
+        const B = flight(ctx, a, P, t), W = B.W, ax = W.X(P.fx(P.tp));
+        dashed(ctx, ax, W.Y(P.H) - 14, ax, W.oy, C.muted, 1, [3, 4]);
+        for (let k = 1; k <= 3; k++) {
+          const t1 = P.tp - k * P.tp / 4, t2 = P.tp + k * P.tp / 4, k2 = B.k * 0.7;
+          const p1 = [W.X(P.fx(t1)), W.Y(P.fy(t1))], p2 = [W.X(P.fx(t2)), W.Y(P.fy(t2))];
+          if (t >= t1) { dot(ctx, ...p1, C.fg, 5, 0.35); arrow(ctx, ...p1, p1[0], p1[1] - vy(t1) * k2, C.vy, 2); }
+          if (t >= t2) {
+            dot(ctx, ...p2, C.fg, 5, 0.35); arrow(ctx, ...p2, p2[0], p2[1] - vy(t2) * k2, C.vy, 2);
+            dashed(ctx, p1[0] + 6, p1[1], p2[0] - 6, p2[1], C.muted, 1, [2, 4]);
+          }
+        }
+        dot(ctx, B.X, B.Y, C.fg);
+        txt(ctx, `t = ${f(t, 2)} s`, a[0] + a[2] - 10, a[1] + 16, C.fg, 13, "right");
+      });
+      inP(ctx, b, () => {
+        const g = graph(ctx, b, P.T, P.vy0 * 1.2, -P.vy0 * 1.2, "v_y");
+        plot(ctx, g, vy, 0, P.T, C.line, 1.5, [4, 4]);
+        area(ctx, g, vy, 0, Math.min(t, P.tp), C.vy);
+        area(ctx, g, vy, P.tp, t, C.vr);
+        plot(ctx, g, vy, 0, t, C.vy);
+        dot(ctx, g.X(t), g.Y(vy(t)), C.vy, 5);
+        txt(ctx, "+H", g.X(P.tp * 0.33), g.Y(P.vy0 * 0.33), C.vy, 13);
+        if (t > P.tp * 1.3) txt(ctx, "−H", g.X(P.tp * 1.67), g.Y(-P.vy0 * 0.33), C.vr, 13);
+        if (u >= 1) {
+          txt(ctx, `T = ${f(P.T, 2)} s`, g.X(P.T) - 4, g.Y(0) - 12, C.vr, 12, "right");
+          txt(ctx, "المساحتان متساويتان ← عادت للأرض", b[0] + b[2] / 2, b[1] + b[3] - 8, C.fg, 12, "center", true);
+        }
+      });
+    },
+    (ctx, a, b, P, u) => {
+      const t = u * P.T, x = P.fx(t);
+      inP(ctx, a, () => {
+        const B = flight(ctx, a, P, t), W = B.W;
+        ctx.fillStyle = C.vx; ctx.fillRect(W.ox, W.oy + 3, x * W.s, 5);
+        txt(ctx, `${u >= 1 ? "R" : "x"} = ${f(x)} m`, W.ox + x * W.s / 2, W.oy + 17, C.fg, 12);
+        dot(ctx, B.X, B.Y, C.fg);
+        arrow(ctx, B.X, B.Y, B.X + P.vx * B.k, B.Y, C.vx, 2.5);
+      });
+      inP(ctx, b, () => {
+        const g = graph(ctx, b, P.T, P.vx * 1.5, 0, "v_x");
+        ctx.globalAlpha = 0.25; ctx.fillStyle = C.vx; ctx.fillRect(g.X(0), g.Y(P.vx), g.X(t) - g.X(0), g.Y(0) - g.Y(P.vx)); ctx.globalAlpha = 1;
+        plot(ctx, g, () => P.vx, 0, P.T, C.line, 1.5, [4, 4]); plot(ctx, g, () => P.vx, 0, t, C.vx);
+        dot(ctx, g.X(t), g.Y(P.vx), C.vx, 5);
+        txt(ctx, `${f(P.vx)} m/s`, g.X(0) + 6, g.Y(P.vx) - 10, C.vx, 12, "left");
+        txt(ctx, `المساحة = ${num(x, "m")}`, (g.X(0) + g.X(Math.max(t, P.T * 0.5))) / 2, g.Y(P.vx / 2), C.fg, 12, "center", true);
+        if (u >= 1) txt(ctx, `T = ${f(P.T, 2)} s`, g.X(P.T), g.Y(0) + 12, C.muted, 12, "right");
+      });
+    },
+    (ctx, a, b, P, u) => {
+      const ang = 15 + 60 * u, Rof = d => P.v0 * P.v0 * Math.sin(2 * d * RAD) / G;
+      const traj = d => { const th = d * RAD, vx = P.v0 * Math.cos(th), vy = P.v0 * Math.sin(th); return [t => vx * t, t => vy * t - G * t * t / 2, 2 * vy / G]; };
+      inP(ctx, a, () => {
+        const Hm = (P.v0 * Math.sin(75 * RAD)) ** 2 / (2 * G), W = world(a, P.v0 * P.v0 / G, Hm); ground(ctx, a, W);
+        for (const d of [15, 30, 45, 60, 75]) {
+          if (ang < d - 0.01) break;
+          const [fx, fy, T] = traj(d);
+          curve(ctx, W, fx, fy, 0, T, d === 45 ? C.accent : C.line, d === 45 ? 2.5 : 2);
+          txt(ctx, d + "°", W.X(fx(T / 2)), W.Y(fy(T / 2)) - 10, d === 45 ? C.accent : C.muted, 11);
+        }
+        const [fx, fy, T] = traj(ang);
+        curve(ctx, W, fx, fy, 0, T, C.vr, 2.5);
+        dot(ctx, W.X(fx(T)), W.oy, C.vr, 5);
+        txt(ctx, `θ = ${f(ang, 0)}°   R = ${f(Rof(ang))} m`, a[0] + a[2] - 10, a[1] + 16, C.vr, 13, "right");
+      });
+      inP(ctx, b, () => {
+        const g = graph(ctx, b, 90, P.v0 * P.v0 / G * 1.25, 0, "R", "θ");
+        plot(ctx, g, Rof, 0, 90, C.line, 1.5, [4, 4]); plot(ctx, g, Rof, 0, ang, C.vr);
+        dashed(ctx, g.X(45), g.Y(Rof(45)), g.X(45), g.Y(0), C.accent, 1.5);
+        for (const d of [30, 45, 60]) txt(ctx, d + "°", g.X(d), g.Y(0) + 12, d === 45 ? C.accent : C.muted, 11);
+        if (ang >= 45) txt(ctx, `أكبر مدى = ${num(Rof(45), "m")}`, g.X(45), g.Y(Rof(45)) - 12, C.accent, 12, "center", true);
+        if (ang >= 60) {
+          dashed(ctx, g.X(30), g.Y(Rof(30)), g.X(60), g.Y(Rof(60)), C.muted, 1.5);
+          dot(ctx, g.X(30), g.Y(Rof(30)), C.muted, 4); dot(ctx, g.X(60), g.Y(Rof(60)), C.muted, 4);
+          txt(ctx, "نفس المدى", g.X(45), g.Y(Rof(30)) + 14, C.muted, 11, "center", true);
+        }
+        dot(ctx, g.X(ang), g.Y(Rof(ang)), C.vr, 5);
+      });
+    },
+    (ctx, a, b, P, u) => {
+      inP(ctx, a, () => {
+        const h0 = P.H * 0.8, tl = (P.vy0 + Math.sqrt(P.vy0 ** 2 + 2 * G * h0)) / G, xl = P.vx * tl;
+        const W = world(a, xl, P.H + h0, 46); ground(ctx, a, W);
+        const fy = t => h0 + P.fy(t), t = u * tl;
+        ctx.fillStyle = C.ground; ctx.fillRect(a[0], W.Y(h0), W.ox - a[0], W.oy - W.Y(h0));
+        dashed(ctx, W.ox, W.Y(h0), W.X(P.R) + 24, W.Y(h0), C.muted, 1, [4, 4]);
+        curve(ctx, W, P.fx, fy, 0, tl, C.line, 2, [5, 5]);
+        curve(ctx, W, P.fx, fy, 0, t, C.accent, 2.5);
+        ctx.fillStyle = C.vy; ctx.fillRect(W.X(P.R) - 1, W.Y(h0) - 8, 3, 16);
+        txt(ctx, `R = ${f(P.R)} m`, W.X(P.R), W.Y(h0) - 16, C.vy, 12);
+        dot(ctx, W.X(P.fx(t)), W.Y(fy(t)), C.fg);
+        if (u >= 1) txt(ctx, `الهبوط الحقيقي = ${num(xl, "m")}`, W.X(xl) - 4, W.oy + 14, C.vr, 12, "right", true);
+        txt(ctx, "من فوق مبنى", a[0] + a[2] - 10, a[1] + 16, C.fg, 13, "right", true);
+      });
+      inP(ctx, b, () => {
+        const k = 0.3 / P.v0, dt = 0.01, pts = [[0, 0]];
+        let x = 0, y = 0, vx = P.vx, vy = P.vy0;
+        while (pts.length < 2000) {
+          const sp = Math.hypot(vx, vy); vx -= k * sp * vx * dt; vy -= (G + k * sp * vy) * dt; x += vx * dt; y += vy * dt;
+          if (y < 0) break; pts.push([x, y]);
+        }
+        const Td = pts.length * dt, t = u * Math.max(P.T, Td), W = world(b, P.R, P.H);
+        ground(ctx, b, W);
+        curve(ctx, W, P.fx, P.fy, 0, P.T, C.accent, 2, [6, 5]);
+        const n = Math.min(pts.length - 1, Math.floor(t / dt));
+        ctx.strokeStyle = C.vr; ctx.lineWidth = 2.5; ctx.beginPath();
+        for (let i = 0; i <= n; i++) i ? ctx.lineTo(W.X(pts[i][0]), W.Y(pts[i][1])) : ctx.moveTo(W.X(0), W.Y(0));
+        ctx.stroke();
+        const ti = Math.min(t, P.T);
+        dot(ctx, W.X(P.fx(ti)), W.Y(P.fy(ti)), C.accent, 6);
+        dot(ctx, W.X(pts[n][0]), W.Y(pts[n][1]), C.vr, 6);
+        txt(ctx, "بدون هواء", W.X(P.R), W.oy + 14, C.accent, 12, "right", true);
+        if (u >= 1) txt(ctx, "مع الهواء", W.X(pts[n][0]), W.oy - 14, C.vr, 12, "center", true);
+        txt(ctx, "مقاومة الهواء", b[0] + b[2] - 10, b[1] + 16, C.fg, 13, "right", true);
+      });
+    }
+  ];
+
+  function draw() {
+    const { ctx, w, h } = st; if (!w) return;
+    const v0 = V(), th = A() * RAD, vx = v0 * Math.cos(th), vy0 = v0 * Math.sin(th), tp = vy0 / G, T = 2 * tp;
+    const P = { v0, th, vx, vy0, tp, T, H: vy0 * vy0 / (2 * G), R: vx * T, fx: t => vx * t, fy: t => vy0 * t - G * t * t / 2 };
+    const d = DUR[cur], u = Math.min(1, (tau % (d + HOLD)) / d), [a, b] = panels(w, h);
+    ctx.clearRect(0, 0, w, h);
+    STEPS[cur](ctx, a, b, P, u);
+    const out = cell("vₓ = v₀ cos θ", f(vx, 2) + " m/s") + cell("v₀y = v₀ sin θ", f(vy0, 2) + " m/s") +
+      cell("زمن القمة", f(tp, 2) + " s") + cell("أقصى ارتفاع H", f(P.H, 2) + " m") +
+      cell("زمن الطيران T", f(T, 2) + " s") + cell("المدى R", f(P.R, 2) + " m");
+    if (out !== lastOut) $("#p-out").innerHTML = lastOut = out;
+  }
+  const st = makeCanvas($("#cv-proof"), 0.6, draw, 360);
+  const anim = loop(dt => { tau += dt; draw(); });
+  new IntersectionObserver(es => es[0].isIntersecting ? anim.start() : anim.stop()).observe(st.cv);
+  function go(i) {
+    cur = Math.max(0, Math.min(STEPS.length - 1, i)); tau = 0;
+    steps.forEach((s, j) => s.hidden = j !== cur);
+    dots.forEach((d, j) => d.setAttribute("aria-current", j === cur ? "step" : "false"));
+    $("#p-prev").disabled = cur === 0; $("#p-next").disabled = cur === STEPS.length - 1;
+    draw();
+  }
+  dots.forEach((d, i) => d.addEventListener("click", () => go(i)));
+  $("#p-prev").addEventListener("click", () => go(cur - 1));
+  $("#p-next").addEventListener("click", () => go(cur + 1));
+  $("#p-replay").addEventListener("click", () => { tau = 0; draw(); });
+  go(0);
 })();
 
 /* ---------- Lesson 4: door torque ---------- */
