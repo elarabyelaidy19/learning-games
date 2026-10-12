@@ -149,6 +149,7 @@ details.ex[open] > summary .open { display: none; }
 .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
 .opts button { background: var(--sunk); color: var(--fg); border: 1px solid var(--line); text-align: start; font-weight: 500; }
 .opts button.ok { background: var(--good-soft); border-color: var(--good); color: var(--good); font-weight: 700; }
+.opts button.pick { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 700; }
 .opts button.no { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
 .q .why { font-size: 14px; color: var(--muted); }
 .scorebar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; font-weight: 600; }
@@ -783,8 +784,8 @@ mjx-container { font-size: 108% !important; }
   <!-- ===================== PRACTICE ===================== -->
   <section class="lesson" id="practice">
     <div class="lhead"><span class="lnum">تدريبات</span><h2>اختبر فهمك</h2></div>
-    <p class="note">اختر إجابة لكل سؤال لترى التصحيح والتفسير فورًا.</p>
-    <div class="scorebar">النتيجة: <span class="num" id="mcq-score">0 / 0</span><button class="ghost" id="mcq-reset">ابدأ من جديد</button></div>
+    <p class="note" id="mcq-note">اختر إجابة لكل سؤال لترى التصحيح والتفسير فورًا.</p>
+    <div class="scorebar"><span id="mcq-label">النتيجة:</span> <span class="num" id="mcq-score">0 / 0</span><button class="ghost" id="mcq-reset">ابدأ من جديد</button></div>
     <div class="mcq" id="mcq"></div>
 
     <h3>مسائل للتدريب</h3>
@@ -1781,6 +1782,7 @@ function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.fl
 })();
 
 /* ---------- Practice: MCQ ---------- */
+const SHOW_SOLUTIONS = false;
 const MCQ = [
   ["1-1", "قارب سرعته ⁦5 m/s⁩ يتجه عموديًا على ضفة نهر سرعة تياره ⁦5 m/s⁩. ما الزاوية بين مساره والاتجاه العمودي على الضفة؟", ["0°", "30°", "45°", "90°"], 2, "\\(\\tan\\theta=\\tfrac55=1\\)، إذن \\(\\theta=45^\\circ\\). المركبتان متساويتان فالمسار في منتصف المسافة بين الاتجاهين."],
   ["1-1", "قارب يتجه عموديًا على الضفة. إذا تضاعفت سرعة التيار، فإن زمن العبور:", ["يتضاعف", "يقل للنصف", "يبقى ثابتًا", "يزيد قليلًا"], 2, "الزمن = العرض ÷ المركبة العمودية على الضفة، والتيار موازٍ للضفة فلا يؤثر عليها. يتضاعف الانجراف فقط."],
@@ -1801,7 +1803,8 @@ const MCQ = [
 (() => {
   const box = $("#mcq");
   let answered = 0, correct = 0;
-  const score = () => $("#mcq-score").textContent = `${correct} / ${answered}`;
+  const score = () => $("#mcq-score").textContent = SHOW_SOLUTIONS ? `${correct} / ${answered}` : `${answered} / ${MCQ.length}`;
+  if (!SHOW_SOLUTIONS) { $("#mcq-label").textContent = "أجبت:"; $("#mcq-note").textContent = "اختر إجابة لكل سؤال. يمكنك تغيير اختيارك."; }
   function build() {
     answered = 0; correct = 0; score();
     box.innerHTML = "";
@@ -1814,6 +1817,11 @@ const MCQ = [
       opts.forEach((t, i) => {
         const b = document.createElement("button"); b.type = "button"; b.textContent = t;
         b.addEventListener("click", () => {
+          if (!SHOW_SOLUTIONS) {
+            if (!o.querySelector(".pick")) { answered++; score(); }
+            o.querySelectorAll(".pick").forEach(x => x.classList.remove("pick")); b.classList.add("pick");
+            return;
+          }
           if (o.dataset.done) return;
           o.dataset.done = 1; answered++;
           if (i === ans) { correct++; b.classList.add("ok"); } else { b.classList.add("no"); o.children[ans].classList.add("ok"); }
@@ -1821,7 +1829,7 @@ const MCQ = [
         });
         o.append(b);
       });
-      d.append(qt, o, w); box.append(d);
+      d.append(qt, o); if (SHOW_SOLUTIONS) d.append(w); box.append(d);
     });
   }
   $("#mcq-reset").addEventListener("click", () => { build(); window.MathJax?.typesetPromise?.([box]); });
@@ -1829,7 +1837,6 @@ const MCQ = [
 })();
 
 /* ---------- Practice: written problems ---------- */
-const SHOW_SOLUTIONS = false;
 const PROBLEMS = [
   ["1-1", "طائرة تطير شمالًا بسرعة ⁦120 m/s⁩ بالنسبة للهواء، وتهب رياح شرقًا بسرعة ⁦50 m/s⁩. أوجد سرعة الطائرة بالنسبة للأرض واتجاهها.", ["\\(v=\\sqrt{120^2+50^2}=\\sqrt{16900}=130\\un{m/s}\\)", "\\(\\tan\\theta=\\dfrac{50}{120}\\;\\Rightarrow\\;\\theta\\approx22.6^\\circ\\) شرق الشمال"]],
   ["1-1", "قارب سرعته في الماء الساكن ⁦4.0 m/s⁩ يريد عبور نهر عرضه ⁦80 m⁩ وسرعة تياره ⁦2.0 m/s⁩ ليصل إلى النقطة المقابلة تمامًا. (أ) بأي زاوية يوجه مقدمته؟ (ب) كم يستغرق العبور؟", ["(أ) \\(\\sin\\alpha=\\dfrac{2.0}{4.0}=0.5\\;\\Rightarrow\\;\\alpha=30^\\circ\\) عكس التيار", "(ب) \\(v_\\perp=4.0\\cos30^\\circ\\approx3.46\\un{m/s}\\)", "\\(t=\\dfrac{80}{3.46}\\approx23.1\\un{s}\\)"]],
